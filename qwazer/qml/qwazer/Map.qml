@@ -1,6 +1,6 @@
 import QtQuick 1.0
 import QtWebKit 1.0
-import "MapLogic.js" as Logic
+import "js/MapLogic.js" as Logic
 import QtMobility.location 1.1
 
 Rectangle {
@@ -56,7 +56,7 @@ Rectangle {
         id: positionSource
         active: true
         //nmeaSource: "nmealog.txt"
-        onPositionChanged: {console.log("position changed:" + position.coordinate.longitude + "," +position.coordinate.latitude)}
+//        onPositionChanged: {console.log("position changed:" + position.coordinate.longitude + "," +position.coordinate.latitude)}
     }
 
     WebView {
@@ -64,7 +64,7 @@ Rectangle {
         anchors.fill: parent
         pressGrabTime: 0
 
-        html: Logic.htmlElement()
+        url: 'html/waze.html'
 
         javaScriptWindowObjects: QtObject {
             WebView.windowObjectName: "qml"

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <title>Test API</title>
+    </head>
+    <body>
+            <div id="map" style="width:780px;height:400px;"></div>
+            <script type="text/javascript">
+                var results;
+                function searchCallback(response) {results=response;window.qml.handleResults(response)}
+            </script>
+            <script type="text/javascript">
+                g_waze_config = {
+                    div_id:"map",
+                    locale : "israel",
+                    center_lon:34.7898,
+                    center_lat:32.08676,
+                    zoom:8,
+                    token:"example-token",
+                    alt_base_layer:"israel_colors",
+                    alt_map_servers:"http://ymap1.waze.co.il/wms-c/",
+                };
+            </script>
+            <script type="text/javascript" src="http://www.waze.co.il/js/WazeEmbeddedMap.js"></script>
+    </body>
+</html>
