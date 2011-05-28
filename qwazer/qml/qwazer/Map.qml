@@ -59,22 +59,18 @@ Rectangle {
 //        onPositionChanged: {console.log("position changed:" + position.coordinate.longitude + "," +position.coordinate.latitude)}
     }
 
+    FindResultsModel {
+        id: findModel
+    }
+
     WebView {
         id: web_view1
         anchors.fill: parent
         pressGrabTime: 0
 
+        onAlert: console.log(message)
+
         url: 'html/waze.html'
-
-        javaScriptWindowObjects: QtObject {
-            WebView.windowObjectName: "qml"
-
-            function handleResults(searchResults) {
-                console.log("This call is in QML!");
-                console.log(searchResults);
-                console.log(web_view1.evaluateJavaScript("return results"));
-            }
-        }
 
         Button {
             id : searchButton
@@ -82,7 +78,11 @@ Rectangle {
             y: 327
             width: 64
             height: 43
-            onClicked: Logic.search(addressTextEdit.text)
+            onClicked: {
+                console.log('before set address');
+                findModel.address = addressTextEdit.text;
+                console.log('after set address');
+            }
             text: "חפש"
             visible: true
         }
@@ -125,7 +125,7 @@ Rectangle {
 
         TextEdit {
             id: addressTextEdit
-            text: ""
+            text: "תל חי קריית שמונה"
             cursorVisible: true
             anchors.fill: parent
             selectedTextColor: "#00ffd5"

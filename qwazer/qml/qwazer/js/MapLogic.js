@@ -21,17 +21,6 @@ function markOrigin(lon, lat) {
     console.log("TODO");
 }
 
-function search(address) {
-    console.log("search requested for address " + address);
-    // overcome bug with QT and JS array
-    web_view1.evaluateJavaScript("g_waze_map.find('" + address + "', searchCallback);");
-}
-
-function searchResultsReceived(results) {
-    console.log("handling search results");
-    mapView.searchResults(results);
-}
-
 function showLocation(lon, lat) {
     console.log("show location was requested for " + lon + ":" + lat);
     setCenter(lon,lat);
