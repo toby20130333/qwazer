@@ -73,8 +73,9 @@
      Text {
          id: text
          anchors.centerIn:parent
-         font.pointSize: 10
+         font.pointSize: 24
          text: parent.text
+         font.bold: true
          color: activePalette.buttonText
      }
  }

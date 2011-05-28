@@ -8,24 +8,14 @@ Rectangle {
     anchors.fill: parent
 
     signal mapLoaded
+    signal searchButtonClicked
+    signal navigateButtonClicked
 
-    width: 300
-    height: 300
-
-    Component.onCompleted: {
-        web_view1.loadFinished.connect(mapLoaded);
-    }
+    width: 780
+    height: 400
 
     ListModel {
         id: searchResultList
-    }
-
-    function zoomIn() {
-       Logic.zoomIn();
-    }
-
-    function zoomOut() {
-       Logic.zoomOut();
     }
 
     function setCenter(lon, lat) {
@@ -56,15 +46,14 @@ Rectangle {
         id: positionSource
         active: true
         //nmeaSource: "nmealog.txt"
-//        onPositionChanged: {console.log("position changed:" + position.coordinate.longitude + "," +position.coordinate.latitude)}
-    }
-
-    FindResultsModel {
-        id: findModel
     }
 
     WebView {
         id: web_view1
+        anchors.rightMargin: 10
+        anchors.leftMargin: 0
+        anchors.bottomMargin: 10
+        anchors.topMargin: 0
         anchors.fill: parent
         pressGrabTime: 0
 
@@ -72,76 +61,68 @@ Rectangle {
 
         url: 'html/waze.html'
 
-        Button {
-            id : searchButton
-            x: 41
-            y: 327
-            width: 64
-            height: 43
-            onClicked: {
-                console.log('before set address');
-                findModel.address = addressTextEdit.text;
-                console.log('after set address');
-            }
-            text: "חפש"
-            visible: true
-        }
-
-//        Timer {
-//            interval: 2000; running: true; repeat: true
-//            onTriggered: mapView.setCenter(35.574, 33.215)
-//        }
+        onLoadFinished: mapView.mapLoaded()
 
     }
 
     Button {
         id: zoomInButton
-        x: 249
-        y: 58
-        width: 45
-        height: 29
-        text: "הגדל"
+        x: 17
+        y: 10
+        width: 67
+        height: 39
+        text: "+"
         onClicked: Logic.zoomIn()
     }
 
     Button {
         id: zoomOutButton
-        x: 175
-        y: 58
-        width: 47
-        height: 29
-        text: "מזער"
+        x: 18
+        y: 180
+        width: 62
+        height: 41
+        text: "-"
         onClicked: Logic.zoomOut()
-    }
-
-    Rectangle {
-        id: rectangle1
-        x: 130
-        y: 314
-        width: 156
-        height: 34
-        color: "#ffffff"
-        border.color: "#000000"
-
-        TextEdit {
-            id: addressTextEdit
-            text: "תל חי קריית שמונה"
-            cursorVisible: true
-            anchors.fill: parent
-            selectedTextColor: "#00ffd5"
-            selectionColor: "#0004ff"
-            font.pixelSize: 12
-        }
     }
 
     Button {
         id: showMeButton
-        x: 70
-        y: 59
-        width: 67
-        height: 29
+        x: 11
+        y: 225
+        width: 156
+        height: 52
         text: "הצג אותי"
-        onClicked: Logic.showLocation(positionSource.position.coordinate.longitude, positionSource.position.coordinate.latitude)
+        onClicked: Logic.showMe()
         enabled: positionSource.position.longitudeValid && positionSource.position.latitudeValid
+    }
+
+    Button {
+        id: navigateButton
+        text: "נווט"
+        x: 11
+        y: 344
+        width: 156
+        height: 51
+
+        onClicked: mapView.navigateButtonClicked()
+    }
+
+    Timer {
+        id: syncLocation
+        interval: 2000;
+        running: false;
+        repeat: true
+        onTriggered: Logic.showMe()
+    }
+
+    Button {
+        id : searchButton
+        x: 11
+        y: 282
+        width: 156
+        height: 53
+        text: "חפש"
+        visible: true
+        onClicked: mapView.searchButtonClicked()
     }
 }
