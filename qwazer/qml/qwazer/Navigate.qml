@@ -7,218 +7,93 @@ Rectangle {
 
     signal backButtonPressed
 
-    Rectangle {
-        id: rectangle2
-        x: 538
-        y: 60
-        width: 236
-        height: 55
-        color: "#ffffff"
-        border.color: "black"
-
-        TextInput {
-            id: fromSearchText
-            text: ""
-            horizontalAlignment: TextInput.AlignRight
-            anchors.fill: parent
-            font.pixelSize: 24
-        }
-    }
-
-    Rectangle {
-        id: rectangle1
-        x: 126
-        y: 61
-        width: 266
-        height: 54
-        color: "#ffffff"
-        border.color: "black"
-
-        TextInput {
-            id: toSearchText
-            text: ""
-            anchors.fill: parent
-            horizontalAlignment: TextInput.AlignRight
-            font.pixelSize: 24
-        }
-    }
-
-    Button {
-        id: searchFromButton
-        x: 437
-        y: 60
-        width: 96
-        height: 55
-        text: "חפש"
-        onClicked: {
-            fromResultsModel.address = fromSearchText.text;
-        }
-    }
-
-    Button {
-        id: searchToButton
-        x: 21
-        y: 61
-        width: 97
-        height: 55
-        text: "חפש"
-        onClicked: {
-            toResultsModel.address = toSearchText.text;
-        }
-    }
-
     Text {
-        id: whereLabel
-        x: 695
-        y: 12
-        width: 80
-        height: 20
+        id: fromLabel
         text: "מהיכן:"
         horizontalAlignment: Text.AlignRight
         font.pixelSize: 24
+        anchors.right: fromSearch.right
+    }
+
+    Text {
+        id: fromField
+        horizontalAlignment: Text.AlignRight
+        font.pointSize: 24
+
+        anchors.right:fromLabel.left
+        anchors.rightMargin: 10
+        anchors.left: fromSearch.left
     }
 
     Text {
         id: toLabel
-        x: 312
-        y: 13
-        width: 80
-        height: 20
         text: "לאן:"
         font.pixelSize: 24
+        anchors.right: toSearch.right
         horizontalAlignment: Text.AlignRight
     }
 
+    Text {
+        id: toField
+        horizontalAlignment: Text.AlignRight
+        font.pointSize: 24
 
-
-    FindResultsModel {
-        id: fromResultsModel
+        anchors.right:toLabel.left
+        anchors.rightMargin: 10
+        anchors.left: toSearch.left
     }
 
-    Component {
-        id: fromResultsDelegate
-        Row {
-            spacing: 10
-             Text {
-                 text: name
-                 horizontalAlignment: Text.AlignRight
-                 font.pointSize: 24
-             }
-             Button {
-                 text: "בחר"
-                 onClicked: {
-                     selectedFrom.text = name;
-                 }
-             }
+    SearchListControl {
+        id: fromSearch
+
+        width: parent.width/2-20
+        anchors.top: fromField.bottom
+        anchors.topMargin: 10
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        anchors.bottom: backButton.top
+        anchors.bottomMargin: 10
+
+        onSelected: {
+            fromField.text = selection.name;
         }
     }
 
-    Rectangle {
-        id: rectangle4
-        x: 20
-        y: 128
-        width: 373
-        height: 207
-        color: "#ffffff"
-        border.color: "black"
+    SearchListControl {
+        id: toSearch
 
-        ListView {
-            id: fromResultList
-            anchors.fill: parent
-            model: toResultsModel.dataModel
-            delegate: toResultsDelegate
+        width: parent.width/2-20
+        anchors.top: toField.bottom
+        anchors.topMargin: 10
+        anchors.bottom: navigateButton.top
+        anchors.bottomMargin: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+
+        onSelected: {
+            toField.text = selection.name;
         }
-    }
-
-    FindResultsModel {
-        id: toResultsModel
-    }
-
-    Component {
-        id: toResultsDelegate
-        Row {
-            spacing: 10
-             Text {
-                 text: name
-                 horizontalAlignment: Text.AlignRight
-                 font.pointSize: 24
-             }
-             Button {
-                 text: "בחר"
-                 onClicked: {
-                     selectedTo.text = name;
-                 }
-             }
-        }
-    }
-
-    Rectangle {
-        id: rectangle3
-        x: 437
-        y: 128
-        width: 338
-        height: 209
-        color: "#ffffff"
-        border.color: "black"
-
-        ListView {
-            id: toResultList
-            anchors.fill: parent
-            model: fromResultsModel.dataModel
-            delegate: fromResultsDelegate
-        }
-    }
-
-    Rectangle {
-        id: rectangle5
-        x: 435
-        y: 12
-        width: 271
-        height: 40
-        color: "#ffffff"
-
-        Text {
-            id: selectedFrom
-            text: ""
-            horizontalAlignment: Text.AlignRight
-            anchors.fill: parent
-            font.pixelSize: 24
-        }
-    }
-
-    Rectangle {
-        id: rectangle6
-        x: 21
-        y: 13
-        width: 324
-        height: 39
-        color: "#ffffff"
-
-        Text {
-            id: selectedTo
-            text: ""
-            anchors.fill: parent
-            horizontalAlignment: Text.AlignRight
-            font.pixelSize: 24
-        }
-    }
-
-    Button {
-        id: navigateButton
-        x: 22
-        y: 346
-        width: 373
-        height: 53
-        text: "נווט"
     }
 
     Button {
         id: backButton
-        x: 437
-        y: 347
-        width: 339
-        height: 52
         text: "חזרה"
         onClicked: navigateView.backButtonPressed()
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        anchors.right: fromSearch.right
+        anchors.left: fromSearch.left
     }
+
+    Button {
+        id: navigateButton
+        text: "נווט"
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        anchors.right: toSearch.right
+        anchors.left: toSearch.left
+    }
+
+
 }
