@@ -20,6 +20,7 @@ Rectangle {
         x: 0
         y: 0
         visible: false
+        anchors.fill: parent
         onBackButtonPressed: mainView.state = 'MapState'
 
         onAddressSelected: map1.showLocation(address.lon, address.lat)
@@ -30,7 +31,21 @@ Rectangle {
         x: 0
         y: 0
         visible: false
+        anchors.fill: parent
         onBackButtonPressed: mainView.state = 'MapState'
+        onNavigateRequested: {
+            mainView.state = 'PathSelectionState';
+            pathSelection1.fromToPoints = fromToPoints;
+        }
+    }
+
+    PathSelection {
+        id: pathSelection1
+        x: 0
+        y: 0
+        anchors.fill: parent
+        visible: false
+        onBackButtonPressed: mainView.state = 'NavigateState';
     }
 
     states: [
@@ -49,6 +64,10 @@ Rectangle {
                 target: navigate1
                 visible: false
             }
+            PropertyChanges {
+                target: pathSelection1
+                visible: false
+            }
         },
         State {
             name: "SearchState"
@@ -65,6 +84,10 @@ Rectangle {
                 target: navigate1
                 visible: false
             }
+            PropertyChanges {
+                target: pathSelection1
+                visible: false
+            }
         },
         State {
             name: "NavigateState"
@@ -79,6 +102,30 @@ Rectangle {
             }
             PropertyChanges {
                 target: navigate1
+                visible: true
+            }
+            PropertyChanges {
+                target: pathSelection1
+                visible: false
+            }
+        },
+        State {
+            name: "PathSelectionState"
+
+            PropertyChanges {
+                target: map1
+                visible: false
+            }
+            PropertyChanges {
+                target: search1
+                visible: false
+            }
+            PropertyChanges {
+                target: navigate1
+                visible: false
+            }
+            PropertyChanges {
+                target: pathSelection1
                 visible: true
             }
         }

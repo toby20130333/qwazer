@@ -6,6 +6,10 @@ Rectangle {
     height: 400
 
     signal backButtonPressed
+    signal navigateRequested(variant fromToPoints)
+
+    property variant from
+    property variant to
 
     Text {
         id: fromLabel
@@ -17,6 +21,8 @@ Rectangle {
 
     Text {
         id: fromField
+        text: (navigateView.from != null)? navigateView.from.name : ""
+
         horizontalAlignment: Text.AlignRight
         font.pointSize: 24
 
@@ -35,6 +41,8 @@ Rectangle {
 
     Text {
         id: toField
+        text: (navigateView.to != null)? navigateView.to.name : ""
+
         horizontalAlignment: Text.AlignRight
         font.pointSize: 24
 
@@ -56,6 +64,7 @@ Rectangle {
 
         onSelected: {
             fromField.text = selection.name;
+            navigateView.from = selection;
         }
     }
 
@@ -72,6 +81,7 @@ Rectangle {
 
         onSelected: {
             toField.text = selection.name;
+            navigateView.to = selection;
         }
     }
 
@@ -93,6 +103,12 @@ Rectangle {
         anchors.bottomMargin: 10
         anchors.right: toSearch.right
         anchors.left: toSearch.left
+        onClicked: navigateRequested(
+                       {from:{lon: navigateView.from.lon,
+                              lat: navigateView.from.lat},
+                        to:{lon: navigateView.to.lon,
+                            lat: navigateView.to.lat}}
+                       )
     }
 
 
