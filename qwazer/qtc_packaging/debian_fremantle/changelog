@@ -1,0 +1,8 @@
+qwazer (0.0.3) unstable; urgency=low
+
+  * First deb distribution.
+  * Adding navigation dialog.
+  * Adding new icon.
+  * No navigation yet.
+
+ -- Assaf Paz <damagedspline@gmail.com>  Sat, 21 May 2011 21:51:00 +0300

@@ -12,7 +12,7 @@ Rectangle {
         visible: false
         onMapLoaded: mainView.state = 'MapState'
         onSearchButtonClicked: mainView.state = 'SearchState'
-//        onNavigateButtonClicked: mainView.state = 'NavigateState'
+        onNavigateButtonClicked: mainView.state = 'NavigateState'
     }
 
     Search {
@@ -23,6 +23,14 @@ Rectangle {
         onBackButtonPressed: mainView.state = 'MapState'
 
         onAddressSelected: map1.showLocation(address.lon, address.lat)
+    }
+
+    Navigate {
+        id: navigate1
+        x: 0
+        y: 0
+        visible: false
+        onBackButtonPressed: mainView.state = 'MapState'
     }
 
     states: [
@@ -37,6 +45,10 @@ Rectangle {
                 target: search1
                 visible: false
             }
+            PropertyChanges {
+                target: navigate1
+                visible: false
+            }
         },
         State {
             name: "SearchState"
@@ -49,6 +61,10 @@ Rectangle {
                 target: search1
                 visible: true
             }
+            PropertyChanges {
+                target: navigate1
+                visible: false
+            }
         },
         State {
             name: "NavigateState"
@@ -60,6 +76,10 @@ Rectangle {
             PropertyChanges {
                 target: search1
                 visible: false
+            }
+            PropertyChanges {
+                target: navigate1
+                visible: true
             }
         }
     ]
