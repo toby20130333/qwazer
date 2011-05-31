@@ -30,10 +30,12 @@ Rectangle {
                   console.log("appending track that goes through: " + o.response.routeName);
 
                   var totalTime = 0;
-                  for (var sectionTime in o.response.results) {
-                      totalTime += sectionTime.crossTime;
+                  var totalDistance = 0;
+                  for (var key in o.response.results) {
+                      totalTime += o.response.results[key].crossTime;
+                      totalDistance += o.response.results[key].length;
                   }
-                  var totalDistance = o.response.results[o.response.results.length - 1].distance;
+
                   pathListModel.append({response: o.response, totalTime: totalTime, totalDistance: totalDistance});
               }
           }
@@ -97,12 +99,27 @@ Rectangle {
                         id: selectButton
                         text: "הצג"
                         onClicked: pathSelected(response);
+                        anchors.verticalCenter: parent.verticalCenter
                     }
-                    Text {
-                        text: "דרך " + response.routeName + " מרחק " + totalDistance + " זמן משוער " + totalTime
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        width: pathList.width-selectButton.width-20
+                    Column {
+                        Text {
+                            text: "דרך " + response.routeName
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            width: pathList.width-selectButton.width-20
+                        }
+                        Text {
+                            text: "מרחק " + totalDistance/1000 + ' ק"מ'
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            width: pathList.width-selectButton.width-20
+                        }
+                        Text {
+                            text: "זמן משוער " + Math.floor(totalTime/60) + ":" + ((totalTime%60 > 9)? totalTime%60 : "0" + totalTime%60) + " דקות"
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignRight
+                            width: pathList.width-selectButton.width-20
+                        }
                     }
                 }
             }
