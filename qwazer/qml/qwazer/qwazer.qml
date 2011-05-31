@@ -10,9 +10,18 @@ Rectangle {
         x: 0
         y: 0
         visible: false
-        onMapLoaded: mainView.state = 'MapState'
-        onSearchButtonClicked: mainView.state = 'SearchState'
-        onNavigateButtonClicked: mainView.state = 'NavigateState'
+
+        onMapLoaded: {
+            mainView.state = 'MapState';
+        }
+
+        onSearchButtonClicked: {
+            mainView.state = 'SearchState';
+        }
+
+        onNavigateButtonClicked: {
+            mainView.state = 'NavigateState';
+        }
     }
 
     Search {
@@ -21,7 +30,10 @@ Rectangle {
         y: 0
         visible: false
         anchors.fill: parent
-        onBackButtonPressed: mainView.state = 'MapState'
+
+        onBackButtonPressed: {
+            mainView.state = 'MapState';
+        }
 
         onAddressSelected: map1.showLocation(address.lon, address.lat)
     }
@@ -32,7 +44,11 @@ Rectangle {
         y: 0
         visible: false
         anchors.fill: parent
-        onBackButtonPressed: mainView.state = 'MapState'
+
+        onBackButtonPressed: {
+            mainView.state = 'MapState';
+        }
+
         onNavigateRequested: {
             mainView.state = 'PathSelectionState';
             pathSelection1.fromToPoints = fromToPoints;
@@ -41,11 +57,17 @@ Rectangle {
 
     PathSelection {
         id: pathSelection1
-        x: 0
-        y: 0
         anchors.fill: parent
         visible: false
-        onBackButtonPressed: mainView.state = 'NavigateState';
+
+        onBackButtonPressed: {
+            mainView.state = 'NavigateState';
+        }
+
+        onPathSelected: {
+             mainView.state = 'MapState';
+            // TODO paint route
+        }
     }
 
     states: [

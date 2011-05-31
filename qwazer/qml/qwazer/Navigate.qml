@@ -103,6 +103,7 @@ Rectangle {
         anchors.bottomMargin: 10
         anchors.right: toSearch.right
         anchors.left: toSearch.left
+
         onClicked: navigateRequested(
                        {from:{lon: navigateView.from.lon,
                               lat: navigateView.from.lat},

@@ -14,7 +14,7 @@ Rectangle {
         // clear previous results
         pathListModel.clear();
 
-        var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnGeometries:true,returnInstructions:true,timeout:60000,nPaths:2};
+        var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnInstructions:true,timeout:60000,nPaths:2};
         var url = "http://www.waze.co.il/RoutingManager/routingRequest?" + serialize(data);
         console.log("requesting: " + url);
         var my_JSON_object = {};
@@ -25,9 +25,16 @@ Rectangle {
           if (http_request.readyState == done && http_request.status == ok) {
               console.log(http_request.responseText);
               var a = JSON.parse(http_request.responseText);
-              for (var b in a) {
-                  var o = a[b];
-//                  pathListModel.append({name: o.name, lon: o.location.lon, lat: o.location.lat});
+              for (var b in a.alternatives) {
+                  var o = a.alternatives[b];
+                  console.log("appending track that goes through: " + o.response.routeName);
+
+                  var totalTime = 0;
+                  for (var sectionTime in o.response.results) {
+                      totalTime += sectionTime.crossTime;
+                  }
+                  var totalDistance = o.response.results[o.response.results.length - 1].distance;
+                  pathListModel.append({response: o.response, totalTime: totalTime, totalDistance: totalDistance});
               }
           }
         };
@@ -40,17 +47,26 @@ Rectangle {
          str.push(p + "=" + encodeURIComponent(obj[p]));
       return str.join("&");
     }
+
+    Text {
+        id: pathSelectionLabel
+        text: "בחר מסלול"
+        font.pointSize: 24
+        horizontalAlignment: Text.AlignHCenter
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.right: rectangle2.right
+    }
+
     Button {
         id: backButton
         text: "חזרה"
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.right: rectangle2.right
+        anchors.left: rectangle2.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        y: 243
         height: 50
+        onClicked: backButtonPressed()
     }
 
     ListModel {
@@ -65,7 +81,7 @@ Rectangle {
         anchors.bottom: backButton.top
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.top: parent.top
+        anchors.top: pathSelectionLabel.bottom
         anchors.topMargin: 10
         anchors.bottomMargin: 10
         anchors.leftMargin: 10
@@ -74,6 +90,23 @@ Rectangle {
         ListView {
             id: pathList
             anchors.fill: parent
+            delegate: Component {
+                Row {
+                    spacing: 10
+                    Button {
+                        id: selectButton
+                        text: "הצג"
+                        onClicked: pathSelected(response);
+                    }
+                    Text {
+                        text: "דרך " + response.routeName + " מרחק " + totalDistance + " זמן משוער " + totalTime
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignRight
+                        width: pathList.width-selectButton.width-20
+                    }
+                }
+            }
+            model: pathListModel
         }
     }
 
