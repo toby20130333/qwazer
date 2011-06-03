@@ -66,7 +66,7 @@ Rectangle {
 
         onPathSelected: {
              mainView.state = 'MapState';
-            // TODO paint route
+             map1.navigate(route, coords);
         }
     }
 

@@ -4,22 +4,89 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="apple-mobile-web-app-capable" content="yes">
             <title>QWazer</title>
-    </head>
-    <body>
-            <script type="text/javascript" src="jquery.min.js"></script>
-            <div id="map" style="width:780px;height:400px;"></div>
             <script type="text/javascript">
+                function mapInit()
+                {
+                   var map = g_waze_map.map;
+                   var nav_layer=new OpenLayers.Layer.Vector("routes");
+                   map.addLayer(nav_layer);
+                   map.markersLayer=new OpenLayers.Layer.Markers("Markers");
+                   map.addLayer(map.markersLayer);
+                   var myLocLayer=new OpenLayers.Layer.Markers("MyLocation");
+                   map.addLayer(myLocLayer);
+                }
+
                 g_waze_config = {
                     div_id:"map",
                     locale : "israel",
                     center_lon:34.7898,
                     center_lat:32.08676,
                     zoom:8,
-                    token:"example-token",
+                    token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
                     alt_map_servers:"http://ymap1.waze.co.il/wms-c/",
+                    callback: mapInit
                 };
+
+                function markMyLocation(lon,lat)
+                {
+                    alert("painting my loc:"+lon+","+lat);
+                    var map = g_waze_map.map;
+                    var myLocLayer=null;
+                    var list = map.getLayersByName("MyLocation");
+                    myLocLayer=list[0];
+                    alert("clean prev loc");
+                    myLocLayer.removeFeatures(myLocLayer.features);
+                    alert("add circle");
+                    var loc = new OpenLayers.Geometry.Point(lon, lat);
+                    var RedcircleFeature = new OpenLayers.Feature.Vector( OpenLayers.Geometry.Polygon.createRegularPolygon( loc, 1500 , 50, 0 ) );
+                    myLocLayer.addFeatures([RedcircleFeature]);
+                    alert("my loc painted");
+                }
+
+                function plotCourse(coords)
+                {
+                    var map = g_waze_map.map;
+                    alert("start plot course");
+                    var nav_layer=null;
+                    var list = map.getLayersByName("routes");
+                    nav_layer=list[0];
+
+                    alert("cleaning markers");
+                    map.markersLayer.clearMarkers();
+                    nav_layer.removeFeatures(nav_layer.features);
+
+                    alert("painting");
+
+                    vec=[];
+                    $.each(coords, function(index, value)
+                    {
+                        vec.push(new OpenLayers.Geometry.Point(value.x, value.y));
+                    });
+                    var route = new OpenLayers.Geometry.LineString(vec);
+                    var route_feature = new OpenLayers.Feature.Vector(route);
+                    route_feature.style={strokeWidth:3,strokeColor:"blue",strokeOpacity:1.0};
+                    nav_layer.addFeatures([route_feature]);
+                    alert("done");
+
+                    alert("adding icons");
+                    var from_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/from.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var from_lon_lat=new OpenLayers.LonLat(lon=route.components[0].x,lat=route.components[0].y);
+                    var from_marker=new OpenLayers.Marker(from_lon_lat,from_icon);
+                    map.markersLayer.addMarker(from_marker);
+                    var to_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/to.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var to_lon_lat=new OpenLayers.LonLat(lon=route.components[route.components.length-1].x,lat=route.components[route.components.length-1].y);
+                    var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
+                    map.markersLayer.addMarker(to_marker);
+                    alert("finished drawing");
+
+                    alert("showing start");
+                    map.setCenter(from_lon_lat);
+                }
             </script>
-            <script type="text/javascript" src="http://www.waze.co.il/js/WazeEmbeddedMap.js"></script>
+            <script type="text/javascript" src="../js/WazeEmbeddedMap.jsh"></script>
+    </head>
+    <body>
+            <div id="map" style="width:780px;height:400px;"></div>
     </body>
 </html>

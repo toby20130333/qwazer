@@ -6,7 +6,7 @@ Rectangle {
     height: 300
 
     signal backButtonPressed
-    signal pathSelected(variant path)
+    signal pathSelected(variant route, variant coords)
 
     property variant fromToPoints
 
@@ -14,17 +14,16 @@ Rectangle {
         // clear previous results
         pathListModel.clear();
 
-        var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnInstructions:true,timeout:60000,nPaths:2};
+        var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnInstructions:true,returnGeometries:true,timeout:60000,nPaths:2};
         var url = "http://www.waze.co.il/RoutingManager/routingRequest?" + serialize(data);
         console.log("requesting: " + url);
-        var my_JSON_object = {};
         var http_request = new XMLHttpRequest();
         http_request.open("GET", url, true);
         http_request.onreadystatechange = function () {
           var done = 4, ok = 200;
           if (http_request.readyState == done && http_request.status == ok) {
               console.log(http_request.responseText);
-              var a = JSON.parse(http_request.responseText);
+              var a= eval('(' + http_request.responseText + ')'); // not using JSON.parse because of crash
               for (var b in a.alternatives) {
                   var o = a.alternatives[b];
                   console.log("appending track that goes through: " + o.response.routeName);
@@ -36,7 +35,7 @@ Rectangle {
                       totalDistance += o.response.results[key].length;
                   }
 
-                  pathListModel.append({response: o.response, totalTime: totalTime, totalDistance: totalDistance});
+                  pathListModel.append({response: o.response, totalTime: totalTime, totalDistance: totalDistance, coords: {coords: o.coords}});
               }
           }
         };
@@ -98,7 +97,8 @@ Rectangle {
                     Button {
                         id: selectButton
                         text: "הצג"
-                        onClicked: pathSelected(response);
+                        onClicked:pathSelected(response, coords)
+
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Column {

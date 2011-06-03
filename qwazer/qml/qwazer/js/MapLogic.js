@@ -33,5 +33,14 @@ function showLocation(lon, lat)
 function showMe()
 {
     setCenter(positionSource.position.coordinate.longitude, positionSource.position.coordinate.latitude);
-    console.log("TODO - repaint my location landmark");
+    web_view1.evaluateJavaScript("markMyLocation("+positionSource.position.coordinate.longitude+","+positionSource.position.coordinate.latitude+");");
+}
+
+function navigate(route, coords)
+{
+    var coordsJSON = JSON.stringify(coords.coords);
+    console.log("plotting: " + coordsJSON);
+    web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
+    mapView.state = "NavigateState";
+    syncLocation.start();
 }

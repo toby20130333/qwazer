@@ -42,6 +42,10 @@ Rectangle {
         Logic.showLocation(lon, lat);
     }
 
+    function navigate(route, coords) {
+        Logic.navigate(route, coords);
+    }
+
     PositionSource {
         id: positionSource
         active: true
@@ -50,10 +54,9 @@ Rectangle {
 
     WebView {
         id: web_view1
-        anchors.rightMargin: 10
-        anchors.leftMargin: 0
-        anchors.bottomMargin: 10
+        anchors.rightMargin: 8
         anchors.topMargin: 0
+        anchors.bottomMargin: 7
         anchors.fill: parent
         pressGrabTime: 0
 
@@ -67,31 +70,37 @@ Rectangle {
 
     Button {
         id: zoomInButton
-        x: 17
-        y: 10
         width: 67
         height: 39
         text: "+"
+        anchors.top: parent.top
+        anchors.topMargin: 7
+        anchors.left: zoomOutButton.right
+        anchors.leftMargin: 30
         onClicked: Logic.zoomIn()
     }
 
     Button {
         id: zoomOutButton
-        x: 18
-        y: 180
         width: 62
         height: 41
         text: "-"
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.top: parent.top
+        anchors.topMargin: 7
         onClicked: Logic.zoomOut()
     }
 
     Button {
         id: showMeButton
-        x: 11
-        y: 225
         width: 156
         height: 52
         text: "הצג אותי"
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.bottom: searchButton.top
+        anchors.bottomMargin: 7
         onClicked: Logic.showMe()
         enabled: positionSource.position.longitudeValid && positionSource.position.latitudeValid
     }
@@ -99,8 +108,10 @@ Rectangle {
     Button {
         id: navigateButton
         text: "נווט"
-        x: 11
-        y: 344
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 7
         width: 156
         height: 51
 
@@ -117,12 +128,76 @@ Rectangle {
 
     Button {
         id : searchButton
-        x: 11
-        y: 282
         width: 156
         height: 53
         text: "חפש"
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.bottom: navigateButton.top
+        anchors.bottomMargin: 7
         visible: true
         onClicked: mapView.searchButtonClicked()
     }
+
+    Button {
+        id: stopNavigation
+        text: "הפסק ניווט"
+        anchors.left: parent.left
+        anchors.leftMargin: 7
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 7
+        visible: false
+        onClicked: {
+            syncLocation.stop();
+            web_view1.state = "BrowseState";
+        }
+    }
+    states: [
+        State {
+            name: "BrowseState"
+
+            PropertyChanges {
+                target: navigateButton
+                visible: true
+            }
+
+            PropertyChanges {
+                target: searchButton
+                visible: true
+            }
+
+            PropertyChanges {
+                target: showMeButton
+                anchors.left: parent.left
+                anchors.leftMargin: 7
+                anchors.bottom: searchButton.top
+                anchors.bottomMargin: 7
+            }
+        },
+        State {
+            name: "NavigateState"
+
+            PropertyChanges {
+                target: stopNavigation
+                opacity: 1
+                visible: true
+            }
+
+            PropertyChanges {
+                target: searchButton
+                visible: false
+            }
+
+            PropertyChanges {
+                target: navigateButton
+                visible: false
+            }
+
+            PropertyChanges {
+                target: showMeButton
+                anchors.bottom: stopNavigation.top
+                anchors.bottomMargin: 7
+            }
+        }
+    ]
 }
