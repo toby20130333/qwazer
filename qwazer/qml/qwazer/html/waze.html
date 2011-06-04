@@ -12,7 +12,7 @@
                    map.addLayer(nav_layer);
                    map.markersLayer=new OpenLayers.Layer.Markers("Markers");
                    map.addLayer(map.markersLayer);
-                   var myLocLayer=new OpenLayers.Layer.Markers("MyLocation");
+                   var myLocLayer = new OpenLayers.Layer.Markers("MyLocation");
                    map.addLayer(myLocLayer);
                 }
 
@@ -30,24 +30,21 @@
 
                 function markMyLocation(lon,lat)
                 {
-                    alert("painting my loc:"+lon+","+lat);
                     var map = g_waze_map.map;
                     var myLocLayer=null;
                     var list = map.getLayersByName("MyLocation");
                     myLocLayer=list[0];
-                    alert("clean prev loc");
-                    myLocLayer.removeFeatures(myLocLayer.features);
-                    alert("add circle");
-                    var loc = new OpenLayers.Geometry.Point(lon, lat);
-                    var RedcircleFeature = new OpenLayers.Feature.Vector( OpenLayers.Geometry.Polygon.createRegularPolygon( loc, 1500 , 50, 0 ) );
-                    myLocLayer.addFeatures([RedcircleFeature]);
-                    alert("my loc painted");
+
+                    myLocLayer.clearMarkers();
+
+                    var car_icon=new OpenLayers.Icon(url="../images/car.png",size=new OpenLayers.Size(21,19));
+                    var car_lon_lat=new OpenLayers.LonLat(lon=lon,lat=lat);
+                    var car_marker=new OpenLayers.Marker(car_lon_lat,car_icon);
+                    map.markersLayer.addMarker(car_marker);
                 }
 
-                function plotCourse(coords)
+                function clearMarkersAndRoute()
                 {
-                    var map = g_waze_map.map;
-                    alert("start plot course");
                     var nav_layer=null;
                     var list = map.getLayersByName("routes");
                     nav_layer=list[0];
@@ -55,8 +52,14 @@
                     alert("cleaning markers");
                     map.markersLayer.clearMarkers();
                     nav_layer.removeFeatures(nav_layer.features);
+                }
 
-                    alert("painting");
+                function plotCourse(coords)
+                {
+                    var map = g_waze_map.map;
+                    var nav_layer=null;
+                    var list = map.getLayersByName("routes");
+                    nav_layer=list[0];
 
                     vec=[];
                     $.each(coords, function(index, value)
@@ -65,7 +68,7 @@
                     });
                     var route = new OpenLayers.Geometry.LineString(vec);
                     var route_feature = new OpenLayers.Feature.Vector(route);
-                    route_feature.style={strokeWidth:3,strokeColor:"blue",strokeOpacity:1.0};
+                    route_feature.style={strokeWidth:3,strokeColor:"blue",strokeOpacity:0.3};
                     nav_layer.addFeatures([route_feature]);
                     alert("done");
 
@@ -79,9 +82,6 @@
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);
                     alert("finished drawing");
-
-                    alert("showing start");
-                    map.setCenter(from_lon_lat);
                 }
             </script>
             <script type="text/javascript" src="../js/WazeEmbeddedMap.jsh"></script>

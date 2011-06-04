@@ -1,18 +1,25 @@
 import QtQuick 1.0
 import QtWebKit 1.0
 import "js/MapLogic.js" as Logic
-import QtMobility.location 1.1
 
 Rectangle {
     id: mapView
     anchors.fill: parent
 
+    width: 780
+    height: 400
+
     signal mapLoaded
     signal searchButtonClicked
     signal navigateButtonClicked
 
-    width: 780
-    height: 400
+    property variant gpsData
+    property variant navigationInfo
+
+    onNavigationInfoChanged: {
+        Logic.navigate();
+    }
+
 
     ListModel {
         id: searchResultList
@@ -40,16 +47,6 @@ Rectangle {
 
     function showLocation(lon, lat) {
         Logic.showLocation(lon, lat);
-    }
-
-    function navigate(route, coords) {
-        Logic.navigate(route, coords);
-    }
-
-    PositionSource {
-        id: positionSource
-        active: true
-        //nmeaSource: "nmealog.txt"
     }
 
     WebView {
@@ -101,8 +98,8 @@ Rectangle {
         anchors.leftMargin: 7
         anchors.bottom: searchButton.top
         anchors.bottomMargin: 7
-        onClicked: Logic.showMe()
-        enabled: positionSource.position.longitudeValid && positionSource.position.latitudeValid
+        onClicked: Logic.showMe(true)
+        enabled: gpsData.position.longitudeValid && gpsData.position.latitudeValid
     }
 
     Button {
@@ -119,11 +116,11 @@ Rectangle {
     }
 
     Timer {
-        id: syncLocation
+        id: locationUpdater
         interval: 2000;
         running: false;
         repeat: true
-        onTriggered: Logic.showMe()
+        onTriggered: Logic.syncLocation()
     }
 
     Button {
@@ -147,11 +144,18 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 7
         visible: false
-        onClicked: {
-            syncLocation.stop();
-            web_view1.state = "BrowseState";
-        }
+        onClicked: Logic.stopNavigation()
     }
+
+    InstructionsControl {
+        id: currentInstruction
+        visible: false
+        anchors.bottom: stopNavigation.top
+        anchors.bottomMargin: 7
+        anchors.left: stopNavigation.left
+        anchors.right: stopNavigation.right
+    }
+
     states: [
         State {
             name: "BrowseState"
@@ -168,10 +172,12 @@ Rectangle {
 
             PropertyChanges {
                 target: showMeButton
-                anchors.left: parent.left
-                anchors.leftMargin: 7
-                anchors.bottom: searchButton.top
-                anchors.bottomMargin: 7
+                visible: true
+            }
+
+            PropertyChanges {
+                target: currentInstruction
+                visible: false
             }
         },
         State {
@@ -179,7 +185,6 @@ Rectangle {
 
             PropertyChanges {
                 target: stopNavigation
-                opacity: 1
                 visible: true
             }
 
@@ -195,8 +200,15 @@ Rectangle {
 
             PropertyChanges {
                 target: showMeButton
+                visible: false
                 anchors.bottom: stopNavigation.top
                 anchors.bottomMargin: 7
+            }
+
+            PropertyChanges {
+                target: currentInstruction
+                opacity: 0.7
+                visible: true
             }
         }
     ]

@@ -1,15 +1,24 @@
 import QtQuick 1.0
+import QtMobility.location 1.1
 
 Rectangle {
     id: mainView
     width: 800
     height: 400
 
+    PositionSource {
+        id: positionSource
+        active: true
+        //nmeaSource: "nmealog.txt"
+    }
+
     Map {
         id: map1
         x: 0
         y: 0
         visible: false
+
+        gpsData: positionSource
 
         onMapLoaded: {
             mainView.state = 'MapState';
@@ -45,6 +54,8 @@ Rectangle {
         visible: false
         anchors.fill: parent
 
+        gpsData: positionSource
+
         onBackButtonPressed: {
             mainView.state = 'MapState';
         }
@@ -66,7 +77,7 @@ Rectangle {
 
         onPathSelected: {
              mainView.state = 'MapState';
-             map1.navigate(route, coords);
+             map1.navigationInfo = route;
         }
     }
 

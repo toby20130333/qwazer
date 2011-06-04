@@ -11,20 +11,22 @@ Rectangle {
     property variant from
     property variant to
 
+    property variant gpsData
+
     Text {
         id: fromLabel
         text: "מהיכן:"
         horizontalAlignment: Text.AlignRight
-        font.pixelSize: 24
+        font.pointSize: 20
         anchors.right: fromSearch.right
     }
 
     Text {
         id: fromField
         text: (navigateView.from != null)? navigateView.from.name : ""
+        font.pointSize: 20
 
         horizontalAlignment: Text.AlignRight
-        font.pointSize: 24
 
         anchors.right:fromLabel.left
         anchors.rightMargin: 10
@@ -34,7 +36,7 @@ Rectangle {
     Text {
         id: toLabel
         text: "לאן:"
-        font.pixelSize: 24
+        font.pointSize: 20
         anchors.right: toSearch.right
         horizontalAlignment: Text.AlignRight
     }
@@ -44,7 +46,7 @@ Rectangle {
         text: (navigateView.to != null)? navigateView.to.name : ""
 
         horizontalAlignment: Text.AlignRight
-        font.pointSize: 24
+        font.pointSize: 20
 
         anchors.right:toLabel.left
         anchors.rightMargin: 10
@@ -105,8 +107,8 @@ Rectangle {
         anchors.left: toSearch.left
 
         onClicked: navigateRequested(
-                       {from:{lon: navigateView.from.lon,
-                              lat: navigateView.from.lat},
+                       {from:{lon: (navigateView.from!=null)? navigateView.from.lon : gpsData.position.coordinate.longitude,
+                              lat: (navigateView.from!=null)? navigateView.from.lat : gpsData.position.coordinate.latitude},
                         to:{lon: navigateView.to.lon,
                             lat: navigateView.to.lat}}
                        )

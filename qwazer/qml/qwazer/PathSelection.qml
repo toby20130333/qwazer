@@ -6,7 +6,7 @@ Rectangle {
     height: 300
 
     signal backButtonPressed
-    signal pathSelected(variant route, variant coords)
+    signal pathSelected(variant route)
 
     property variant fromToPoints
 
@@ -22,7 +22,7 @@ Rectangle {
         http_request.onreadystatechange = function () {
           var done = 4, ok = 200;
           if (http_request.readyState == done && http_request.status == ok) {
-              console.log(http_request.responseText);
+              // console.log(http_request.responseText);
               var a= eval('(' + http_request.responseText + ')'); // not using JSON.parse because of crash
               for (var b in a.alternatives) {
                   var o = a.alternatives[b];
@@ -31,11 +31,17 @@ Rectangle {
                   var totalTime = 0;
                   var totalDistance = 0;
                   for (var key in o.response.results) {
-                      totalTime += o.response.results[key].crossTime;
-                      totalDistance += o.response.results[key].length;
+                      var pathElement = o.response.results[key];
+                      totalTime += pathElement.crossTime;
+                      totalDistance += pathElement.length;
+                      pathElement.streetName = o.response.streetNames[pathElement.street];
                   }
 
-                  pathListModel.append({response: o.response, totalTime: totalTime, totalDistance: totalDistance, coords: {coords: o.coords}});
+                  o.response.totalTime = totalTime;
+                  o.response.totalDistance = totalDistance;
+                  o.response.coords = o.coords;
+
+                  pathListModel.append({response: o.response});
               }
           }
         };
@@ -97,7 +103,7 @@ Rectangle {
                     Button {
                         id: selectButton
                         text: "הצג"
-                        onClicked:pathSelected(response, coords)
+                        onClicked:pathSelected(response)
 
                         anchors.verticalCenter: parent.verticalCenter
                     }
@@ -109,13 +115,13 @@ Rectangle {
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: "מרחק " + totalDistance/1000 + ' ק"מ'
+                            text: "מרחק " + response.totalDistance/1000 + ' ק"מ'
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: "זמן משוער " + Math.floor(totalTime/60) + ":" + ((totalTime%60 > 9)? totalTime%60 : "0" + totalTime%60) + " דקות"
+                            text: "זמן משוער " + Math.floor(response.totalTime/60) + ":" + ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60) + " דקות"
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
