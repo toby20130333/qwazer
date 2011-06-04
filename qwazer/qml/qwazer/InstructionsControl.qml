@@ -8,6 +8,7 @@ Rectangle {
     property variant sectionData
 
     onSectionDataChanged: {
+        console.log("updateding segment: " + JSON.stringify(sectionData));
         if (sectionData.length < 1000)
         {
             sectionLengthText.text = "בעוד " + sectionData.length + " מטרים";
@@ -17,7 +18,10 @@ Rectangle {
             sectionLengthText.text = "בעוד " + sectionData.length + ' ק"מ';
         }
         instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
-        streetNameText.text = sectionData.streetName;
+
+        var streetName = sectionData.streetName;
+        streetNameText.text = (streetName!=null)? streetName : "";
+
     }
 
     Image {

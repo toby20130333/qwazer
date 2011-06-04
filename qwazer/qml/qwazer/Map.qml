@@ -16,6 +16,9 @@ Rectangle {
     property variant gpsData
     property variant navigationInfo
 
+    property int currentCoordIndex : 0
+    property int currentSegmentsInfoIndex : 0
+
     onNavigationInfoChanged: {
         Logic.navigate();
     }

@@ -1,3 +1,6 @@
+var ERROR_MARGIN = 0.0002;
+
+
 function zoomIn() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomIn();");
 }
@@ -51,6 +54,10 @@ function showMe(shouldZoom)
 function navigate()
 {
     clearMarkersAndRoute();
+
+    mapView.currentCoordIndex = 0;
+    mapView.currentSegmentsInfoIndex = 0;
+
     setCenter(mapView.navigationInfo.coords[0].x, mapView.navigationInfo.coords[0].y);
     zoomInToMax();
 
@@ -59,35 +66,42 @@ function navigate()
 
     mapView.state = "NavigateState";
     currentInstruction.sectionData = mapView.navigationInfo.results[0];
+
     locationUpdater.start();
 }
 
 function syncLocation()
 {
+    var currentCoordIndex = mapView.currentCoordIndex;
+    var currentSegmentsInfoIndex = mapView.currentSegmentsInfoIndex;
     showMe();
 
     var onTrack = false;
     var trimOccured = false;
-    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex < mapView.navigationInfo.coords.length-1; coordsIndex++)
-    {
-        console.log("coordsIndex = " + coordsIndex);
-        if (isOnTrack({x:gpsData.position.coordinate.longitude, y:gpsData.position.coordinate.latitude},
-                       mapView.navigationInfo.coords[coordsIndex],
-                       mapView.navigationInfo.coords[coordsIndex+1]))
-        {
-            console.log(mapView.navigationInfo.coords[coordsIndex+1].x + " " + mapView.navigationInfo.results[0].path.x + "\n" + mapView.navigationInfo.coords[coordsIndex+1].y + " " + mapView.navigationInfo.results[0].path.y)
-            if (mapView.navigationInfo.coords[coordsIndex+1].x == mapView.navigationInfo.results[0].path.x &&
-                mapView.navigationInfo.coords[coordsIndex+1].y == mapView.navigationInfo.results[0].path.y)
-            {
-                mapView.navigationInfo.results.splice(0,1);
-                console.log("results trimmed by one");
-                trimOccured = true;
-            }
 
+    var coords = mapView.navigationInfo.coords;
+    var segmentsInfo = mapView.navigationInfo.results;
+
+    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length-1; coordsIndex++)
+    {
+
+        console.log(coords[coordsIndex].x + " " + segmentsInfo[currentSegmentsInfoIndex].path.x + "\n" + coords[coordsIndex].y + " " + segmentsInfo[currentSegmentsInfoIndex].path.y)
+        if (coords[coordsIndex].x == segmentsInfo[currentSegmentsInfoIndex+1].path.x &&
+            coords[coordsIndex].y == segmentsInfo[currentSegmentsInfoIndex+1].path.y )
+        {
+            currentSegmentsInfoIndex++;
+            mapView.currentSegmentsInfoIndex = currentSegmentsInfoIndex;
+            trimOccured = true;
+        }
+
+        if (isOnTrack({x:gpsData.position.coordinate.longitude, y:gpsData.position.coordinate.latitude},
+                       coords[coordsIndex+currentCoordIndex],
+                       coords[coordsIndex + 1 +currentCoordIndex]))
+        {
             if (coordsIndex >0)
             {
-                mapView.navigationInfo.coords.splice(0,coordsIndex);
-                console.log("coords trimmed by:" + coordsIndex);
+                currentCoordIndex += coordsIndex;
+                mapView.currentCoordIndex = currentCoordIndex;
             }
 
             onTrack = true;
@@ -96,13 +110,13 @@ function syncLocation()
 
     if (onTrack && trimOccured)
     {
-        currentInstruction.sectionData = mapView.navigationInfo.results[0];
+        currentInstruction.sectionData = segmentsInfo[currentSegmentsInfoIndex];
     }
-    else
+    else if (!onTrack)
     {
         // TODO reroute
-        console.log("need reroute!!!");
-        //stopNavigation();
+        console.log("need reroute - stopping navigation!!!");
+        stopNavigation();
     }
 }
 
@@ -115,7 +129,7 @@ function isOnTrack(loc, startPoint, endPoint)
 {
     var slope = (endPoint.y - startPoint.y)/(endPoint.x - startPoint.x);
     var intrSection = endPoint.y-(slope*endPoint.x);
-    var rc = Math.abs((slope * loc.x + intrSection) - loc.y) < 0.0002;
+    var rc = Math.abs((slope * loc.x + intrSection) - loc.y) < ERROR_MARGIN;
     console.log("is on track:" + rc)
     return rc;
 }
