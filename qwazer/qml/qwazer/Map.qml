@@ -32,6 +32,10 @@ Rectangle {
        Logic.setCenter(lon, lat);
     }
 
+    function setZoom(zoom) {
+       Logic.setZoom(zoom);
+    }
+
     function rotate(degress) {
        console.log("rotate - TODO");
     }
@@ -59,13 +63,29 @@ Rectangle {
         anchors.bottomMargin: 7
         anchors.fill: parent
         pressGrabTime: 0
+        settings.offlineWebApplicationCacheEnabled: true
+
+
+        javaScriptWindowObjects: [
+            QtObject {
+                id: savedMapData
+                objectName: "savedMapData"
+
+                property variant lon: 34.7898
+                property variant lat: 32.08676
+
+                property int zoom: 8
+            }
+        ]
 
         onAlert: console.log(message)
 
         url: 'html/waze.html'
 
-        onLoadFinished: mapView.mapLoaded()
-
+        onLoadFinished: {
+            evaluateJavaScript("loadSavedData();")
+            mapView.mapLoaded();
+        }
     }
 
     Button {

@@ -40,18 +40,19 @@
                     var car_icon=new OpenLayers.Icon(url="../images/car.png",size=new OpenLayers.Size(21,19));
                     var car_lon_lat=new OpenLayers.LonLat(lon=lon,lat=lat);
                     var car_marker=new OpenLayers.Marker(car_lon_lat,car_icon);
-                    map.markersLayer.addMarker(car_marker);
+                    myLocLayer.addMarker(car_marker);
                 }
 
                 function clearMarkersAndRoute()
                 {
+                    var map = g_waze_map.map;
                     var nav_layer=null;
                     var list = map.getLayersByName("routes");
                     nav_layer=list[0];
 
                     alert("cleaning markers");
                     map.markersLayer.clearMarkers();
-                    nav_layer.removeFeatures(nav_layer.features);
+                    nav_layer.destroyFeatures();
                 }
 
                 function plotCourse(coords)
@@ -82,6 +83,22 @@
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);
                     alert("finished drawing");
+                }
+
+                function setSavedData()
+                {
+                    var map = g_waze_map.map;
+                    var location = map.getCenter();
+                    window.savedMapData.lon = location.lon;
+                    window.savedMapData.lat = location.lat;
+                    window.savedMapData.zoom = map.getZoom();
+                }
+
+                function loadSavedData()
+                {
+                    var map = g_waze_map.map;
+                    map.setCenter(window.savedMapData.lon, window.savedMapData.lat);
+                    map.setZoom(window.savedMapData.zoom);
                 }
             </script>
             <script type="text/javascript" src="../js/WazeEmbeddedMap.jsh"></script>

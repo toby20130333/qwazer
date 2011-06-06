@@ -1,4 +1,4 @@
-var ERROR_MARGIN = 0.0002;
+var ERROR_MARGIN = 0.0005;
 
 
 function zoomIn() {
@@ -20,6 +20,11 @@ function getCurrentExtent() {
 function setCenter(lon, lat)
 {
     web_view1.evaluateJavaScript("g_waze_map.map.setCenter(new OpenLayers.LonLat('" + lon + "','" + lat + "'));");
+}
+
+function setZoom(zoom)
+{
+    web_view1.evaluateJavaScript("g_waze_map.map.setZoom('" + zoom + "'));");
 }
 
 function markDestination(lon, lat)
@@ -62,6 +67,7 @@ function navigate()
     zoomInToMax();
 
     var coordsJSON = JSON.stringify(mapView.navigationInfo.coords);
+    console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
 
     mapView.state = "NavigateState";
@@ -70,6 +76,7 @@ function navigate()
     locationUpdater.start();
 }
 
+var errorCount = 0;
 function syncLocation()
 {
     var currentCoordIndex = mapView.currentCoordIndex;
@@ -84,8 +91,6 @@ function syncLocation()
 
     for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length-1; coordsIndex++)
     {
-
-        console.log(coords[coordsIndex].x + " " + segmentsInfo[currentSegmentsInfoIndex].path.x + "\n" + coords[coordsIndex].y + " " + segmentsInfo[currentSegmentsInfoIndex].path.y)
         if (coords[coordsIndex].x == segmentsInfo[currentSegmentsInfoIndex+1].path.x &&
             coords[coordsIndex].y == segmentsInfo[currentSegmentsInfoIndex+1].path.y )
         {
@@ -98,12 +103,13 @@ function syncLocation()
                        coords[coordsIndex+currentCoordIndex],
                        coords[coordsIndex + 1 +currentCoordIndex]))
         {
-            if (coordsIndex >0)
+            if (coordsIndex > 0)
             {
                 currentCoordIndex += coordsIndex;
                 mapView.currentCoordIndex = currentCoordIndex;
             }
 
+            errorCount = 0;
             onTrack = true;
         }
     }
@@ -114,14 +120,22 @@ function syncLocation()
     }
     else if (!onTrack)
     {
-        // TODO reroute
-        console.log("need reroute - stopping navigation!!!");
-        stopNavigation();
+        if (errorCount < 5)
+        {
+            errorCount++;
+        }
+        else
+        {
+            // TODO reroute
+            console.log("need reroute - stopping navigation!!!");
+            //stopNavigation();
+        }
     }
 }
 
 function clearMarkersAndRoute()
 {
+    web_view1.evaluateJavaScript("setSavedData();");
     web_view1.evaluateJavaScript("clearMarkersAndRoute();");
 }
 
@@ -130,13 +144,15 @@ function isOnTrack(loc, startPoint, endPoint)
     var slope = (endPoint.y - startPoint.y)/(endPoint.x - startPoint.x);
     var intrSection = endPoint.y-(slope*endPoint.x);
     var rc = Math.abs((slope * loc.x + intrSection) - loc.y) < ERROR_MARGIN;
-    console.log("is on track:" + rc)
-    return rc;
+    //console.log("is on track:" + rc)
+    return rc &&
+           Math.min(startPoint.x, endPoint.x) <= loc.x && loc.x <= Math.max(startPoint.x, endPoint.x) &&
+           Math.min(startPoint.y, endPoint.y) <= loc.y && loc.y <= Math.max(startPoint.y, endPoint.y);
 }
 
 function stopNavigation()
 {
     locationUpdater.stop();
-    web_view1.evaluateJavaScript("clearMarkersAndRoute();");
+    clearMarkersAndRoute();
     mapView.state = "BrowseState";
 }
