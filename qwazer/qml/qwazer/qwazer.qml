@@ -12,6 +12,35 @@ Rectangle {
         //nmeaSource: "nmealog.txt"
     }
 
+//    QtObject {
+//        // track mockup
+//        id: positionSource
+//        property int index: 0
+//        property variant position : QtObject {
+//            property bool longitudeValid : true
+//            property bool latitudeValid : true
+//            property variant coordinate : QtObject {
+//                property double latitude: 33.21373
+//                property double longitude: 35.57280
+//            }
+//        }
+
+//        function next()
+//        {
+//            index++;
+//            position.coordinate.longitude = model.get(index).longitude;
+//            position.coordinate.latitude = model.get(index).latitude;
+//        }
+
+//        function reset()
+//        {
+//            model.clear();
+//            index = 0;
+//        }
+
+//        property variant model : ListModel {}
+//    }
+
     Map {
         id: map1
         x: 0

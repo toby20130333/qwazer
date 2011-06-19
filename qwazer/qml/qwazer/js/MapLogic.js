@@ -56,8 +56,17 @@ function showMe(shouldZoom)
     }
 }
 
+var errorCount = 0;
 function navigate()
 {
+    // TODO - comment mock data
+//        gpsData.reset();
+//        for (var coordKey in mapView.navigationInfo.coords)
+//            gpsData.model.append({longitude: mapView.navigationInfo.coords[coordKey].x,
+//                                latitude: mapView.navigationInfo.coords[coordKey].y});
+        // end of mock data
+
+    errorCount = 0;
     clearMarkersAndRoute();
 
     mapView.currentCoordIndex = 0;
@@ -67,6 +76,7 @@ function navigate()
     zoomInToMax();
 
     var coordsJSON = JSON.stringify(mapView.navigationInfo.coords);
+
     console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
 
@@ -76,7 +86,6 @@ function navigate()
     locationUpdater.start();
 }
 
-var errorCount = 0;
 function syncLocation()
 {
     var currentCoordIndex = mapView.currentCoordIndex;
@@ -91,23 +100,25 @@ function syncLocation()
 
     for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length-1; coordsIndex++)
     {
-        if (coords[coordsIndex].x == segmentsInfo[currentSegmentsInfoIndex+1].path.x &&
-            coords[coordsIndex].y == segmentsInfo[currentSegmentsInfoIndex+1].path.y )
-        {
-            currentSegmentsInfoIndex++;
-            mapView.currentSegmentsInfoIndex = currentSegmentsInfoIndex;
-            trimOccured = true;
-        }
-
         if (isOnTrack({x:gpsData.position.coordinate.longitude, y:gpsData.position.coordinate.latitude},
                        coords[coordsIndex+currentCoordIndex],
                        coords[coordsIndex + 1 +currentCoordIndex]))
         {
             if (coordsIndex > 0)
-            {
+            { 
+                for (var searchIndex = 0; searchIndex < coordsIndex; searchIndex++)
+                {
+                    if (coords[currentCoordIndex+searchIndex].x == segmentsInfo[currentSegmentsInfoIndex+1].path.x &&
+                        coords[currentCoordIndex+searchIndex].y == segmentsInfo[currentSegmentsInfoIndex+1].path.y )
+                    {
+                        currentSegmentsInfoIndex++;
+                        mapView.currentSegmentsInfoIndex = currentSegmentsInfoIndex;
+                        trimOccured = true;
+                    }
+                }
                 currentCoordIndex += coordsIndex;
                 mapView.currentCoordIndex = currentCoordIndex;
-            }
+           }
 
             errorCount = 0;
             onTrack = true;
@@ -131,6 +142,8 @@ function syncLocation()
             //stopNavigation();
         }
     }
+
+//    gpsData.next(); //TODO - comment - for testing with mock GPS
 }
 
 function clearMarkersAndRoute()
@@ -145,6 +158,7 @@ function isOnTrack(loc, startPoint, endPoint)
     var intrSection = endPoint.y-(slope*endPoint.x);
     var rc = Math.abs((slope * loc.x + intrSection) - loc.y) < ERROR_MARGIN;
     //console.log("is on track:" + rc)
+
     return rc &&
            Math.min(startPoint.x, endPoint.x) <= loc.x && loc.x <= Math.max(startPoint.x, endPoint.x) &&
            Math.min(startPoint.y, endPoint.y) <= loc.y && loc.y <= Math.max(startPoint.y, endPoint.y);
