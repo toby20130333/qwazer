@@ -1,14 +1,14 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: rectangle1
+    id: instructionsControl
     width: 150
     height: 150
 
     property variant sectionData
 
     onSectionDataChanged: {
-        console.log("updateding segment: " + JSON.stringify(sectionData));
+        console.log("updating segment: " + JSON.stringify(sectionData));
         if (sectionData.length < 1000)
         {
             sectionLengthText.text = "בעוד " + sectionData.length + " מטרים";
@@ -18,26 +18,57 @@ Rectangle {
             sectionLengthText.text = "בעוד " + sectionData.length + ' ק"מ';
         }
         instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
-
+        instructionsControl.state = sectionData.instruction.opcode;
+        instructionArg.text = sectionData.instruction.arg;
+        instructionArg.visible = sectionData.instruction.arg != 0;
         var streetName = sectionData.streetName;
         streetNameText.text = (streetName!=null)? streetName : "";
-
     }
 
-    Image {
+    Rectangle {
         id: instructionImage
-        anchors.horizontalCenter: parent.horizontalCenter
+        color: "#00b7ff"
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: sectionLengthText.top
         anchors.top: parent.top
-        anchors.topMargin: 0
+        border.color: "#000000"
+
+
+        Image {
+            id: circle
+            anchors.centerIn: parent
+            source: "images/circle.png"
+        }
+
+        Image {
+            id: arrow
+            anchors.centerIn: parent
+            visible: true
+            smooth: false
+            source: "images/arrow.png"
+        }
+
+        Text {
+            id: instructionArg
+            text: ""
+            font.bold: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.centerIn: parent
+            font.pixelSize: 21
+        }
+
     }
 
     Text {
         id: sectionLengthText
         text: ""
-        anchors.topMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: instructionImage.bottom
-        font.pointSize: 20
+        anchors.left: parent.left
+        anchors.right: parent.right
+        wrapMode: Text.WordWrap
+        anchors.bottom: instructionText.top
+        font.pointSize: 18
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
     }
@@ -45,10 +76,11 @@ Rectangle {
     Text {
         id: instructionText
         text: ""
-        anchors.topMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: sectionLengthText.bottom
-        font.pointSize: 20
+        anchors.left: parent.left
+        anchors.right: parent.right
+        wrapMode: Text.WordWrap
+        anchors.bottom: streetNameText.top
+        font.pointSize: 18
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
     }
@@ -56,13 +88,220 @@ Rectangle {
     Text {
         id: streetNameText
         text: ""
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
         wrapMode: Text.WordWrap
-        anchors.topMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: instructionText.bottom
-        font.pointSize: 20
+        font.pointSize: 18
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
     }
+
+    states: [
+        State {
+            name: "TURN_LEFT"
+
+            PropertyChanges {
+                target: circle
+                visible: false
+            }
+
+            PropertyChanges {
+                target: arrow
+                rotation: 270
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בצומת פנה שמאלה"
+            }
+        },
+        State {
+            name: "TURN_RIGHT"
+
+            PropertyChanges {
+                target: circle
+                visible: false
+            }
+
+            PropertyChanges {
+                target: arrow
+                rotation: 90
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בצומת פנה ימינה"
+            }
+        },
+        State {
+            name: "CONTINUE"
+
+            PropertyChanges {
+                target: arrow
+                visible: true
+            }
+
+            PropertyChanges {
+                target: circle
+                visible: false
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "המשך ישר"
+            }
+        },
+        State {
+            name: "KEEP_RIGHT"
+
+            PropertyChanges {
+                target: circle
+                visible: false
+            }
+
+            PropertyChanges {
+                target: arrow
+                rotation: 135
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "הצמד למסלול הימני"
+            }
+        },
+        State {
+            name: "KEEP_LEFT"
+
+            PropertyChanges {
+                target: circle
+                visible: false
+            }
+
+            PropertyChanges {
+                target: arrow
+                rotation: 225
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "הצמד למסלול השמאלי"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_ENTER"
+
+            PropertyChanges {
+                target: arrow
+                visible: false
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר צא ביציאה ה-" + instructionArg.text
+            }
+        },
+        State {
+            name: "ROUNDABOUT_EXIT"
+
+            PropertyChanges {
+                target: arrow
+                visible: false
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר צא ביציאה ה-" + instructionArg.text
+            }
+        },
+        State {
+            name: "ROUNDABOUT_RIGHT"
+            PropertyChanges {
+                target: arrow
+                rotation: 90
+                visible: true
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר פנה ימינה"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_EXIT_RIGHT"
+            PropertyChanges {
+                target: arrow
+                rotation: 90
+                visible: true
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר פנה ימינה"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_LEFT"
+            PropertyChanges {
+                target: arrow
+                visible: true
+                rotation: 270
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר פנה שמאלה"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_EXIT_LEFT"
+            PropertyChanges {
+                target: arrow
+                visible: true
+                rotation: 270
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר פנה שמאלה"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_STRAIGHT"
+            PropertyChanges {
+                target: arrow
+                visible: true
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר המשך ישר"
+            }
+        },
+        State {
+            name: "ROUNDABOUT_EXIT_STRAIGHT"
+            PropertyChanges {
+                target: arrow
+                visible: true
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "בכיכר המשך ישר"
+            }
+        },
+        State {
+            name: "APPROACHING_DESTINATION"
+            PropertyChanges {
+                target: instructionArg
+                text: "TODO"
+            }
+
+            PropertyChanges {
+                target: instructionText
+                text: "הגעת ליעד"
+            }
+        }
+    ]
 
 }
