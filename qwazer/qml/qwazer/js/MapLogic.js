@@ -49,10 +49,13 @@ function showLocation(lon, lat)
 function showMe(shouldZoom)
 {
     web_view1.evaluateJavaScript("markMyLocation("+gpsData.position.coordinate.longitude+","+gpsData.position.coordinate.latitude+");");
-    setCenter(gpsData.position.coordinate.longitude, gpsData.position.coordinate.latitude);
-    if (shouldZoom)
+    if (followMe.isSelected)
     {
-        zoomInToMax();
+        setCenter(gpsData.position.coordinate.longitude, gpsData.position.coordinate.latitude);
+        if (shouldZoom)
+        {
+            zoomInToMax();
+        }
     }
 }
 
@@ -90,13 +93,19 @@ function syncLocation()
 {
     var currentCoordIndex = mapView.currentCoordIndex;
     var currentSegmentsInfoIndex = mapView.currentSegmentsInfoIndex;
-    showMe();
 
     var onTrack = false;
     var trimOccured = false;
 
     var coords = mapView.navigationInfo.coords;
     var segmentsInfo = mapView.navigationInfo.results;
+
+    showMe();
+    if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
+    {
+        locationUpdater.stop();
+        return;
+    }
 
     for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length-1; coordsIndex++)
     {

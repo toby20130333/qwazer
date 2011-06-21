@@ -19,10 +19,16 @@ Rectangle {
     property int currentCoordIndex : 0
     property int currentSegmentsInfoIndex : 0
 
+    property bool isGPSDataValid :  gpsData.position.verticalAccuracyValid &&
+                                    gpsData.position.horizontalAccuracyValid &&
+                                    gpsData.position.verticalAccuracy < 20 &&
+                                    gpsData.position.horizontalAccuracy < 20
+
+    SystemPalette { id: activePalette }
+
     onNavigationInfoChanged: {
         Logic.navigate();
     }
-
 
     ListModel {
         id: searchResultList
@@ -58,9 +64,7 @@ Rectangle {
 
     WebView {
         id: web_view1
-        anchors.rightMargin: 8
-        anchors.topMargin: 0
-        anchors.bottomMargin: 7
+
         anchors.fill: parent
         pressGrabTime: 0
         settings.offlineWebApplicationCacheEnabled: true
@@ -122,7 +126,7 @@ Rectangle {
         anchors.bottom: searchButton.top
         anchors.bottomMargin: 7
         onClicked: Logic.showMe(true)
-        enabled: gpsData.position.longitudeValid && gpsData.position.latitudeValid
+        visible: true
     }
 
     Button {
@@ -134,15 +138,16 @@ Rectangle {
         anchors.bottomMargin: 7
         width: 156
         height: 51
+        visible: true
 
         onClicked: mapView.navigateButtonClicked()
     }
 
     Timer {
         id: locationUpdater
-        interval: 2000;
-        running: false;
+        interval: 2000
         repeat: true
+        running: false
         onTriggered: Logic.syncLocation()
     }
 
@@ -177,6 +182,58 @@ Rectangle {
         anchors.bottomMargin: 7
         anchors.left: stopNavigation.left
         anchors.right: stopNavigation.right
+    }
+
+    Button {
+        id: followMe
+        text: "עקוב אחרי"
+        anchors.right: gpsState.right
+        anchors.bottom: gpsState.top
+        anchors.bottomMargin: 7
+        visible: false
+
+        onClicked: isSelected = !isSelected
+
+        property bool isSelected : true
+
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: !followMe.isSelected ? activePalette.light : activePalette.button
+            }
+            GradientStop {
+                position: 1.0
+                color: !followMe.isSelected ? activePalette.button : activePalette.dark
+            }
+        }
+    }
+
+    Rectangle {
+        id: gpsState
+
+        anchors.right: parent.right
+        anchors.rightMargin: 7
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 7
+        border.color: "black"
+        color:  isGPSDataValid? "green" : "red"
+        radius: 3
+
+        height: 50
+        width: 150
+
+        Text {
+            id: gpsStateText
+            text: isGPSDataValid? "GPS OK" : "GPS BAD"
+            font.bold: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pointSize: 18
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+        }
     }
 
     states: [
@@ -231,6 +288,11 @@ Rectangle {
             PropertyChanges {
                 target: currentInstruction
                 opacity: 0.7
+                visible: true
+            }
+
+            PropertyChanges {
+                target: followMe
                 visible: true
             }
         }

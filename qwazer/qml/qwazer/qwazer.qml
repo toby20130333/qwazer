@@ -19,6 +19,10 @@ Rectangle {
 //        property variant position : QtObject {
 //            property bool longitudeValid : true
 //            property bool latitudeValid : true
+//            property bool verticalAccuracyValid : true
+//            property bool horizontalAccuracyValid : true
+//            property int verticalAccuracy : 0
+//            property int horizontalAccuracy : 0
 //            property variant coordinate : QtObject {
 //                property double latitude: 33.21373
 //                property double longitude: 35.57280
