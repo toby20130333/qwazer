@@ -21,8 +21,8 @@ Rectangle {
 
     property bool isGPSDataValid :  gpsData.position.verticalAccuracyValid &&
                                     gpsData.position.horizontalAccuracyValid &&
-                                    gpsData.position.verticalAccuracy < 20 &&
-                                    gpsData.position.horizontalAccuracy < 20
+                                    gpsData.position.verticalAccuracy < 100 &&
+                                    gpsData.position.horizontalAccuracy < 100
 
     onNavigationInfoChanged: {
         Logic.navigate();
