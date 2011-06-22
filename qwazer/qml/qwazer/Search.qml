@@ -18,10 +18,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottomMargin: 10
         anchors.topMargin: 10
-        onSelected: {
-            addressSelected(selection);
-            backButtonPressed();
-        }
+        onSelected: addressSelected(selection)
     }
 
     Button {

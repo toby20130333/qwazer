@@ -24,8 +24,6 @@ Rectangle {
                                     gpsData.position.verticalAccuracy < 20 &&
                                     gpsData.position.horizontalAccuracy < 20
 
-    SystemPalette { id: activePalette }
-
     onNavigationInfoChanged: {
         Logic.navigate();
     }
@@ -125,7 +123,7 @@ Rectangle {
         anchors.leftMargin: 7
         anchors.bottom: searchButton.top
         anchors.bottomMargin: 7
-        onClicked: Logic.showMe(true)
+        onClicked: Logic.showMe(true, true)
         visible: true
     }
 
@@ -138,7 +136,6 @@ Rectangle {
         anchors.bottomMargin: 7
         width: 156
         height: 51
-        visible: true
 
         onClicked: mapView.navigateButtonClicked()
     }
@@ -148,7 +145,6 @@ Rectangle {
         interval: 2000
         repeat: true
         running: false
-        onTriggered: Logic.syncLocation()
     }
 
     Button {
@@ -184,28 +180,14 @@ Rectangle {
         anchors.right: stopNavigation.right
     }
 
-    Button {
+    ToggleButton {
         id: followMe
         text: "עקוב אחרי"
         anchors.right: gpsState.right
         anchors.bottom: gpsState.top
         anchors.bottomMargin: 7
-        visible: false
 
-        onClicked: isSelected = !isSelected
-
-        property bool isSelected : true
-
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: !followMe.isSelected ? activePalette.light : activePalette.button
-            }
-            GradientStop {
-                position: 1.0
-                color: !followMe.isSelected ? activePalette.button : activePalette.dark
-            }
-        }
+        visible: isGPSDataValid
     }
 
     Rectangle {
@@ -242,7 +224,7 @@ Rectangle {
 
             PropertyChanges {
                 target: navigateButton
-                visible: true
+                visible: isGPSDataValid
             }
 
             PropertyChanges {
@@ -252,12 +234,18 @@ Rectangle {
 
             PropertyChanges {
                 target: showMeButton
-                visible: true
+                visible: isGPSDataValid && !followMe.isSelected
             }
 
             PropertyChanges {
                 target: currentInstruction
                 visible: false
+            }
+
+            PropertyChanges {
+                target: locationUpdater
+                onTriggered: Logic.showMe()
+                running: true
             }
         },
         State {
@@ -294,6 +282,12 @@ Rectangle {
             PropertyChanges {
                 target: followMe
                 visible: true
+            }
+
+            PropertyChanges {
+                target: locationUpdater
+                onTriggered: Logic.syncLocation()
+                running: true
             }
         }
     ]

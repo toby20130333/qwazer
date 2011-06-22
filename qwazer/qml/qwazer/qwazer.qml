@@ -55,6 +55,7 @@ Rectangle {
 
         onMapLoaded: {
             mainView.state = 'MapState';
+            map1.state = "BrowseState";
         }
 
         onSearchButtonClicked: {
@@ -77,25 +78,27 @@ Rectangle {
             mainView.state = 'MapState';
         }
 
-        onAddressSelected: map1.showLocation(address.lon, address.lat)
+        onAddressSelected: {
+            map1.showLocation(address.lon, address.lat);
+            mainView.state = 'MapState';
+        }
     }
 
-    Navigate {
+    Search {
         id: navigate1
         x: 0
         y: 0
         visible: false
         anchors.fill: parent
 
-        gpsData: positionSource
-
         onBackButtonPressed: {
             mainView.state = 'MapState';
         }
 
-        onNavigateRequested: {
+        onAddressSelected: {
             mainView.state = 'PathSelectionState';
-            pathSelection1.fromToPoints = fromToPoints;
+            pathSelection1.fromToPoints = {from:{lon: positionSource.position.coordinate.longitude, lat: positionSource.position.coordinate.latitude},
+                                           to:{lon: address.lon, lat: address.lat}};
         }
     }
 

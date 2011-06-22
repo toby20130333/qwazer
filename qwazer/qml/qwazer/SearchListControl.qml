@@ -65,7 +65,7 @@ Rectangle {
                     spacing: 10
                     Button {
                         id: selectButton
-                        text: "הצג"
+                        text: "בחר"
                         onClicked: selected({"name": name, "lon": lon, "lat": lat});
                     }
                     Text {

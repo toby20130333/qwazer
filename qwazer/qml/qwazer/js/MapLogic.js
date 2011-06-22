@@ -46,16 +46,18 @@ function showLocation(lon, lat)
     console.log("TODO - add landmark");
 }
 
-function showMe(shouldZoom)
+function showMe(shouldCenter, shouldZoom)
 {
     web_view1.evaluateJavaScript("markMyLocation("+gpsData.position.coordinate.longitude+","+gpsData.position.coordinate.latitude+");");
-    if (followMe.isSelected)
+
+    if (followMe.isSelected || shouldCenter)
     {
         setCenter(gpsData.position.coordinate.longitude, gpsData.position.coordinate.latitude);
-        if (shouldZoom)
-        {
-            zoomInToMax();
-        }
+    }
+
+    if (followMe.isSelected || shouldZoom)
+    {
+        zoomInToMax();
     }
 }
 

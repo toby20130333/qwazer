@@ -102,7 +102,7 @@ Rectangle {
                     spacing: 10
                     Button {
                         id: selectButton
-                        text: "הצג"
+                        text: "בחר"
                         onClicked:pathSelected(response)
 
                         anchors.verticalCenter: parent.verticalCenter
