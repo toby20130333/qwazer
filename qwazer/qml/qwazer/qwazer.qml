@@ -6,6 +6,12 @@ Rectangle {
     width: 800
     height: 400
 
+    Component.onCompleted: settings.initialize()
+
+    QwazerSettings {
+        id: settings
+    }
+
     PositionSource {
         id: positionSource
         active: true
@@ -45,11 +51,16 @@ Rectangle {
 //        property variant model : ListModel {}
 //    }
 
-    Map {
+    QwazerMap {
         id: map1
         x: 0
         y: 0
+
+        anchors.fill: parent
+
         visible: false
+
+        settings: settings
 
         gpsData: positionSource
 

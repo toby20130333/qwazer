@@ -4,7 +4,6 @@ import "js/MapLogic.js" as Logic
 
 Rectangle {
     id: mapView
-    anchors.fill: parent
 
     width: 780
     height: 400
@@ -12,6 +11,8 @@ Rectangle {
     signal mapLoaded
     signal searchButtonClicked
     signal navigateButtonClicked
+
+    property QwazerSettings settings
 
     property variant gpsData
     property variant navigationInfo
@@ -71,7 +72,7 @@ Rectangle {
         javaScriptWindowObjects: [
             QtObject {
                 id: savedMapData
-                objectName: "savedMapData"
+                WebView.windowObjectName: "savedMapData"
 
                 property variant lon: 34.7898
                 property variant lat: 32.08676
@@ -186,7 +187,7 @@ Rectangle {
         anchors.right: gpsState.right
         anchors.bottom: gpsState.top
         anchors.bottomMargin: 7
-
+        isSelected: false
         visible: isGPSDataValid
     }
 
