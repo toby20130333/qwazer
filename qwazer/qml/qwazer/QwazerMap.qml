@@ -25,6 +25,9 @@ Rectangle {
                                     gpsData.position.verticalAccuracy < 100 &&
                                     gpsData.position.horizontalAccuracy < 100
 
+    property variant previousGpsLocation
+    property variant currentGpsLocation
+
     onNavigationInfoChanged: {
         Logic.navigate();
     }
@@ -64,10 +67,22 @@ Rectangle {
     WebView {
         id: web_view1
 
-        anchors.fill: parent
+        width: Math.max(parent.width, parent.height)*Math.max(parent.width, parent.height)/Math.min(parent.width, parent.height)
+        height: Math.max(parent.width, parent.height)*Math.max(parent.width, parent.height)/Math.min(parent.width, parent.height)
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+
         pressGrabTime: 0
         settings.offlineWebApplicationCacheEnabled: true
 
+        transform: Rotation {
+            id: webViewRotation
+            origin.x: Math.floor(web_view1.width/2)
+            origin.y: Math.floor(web_view1.height/2)
+            axis{ x: 0; y: 0; z:1 }
+
+            Behavior on angle { PropertyAnimation{ duration: locationUpdater.interval*0.9; easing.type: Easing.InOutSine} }
+        }
 
         javaScriptWindowObjects: [
             QtObject {
@@ -143,7 +158,7 @@ Rectangle {
 
     Timer {
         id: locationUpdater
-        interval: 2000
+        interval: 1500
         repeat: true
         running: false
     }
@@ -248,6 +263,11 @@ Rectangle {
                 onTriggered: Logic.showMe()
                 running: true
             }
+
+            PropertyChanges {
+                target: webViewRotation
+                angle: 0
+            }
         },
         State {
             name: "NavigateState"
@@ -283,12 +303,30 @@ Rectangle {
             PropertyChanges {
                 target: followMe
                 visible: true
+                isSelected: true
             }
 
             PropertyChanges {
                 target: locationUpdater
                 onTriggered: Logic.syncLocation()
                 running: true
+            }
+
+            PropertyChanges {
+                target: mapView
+                onCurrentGpsLocationChanged: {
+                    // thanks to http://stackoverflow.com/questions/642555/how-do-i-calculate-the-azimuth-angle-to-north-between-two-wgs84-coordinates/1050914#1050914
+                    var dx = currentGpsLocation.lon - previousGpsLocation.lon;
+                    var dy = currentGpsLocation.lat - previousGpsLocation.lat;
+
+                    var azimuth = (Math.PI/2) - Math.atan(dy/dx);
+                    if (dx < 0) azimuth += Math.PI;
+                    else if (dy < 0) azimuth = Math.PI;
+
+                    var angle = azimuth*180/Math.PI;
+                    console.log(angle);
+                    webViewRotation.angle = -angle;
+                }
             }
         }
     ]

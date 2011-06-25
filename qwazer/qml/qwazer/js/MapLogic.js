@@ -48,11 +48,14 @@ function showLocation(lon, lat)
 
 function showMe(shouldCenter, shouldZoom)
 {
-    web_view1.evaluateJavaScript("markMyLocation("+gpsData.position.coordinate.longitude+","+gpsData.position.coordinate.latitude+");");
+    mapView.previousGpsLocation = mapView.currentGpsLocation;
+    mapView.currentGpsLocation = {lon:gpsData.position.coordinate.longitude, lat: gpsData.position.coordinate.latitude};
+
+    web_view1.evaluateJavaScript("markMyLocation("+mapView.currentGpsLocation.lon+","+mapView.currentGpsLocation.lat+");");
 
     if (followMe.isSelected || shouldCenter)
     {
-        setCenter(gpsData.position.coordinate.longitude, gpsData.position.coordinate.latitude);
+        setCenter(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
     }
 
     if (followMe.isSelected || shouldZoom)
@@ -105,13 +108,13 @@ function syncLocation()
     showMe();
     if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
     {
-        locationUpdater.stop();
         return;
     }
 
-    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length-1; coordsIndex++)
+    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length; coordsIndex++)
     {
-        if (isOnTrack({x:gpsData.position.coordinate.longitude, y:gpsData.position.coordinate.latitude},
+        if (coordsIndex + 1 + currentCoordIndex < coords.length &&
+            isOnTrack({x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat},
                        coords[coordsIndex+currentCoordIndex],
                        coords[coordsIndex + 1 +currentCoordIndex]))
         {
