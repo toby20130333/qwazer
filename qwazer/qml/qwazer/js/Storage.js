@@ -1,4 +1,4 @@
-var DEFAULT_VALUE = "";
+var NO_VALUE = "Unknown";
 
 //storage.js - taken from http://www.developer.nokia.com/Community/Wiki/How-to_create_a_persistent_settings_database_in_Qt_Quick_(QML)
 // First, let's create a short helper function to get the database connection
@@ -13,6 +13,7 @@ function initialize() {
         function(tx) {
             // Create the settings table if it doesn't already exist
             // If the table exists, this is skipped
+            tx.executeSql('DROP TABLE IF EXISTS settings');
             tx.executeSql('CREATE TABLE IF NOT EXISTS settings(setting TEXT UNIQUE, value TEXT)');
           });
 }
@@ -45,7 +46,7 @@ function getSetting(setting) {
      if (rs.rows.length > 0) {
           res = rs.rows.item(0).value;
      } else {
-         res = DEFAULT_VALUE;
+         res = NO_VALUE;
      }
   })
   // The function returns “Unknown” if the setting was not found in the database
@@ -61,5 +62,11 @@ function setObjectSetting(setting, value)
 function getObjectSetting(setting)
 {
     var value = getSetting(setting);
-    return value != DEFAULT_VALUE? JSON.parse(value) : null;
+    console.log("obj " + setting + " " + value);
+    return isValidValue(value) && value !== "" ? JSON.parse(value) : null;
+}
+
+function isValidValue(value)
+{
+    return value != NO_VALUE;
 }

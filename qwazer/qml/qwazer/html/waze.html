@@ -22,9 +22,9 @@
 
                 g_waze_config = {
                     div_id:"map",
-                    locale : "israel",
-                    center_lon:34.7898,
-                    center_lat:32.08676,
+                    locale : window.savedMapData.locale,
+                    center_lon: 0,
+                    center_lat: 0,
                     zoom:8,
                     token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
@@ -87,15 +87,6 @@
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);
                     alert("finished drawing");
-                }
-
-                function setSavedData()
-                {
-                    var map = g_waze_map.map;
-                    var location = map.getCenter();
-                    window.savedMapData.lon = location.lon;
-                    window.savedMapData.lat = location.lat;
-                    window.savedMapData.zoom = map.getZoom();
                 }
 
                 function loadSavedData()

@@ -36,16 +36,20 @@ Rectangle {
         id: searchResultList
     }
 
+    function initialize() {
+        savedMapData.location = settings.lastKnownPosition;
+        savedMapData.locale = settings.country.locale;
+
+        mapView.state = "BrowseState";
+        web_view1.url = 'html/waze.html';
+    }
+
     function setCenter(lon, lat) {
        Logic.setCenter(lon, lat);
     }
 
     function setZoom(zoom) {
        Logic.setZoom(zoom);
-    }
-
-    function rotate(degress) {
-       console.log("rotate - TODO");
     }
 
     function markDestination(lon, lat) {
@@ -89,16 +93,13 @@ Rectangle {
                 id: savedMapData
                 WebView.windowObjectName: "savedMapData"
 
-                property variant lon: 34.7898
-                property variant lat: 32.08676
+                property variant location
 
-                property int zoom: 8
+                property string locale
             }
         ]
 
         onAlert: console.log(message)
-
-        url: 'html/waze.html'
 
         onLoadFinished: {
             evaluateJavaScript("loadSavedData();")

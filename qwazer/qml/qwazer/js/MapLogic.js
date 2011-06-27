@@ -43,6 +43,7 @@ function showLocation(lon, lat)
 {
     console.log("show location was requested for " + lon + ":" + lat);
     setCenter(lon,lat);
+    settings.lastKnownPosition = {lon:lon, lat:lat};
     console.log("TODO - add landmark");
 }
 
@@ -56,6 +57,7 @@ function showMe(shouldCenter, shouldZoom)
     if (followMe.isSelected || shouldCenter)
     {
         setCenter(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
+        settings.lastKnownPosition = mapView.currentGpsLocation;
     }
 
     if (followMe.isSelected || shouldZoom)

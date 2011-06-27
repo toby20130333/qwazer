@@ -10,11 +10,11 @@ Button {
     gradient: Gradient {
         GradientStop {
             position: 0.0
-            color: !followMe.isSelected ? activePalette.light : activePalette.button
+            color: !toggleButton.isSelected ? activePalette.light : activePalette.button
         }
         GradientStop {
             position: 1.0
-            color: !followMe.isSelected ? activePalette.button : activePalette.dark
+            color: !toggleButton.isSelected ? activePalette.button : activePalette.dark
         }
     }
 

@@ -6,11 +6,27 @@ Rectangle {
     width: 800
     height: 400
 
-    Component.onCompleted: settings.initialize()
-
     QwazerSettings {
         id: settings
+        visible: false
+        onSettingsLoaded: {
+            settings.visible = isFirstRun;
+            if (!isFirstRun)
+            {
+                mainView.state =  "MapState";
+                map1.initialize();
+            }
+        }
+
+        onOkClicked: {
+            console.log("ok clicked");
+            mainView.state = 'MapState';
+            map1.state = "BrowseState";
+            map1.initialize();
+        }
     }
+
+    Component.onCompleted: settings.initialize()
 
     PositionSource {
         id: positionSource
@@ -66,7 +82,6 @@ Rectangle {
 
         onMapLoaded: {
             mainView.state = 'MapState';
-            map1.state = "BrowseState";
         }
 
         onSearchButtonClicked: {
@@ -137,8 +152,8 @@ Rectangle {
                 visible: true
             }
             PropertyChanges {
-                target: search1
-                visible: false
+                 target: search1
+                 visible: false
             }
             PropertyChanges {
                 target: navigate1
