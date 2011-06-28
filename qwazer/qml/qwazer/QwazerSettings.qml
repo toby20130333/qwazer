@@ -43,18 +43,27 @@ Rectangle {
         id: countriesModel
 
         ListElement {
+            name: "World"
+            locale: ""
+            location.lon: -73.96731
+            location.lat: 40.78196
+        }
+        ListElement {
             name: "ישראל"
             locale: "israel"
-            location: ListElement {
-                lon : 34.78975
-                lat : 32.08662
-            }
+            location.lon : 34.78975
+            location.lat : 32.08662
         }
     }
 
     ListModel {
         id: languagesModel
 
+        ListElement {
+            name: "English"
+            langId: "en"
+            rtl: false
+        }
         ListElement {
             name: "עברית"
             langId: "he"
@@ -86,7 +95,7 @@ Rectangle {
             id: selectedLanguage
             text: ""
 
-            onClicked: settingsDialog.state = "SelectLanguageState"
+            onClicked: qwazerSettings.state = "SelectLanguageState"
         }
 
         Text {
@@ -99,7 +108,7 @@ Rectangle {
             id: selectedCountry
             text: ""
 
-            onClicked: settingsDialog.state = "SelectLCountryState"
+            onClicked: qwazerSettings.state = "SelectCountryState"
         }
 
         Text {
@@ -121,17 +130,24 @@ Rectangle {
         visible: false
         model: languagesModel
 
-        delegate: Rectangle {
-            border.color: "black"
+        highlightFollowsCurrentItem: true
+
+        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        focus: true
+
+        delegate: Component {
             MouseArea {
+                height: languageName.height
+                width: languagesList.width
                 Text {
+                    id: languageName
                     text: name
                     font.pointSize: 20
                 }
 
                 onClicked: {
                     settings.language = {name: name, langId: langId, rtl: rtl};
-                    settingsDialog.state = "SettingsState";
+                    qwazerSettings.state = "Loaded";
                 }
             }
         }
@@ -143,16 +159,18 @@ Rectangle {
         visible: false
         model: countriesModel
 
-        delegate: Rectangle {
-            border.color: "black"
+        delegate: Component {
             MouseArea {
+                height: countryName.height
+                width: countryList.width
                 Text {
+                    id: countryName
                     text: name
                 }
 
                 onClicked: {
                     settings.country = {name: name, locale: locale, location: {lon: location.lon, lat: location.lat}};
-                    settingsDialog.state = "SettingsState";
+                    qwazerSettings.state = "Loaded";
                 }
             }
         }
@@ -209,6 +227,44 @@ Rectangle {
             PropertyChanges {
                 target: nightModeSelector
                 isSelected: nightMode
+            }
+        },
+        State {
+            name: "SelectLanguageState"
+            extend: "Loaded"
+
+            PropertyChanges {
+                target: languagesList
+                visible: true
+            }
+
+            PropertyChanges {
+                target: grid1
+                visible: false
+            }
+
+            PropertyChanges {
+                target: okButton
+                visible: false
+            }
+        },
+        State {
+            name: "SelectCountryState"
+            extend: "Loaded"
+
+            PropertyChanges {
+                target: countryList
+                visible: true
+            }
+
+            PropertyChanges {
+                target: grid1
+                visible: false
+            }
+
+            PropertyChanges {
+                target: okButton
+                visible: false
             }
         }
     ]
