@@ -37,8 +37,17 @@ Rectangle {
     }
 
     function initialize() {
-        savedMapData.location = settings.lastKnownPosition;
+
+        savedMapData.location_lon = settings.country.lon;
+        savedMapData.location_lat = settings.country.lat;
+        if (typeof(settings.lastKnownPosition) != "undefined")
+        {
+            savedMapData.location_lon = settings.lastKnownPosition.lon;
+            savedMapData.location_lat = settings.lastKnownPosition.lat;
+        }
         savedMapData.locale = settings.country.locale;
+
+        console.log("after init : " + savedMapData.location_lon + ", " +savedMapData.location_lat);
 
         mapView.state = "BrowseState";
         web_view1.url = 'html/waze.html';
@@ -93,18 +102,18 @@ Rectangle {
                 id: savedMapData
                 WebView.windowObjectName: "savedMapData"
 
-                property variant location
+                property string location_lon
+                property string location_lat
 
                 property string locale
+
+                property int zoom: 8
             }
         ]
 
         onAlert: console.log(message)
 
-        onLoadFinished: {
-            evaluateJavaScript("loadSavedData();")
-            mapView.mapLoaded();
-        }
+        onLoadFinished: mapView.mapLoaded()
     }
 
     Button {

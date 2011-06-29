@@ -17,9 +17,22 @@ function getCurrentExtent() {
     return web_view1.evaluateJavaScript("g_waze_map.map.getExtent();");
 }
 
+function getNormalizedLonLat(lon, lat)
+{
+    if (settings.country.isSphericalMercator)
+    {
+        console.log("normalized");
+        lon = (lon / 20037508.34) * 180;
+        lat = (lat / 20037508.34) * 180;
+        lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
+    }
+    return {lon: lon, lat: lat};
+}
+
 function setCenter(lon, lat)
 {
-    web_view1.evaluateJavaScript("g_waze_map.map.setCenter(new OpenLayers.LonLat('" + lon + "','" + lat + "'));");
+    var lonLat = getNormalizedLonLat(lon, lat);
+    web_view1.evaluateJavaScript("g_waze_map.map.setCenter(new OpenLayers.LonLat('" + lonLat.lon + "','" + lonLat.lat + "'));");
 }
 
 function setZoom(zoom)
@@ -42,7 +55,8 @@ function markOrigin(lon, lat)
 function showLocation(lon, lat)
 {
     console.log("show location was requested for " + lon + ":" + lat);
-    setCenter(lon,lat);
+    var lonLat = getNormalizedLonLat(lon, lat);
+    setCenter(lonLat.lon,lonLat.lat);
     settings.lastKnownPosition = {lon:lon, lat:lat};
     console.log("TODO - add landmark");
 }
@@ -52,16 +66,19 @@ function showMe(shouldCenter, shouldZoom)
     mapView.previousGpsLocation = mapView.currentGpsLocation;
     mapView.currentGpsLocation = {lon:gpsData.position.coordinate.longitude, lat: gpsData.position.coordinate.latitude};
 
-    web_view1.evaluateJavaScript("markMyLocation("+mapView.currentGpsLocation.lon+","+mapView.currentGpsLocation.lat+");");
+    var lonLat = getNormalizedLonLat(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
+    web_view1.evaluateJavaScript("markMyLocation("+lonLat.lon+","+lonLat.lat+");");
 
     if (followMe.isSelected || shouldCenter)
     {
-        setCenter(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
+        console.log("center");
+        setCenter(lonLat.lon, lonLat.lat);
         settings.lastKnownPosition = mapView.currentGpsLocation;
     }
 
     if (followMe.isSelected || shouldZoom)
     {
+         console.log("zoom");
         zoomInToMax();
     }
 }
@@ -164,7 +181,6 @@ function syncLocation()
 
 function clearMarkersAndRoute()
 {
-    web_view1.evaluateJavaScript("setSavedData();");
     web_view1.evaluateJavaScript("clearMarkersAndRoute();");
 }
 

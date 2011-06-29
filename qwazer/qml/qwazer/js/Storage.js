@@ -56,13 +56,14 @@ function getSetting(setting) {
 
 function setObjectSetting(setting, value)
 {
+    console.log("obj save " + setting + " " + JSON.stringify(value));
     setSetting(setting, value? JSON.stringify(value) : null);
 }
 
 function getObjectSetting(setting)
 {
     var value = getSetting(setting);
-    console.log("obj " + setting + " " + value);
+    console.log("obj load " + setting + " " + value);
     return isValidValue(value) && value !== "" ? JSON.parse(value) : null;
 }
 

@@ -17,6 +17,19 @@ Rectangle {
         settingsLoaded();
     }
 
+    function findItem(model, item, field)
+    {
+        for (var index = 0; index < model.count; index++)
+        {
+            if ((field && model.get(index)[field] == item[field]) || model.get(index) == item  )
+            {
+                return index;
+            }
+        }
+
+       return 0;
+    }
+
     function isValidValue(value)
     {
         return Storage.isValidValue(value);
@@ -45,14 +58,15 @@ Rectangle {
         ListElement {
             name: "World"
             locale: ""
-            location.lon: -73.96731
-            location.lat: 40.78196
+            lon: -73.96731
+            lat: 40.78196
+            isSphericalMercator: true
         }
         ListElement {
             name: "ישראל"
             locale: "israel"
-            location.lon : 34.78975
-            location.lat : 32.08662
+            lon: 34.78975
+            lat: 32.08662
         }
     }
 
@@ -130,8 +144,8 @@ Rectangle {
         visible: false
         model: languagesModel
 
+        currentIndex: findItem(languagesModel, language, "name")
         highlightFollowsCurrentItem: true
-
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
 
@@ -159,6 +173,11 @@ Rectangle {
         visible: false
         model: countriesModel
 
+        currentIndex: findItem(countriesModel, country, "name")
+        highlightFollowsCurrentItem: true
+        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        focus: true
+
         delegate: Component {
             MouseArea {
                 height: countryName.height
@@ -169,7 +188,7 @@ Rectangle {
                 }
 
                 onClicked: {
-                    settings.country = {name: name, locale: locale, location: {lon: location.lon, lat: location.lat}};
+                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, isSphericalMercator: isSphericalMercator};
                     qwazerSettings.state = "Loaded";
                 }
             }
@@ -204,10 +223,10 @@ Rectangle {
                 country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
                 onCountryChanged : Storage.setObjectSetting("Country", country)
 
-                lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : country.location
+                lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : lastKnownPosition
                 onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
 
-                nightMode: Storage.getSetting("NightMode")
+                nightMode: isValidValue(Storage.getSetting("NightMode"))? Storage.getSetting("NightMode") : nightMode
                 onNightModeChanged : isValidValue(Storage.getSetting("NightMode"))? Storage.setSetting("NightMode", nightMode) : nightMode
 
                 favoriteLocations: isValidValue(Storage.getSetting("FavoriteLocations"))? Storage.getObjectSetting("FavoriteLocations") : favoriteLocations

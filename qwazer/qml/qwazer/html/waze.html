@@ -12,6 +12,8 @@
                 function mapInit()
                 {
                    var map = g_waze_map.map;
+                   var extent = map.getExtent();
+                   alert(extent.left + "," + extent.top + "," + extent.right + "," + extent.bottom);
                    var nav_layer=new OpenLayers.Layer.Vector("routes");
                    map.addLayer(nav_layer);
                    map.markersLayer=new OpenLayers.Layer.Markers("Markers");
@@ -20,11 +22,12 @@
                    map.addLayer(myLocLayer);
                 }
 
+                alert(window.savedMapData.location_lon + "_:_" + window.savedMapData.location_lat);
                 g_waze_config = {
                     div_id:"map",
                     locale : window.savedMapData.locale,
-                    center_lon: 0,
-                    center_lat: 0,
+                    center_lon: window.savedMapData.location_lon,
+                    center_lat: window.savedMapData.location_lat,
                     zoom:8,
                     token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
@@ -34,6 +37,7 @@
 
                 function markMyLocation(lon,lat)
                 {
+                    alert("mark lcoation "+ lon + "," + lat);
                     var map = g_waze_map.map;
                     var myLocLayer=null;
                     var list = map.getLayersByName("MyLocation");
@@ -92,7 +96,8 @@
                 function loadSavedData()
                 {
                     var map = g_waze_map.map;
-                    map.setCenter(window.savedMapData.lon, window.savedMapData.lat);
+                    alert( window.savedMapData.location_lon+ ":" + window.savedMapData.location_lat);
+                    map.setCenter(window.savedMapData.location_lon, window.savedMapData.location_lat);
                     map.setZoom(window.savedMapData.zoom);
                 }
             </script>
