@@ -9,11 +9,21 @@
                 body, #map { height: 100%; width: 100%; }
             </style>
             <script type="text/javascript">
+                function getNormalizedLonLat(lon, lat)
+                {
+                    var map = g_waze_map.map;
+                    var location =new OpenLayers.LonLat(lon=lon,lat=lat);
+                    if(map.getProjection()=="EPSG:900913")
+                    {
+                        location = location.transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+                    }
+                    return location;
+                }
+
                 function mapInit()
                 {
                    var map = g_waze_map.map;
-                   var extent = map.getExtent();
-                   alert(extent.left + "," + extent.top + "," + extent.right + "," + extent.bottom);
+                   map.setCenter(getNormalizedLonLat(window.savedMapData.location_lon, window.savedMapData.location_lat));
                    var nav_layer=new OpenLayers.Layer.Vector("routes");
                    map.addLayer(nav_layer);
                    map.markersLayer=new OpenLayers.Layer.Markers("Markers");
@@ -22,22 +32,23 @@
                    map.addLayer(myLocLayer);
                 }
 
-                alert(window.savedMapData.location_lon + "_:_" + window.savedMapData.location_lat);
                 g_waze_config = {
                     div_id:"map",
                     locale : window.savedMapData.locale,
-                    center_lon: window.savedMapData.location_lon,
-                    center_lat: window.savedMapData.location_lat,
-                    zoom:8,
+                    zoom:window.savedMapData.zoom,
                     token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
-                    alt_map_servers:"http://ymap1.waze.co.il/wms-c/",
+                    alt_map_servers:window.savedMapData.url + "/wms-c/",
                     callback: mapInit
                 };
 
+                function setCenter(lon, lat)
+                {
+                    g_waze_map.map.setCenter(getNormalizedLonLat(lon, lat));
+                }
+
                 function markMyLocation(lon,lat)
                 {
-                    alert("mark lcoation "+ lon + "," + lat);
                     var map = g_waze_map.map;
                     var myLocLayer=null;
                     var list = map.getLayersByName("MyLocation");
@@ -46,7 +57,7 @@
                     myLocLayer.clearMarkers();
 
                     var car_icon=new OpenLayers.Icon(url="../images/car.png",size=new OpenLayers.Size(21,19));
-                    var car_lon_lat=new OpenLayers.LonLat(lon=lon,lat=lat);
+                    var car_lon_lat=getNormalizedLonLat(lon, lat);
                     var car_marker=new OpenLayers.Marker(car_lon_lat,car_icon);
                     myLocLayer.addMarker(car_marker);
                 }
@@ -83,24 +94,18 @@
 
                     alert("adding icons");
                     var from_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/from.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
-                    var from_lon_lat=new OpenLayers.LonLat(lon=route.components[0].x,lat=route.components[0].y);
+                    var from_lon_lat=getNormalizedLonLat(lon=route.components[0].x,lat=route.components[0].y);
                     var from_marker=new OpenLayers.Marker(from_lon_lat,from_icon);
                     map.markersLayer.addMarker(from_marker);
                     var to_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/to.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
-                    var to_lon_lat=new OpenLayers.LonLat(lon=route.components[route.components.length-1].x,lat=route.components[route.components.length-1].y);
+                    var to_lon_lat=getNormalizedLonLat(lon=route.components[route.components.length-1].x,lat=route.components[route.components.length-1].y);
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);
                     alert("finished drawing");
                 }
-
-                function loadSavedData()
-                {
-                    var map = g_waze_map.map;
-                    alert( window.savedMapData.location_lon+ ":" + window.savedMapData.location_lat);
-                    map.setCenter(window.savedMapData.location_lon, window.savedMapData.location_lat);
-                    map.setZoom(window.savedMapData.zoom);
-                }
             </script>
+            <script type="text/javascript" src="../js/jquery.jsh"></script>
+            <script type="text/javascript" src="../js/OpenLayers.jsh"></script>
             <script type="text/javascript" src="../js/WazeEmbeddedMap.jsh"></script>
     </head>
     <body>

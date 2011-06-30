@@ -44,7 +44,7 @@ Rectangle {
     // {name:..., langId:..., rtl:...}
     property variant language : languagesModel.get(0)
 
-    // {name:..., locale:...}
+    // {name:..., locale:..., lon: ... , lat:..., url: url}
     property variant country : countriesModel.get(0)
 
     // bool
@@ -60,13 +60,14 @@ Rectangle {
             locale: ""
             lon: -73.96731
             lat: 40.78196
-            isSphericalMercator: true
+            url: "http://www.waze.com"
         }
         ListElement {
             name: "ישראל"
             locale: "israel"
             lon: 34.78975
             lat: 32.08662
+            url: "http://ymap1.waze.co.il"
         }
     }
 
@@ -156,7 +157,7 @@ Rectangle {
                 Text {
                     id: languageName
                     text: name
-                    font.pointSize: 20
+                    font.pointSize: 32
                 }
 
                 onClicked: {
@@ -185,10 +186,11 @@ Rectangle {
                 Text {
                     id: countryName
                     text: name
+                    font.pointSize: 32
                 }
 
                 onClicked: {
-                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, isSphericalMercator: isSphericalMercator};
+                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, url: url};
                     qwazerSettings.state = "Loaded";
                 }
             }

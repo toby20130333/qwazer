@@ -46,8 +46,7 @@ Rectangle {
             savedMapData.location_lat = settings.lastKnownPosition.lat;
         }
         savedMapData.locale = settings.country.locale;
-
-        console.log("after init : " + savedMapData.location_lon + ", " +savedMapData.location_lat);
+        savedMapData.url = settings.country.url;
 
         mapView.state = "BrowseState";
         web_view1.url = 'html/waze.html';
@@ -106,6 +105,8 @@ Rectangle {
                 property string location_lat
 
                 property string locale
+
+                property string url
 
                 property int zoom: 8
             }
