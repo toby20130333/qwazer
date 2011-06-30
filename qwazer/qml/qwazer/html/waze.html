@@ -20,9 +20,25 @@
                     return location;
                 }
 
+                function getUnNormalizedLonLat(lon, lat)
+                {
+                    var map = g_waze_map.map;
+                    var location =new OpenLayers.LonLat(lon=lon,lat=lat);
+                    if(map.getProjection()=="EPSG:900913")
+                    {
+                        location = location.transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:4326"));
+                    }
+                    return location;
+                }
+
                 function mapInit()
                 {
                    var map = g_waze_map.map;
+                   map.events.register("moveend", null, function() {
+                                       var location = getUnNormalizedLonLat(map.center.lon, map.center.lat);
+                                       window.savedMapData.location_lon = location.lon;
+                                       window.savedMapData.location_lat = location.lat;
+                                   });
                    map.setCenter(getNormalizedLonLat(window.savedMapData.location_lon, window.savedMapData.location_lat));
                    var nav_layer=new OpenLayers.Layer.Vector("routes");
                    map.addLayer(nav_layer);
@@ -38,7 +54,7 @@
                     zoom:window.savedMapData.zoom,
                     token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
-                    alt_map_servers:window.savedMapData.url + "/wms-c/",
+                    alt_map_servers:window.savedMapData.map_url,
                     callback: mapInit
                 };
 
@@ -93,11 +109,11 @@
                     alert("done");
 
                     alert("adding icons");
-                    var from_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/from.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var from_icon=new OpenLayers.Icon(url=window.savedMapData.ws_url+"/images/from.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
                     var from_lon_lat=getNormalizedLonLat(lon=route.components[0].x,lat=route.components[0].y);
                     var from_marker=new OpenLayers.Marker(from_lon_lat,from_icon);
                     map.markersLayer.addMarker(from_marker);
-                    var to_icon=new OpenLayers.Icon(url="http://www.waze.co.il/images/to.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var to_icon=new OpenLayers.Icon(url=window.savedMapData.ws_url+"/images/to.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
                     var to_lon_lat=getNormalizedLonLat(lon=route.components[route.components.length-1].x,lat=route.components[route.components.length-1].y);
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);

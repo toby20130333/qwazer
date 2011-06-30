@@ -5,6 +5,8 @@ Rectangle {
     width: 780
     height: 400
 
+    property alias ws_url : searchControl.ws_url
+
     signal backButtonPressed
     signal addressSelected(variant address)
 

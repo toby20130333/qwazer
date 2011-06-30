@@ -5,6 +5,8 @@ Rectangle {
     width: 300
     height: 300
 
+    property alias ws_url : resultsModel.ws_url
+
     signal selected(variant selection)
 
     Button {

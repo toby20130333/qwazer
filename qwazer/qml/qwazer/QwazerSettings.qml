@@ -44,11 +44,14 @@ Rectangle {
     // {name:..., langId:..., rtl:...}
     property variant language : languagesModel.get(0)
 
-    // {name:..., locale:..., lon: ... , lat:..., url: url}
+    // {name:..., locale:..., lon: ... , lat:..., map_url:..., ws_url:...}
     property variant country : countriesModel.get(0)
 
     // bool
     property bool nightMode : false
+
+    // int
+    property int zoom : 8
 
     property variant favoriteLocations
 
@@ -60,14 +63,16 @@ Rectangle {
             locale: ""
             lon: -73.96731
             lat: 40.78196
-            url: "http://www.waze.com"
+            map_url: "http://www.waze.com/wms-c"
+            ws_url: "http://www.waze.com"
         }
         ListElement {
             name: "ישראל"
             locale: "israel"
             lon: 34.78975
             lat: 32.08662
-            url: "http://ymap1.waze.co.il"
+            map_url: "http://ymap1.waze.co.il/wms-c"
+            ws_url: "http://www.waze.co.il"
         }
     }
 
@@ -190,7 +195,7 @@ Rectangle {
                 }
 
                 onClicked: {
-                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, url: url};
+                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
                     qwazerSettings.state = "Loaded";
                 }
             }
@@ -227,6 +232,9 @@ Rectangle {
 
                 lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : lastKnownPosition
                 onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
+
+                zoom: isValidValue(Storage.getSetting("Zoom"))? Storage.getObjectSetting("Zoom") : zoom
+                onZoomChanged : Storage.setObjectSetting("Zoom", zoom)
 
                 nightMode: isValidValue(Storage.getSetting("NightMode"))? Storage.getSetting("NightMode") : nightMode
                 onNightModeChanged : isValidValue(Storage.getSetting("NightMode"))? Storage.setSetting("NightMode", nightMode) : nightMode

@@ -8,6 +8,7 @@ Rectangle {
     signal backButtonPressed
     signal pathSelected(variant route)
 
+    property string ws_url
     property variant fromToPoints
 
     onFromToPointsChanged: {
@@ -15,7 +16,7 @@ Rectangle {
         pathListModel.clear();
 
         var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnInstructions:true,returnGeometries:true,timeout:60000,nPaths:2};
-        var url = "http://www.waze.co.il/RoutingManager/routingRequest?" + serialize(data);
+        var url = ws_url + "/RoutingManager/routingRequest?" + serialize(data);
         console.log("requesting: " + url);
         var http_request = new XMLHttpRequest();
         http_request.open("GET", url, true);

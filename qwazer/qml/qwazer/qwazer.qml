@@ -19,10 +19,26 @@ Rectangle {
         }
 
         onOkClicked: {
-            console.log("ok clicked");
+            if (isFirstRun)
+            {
+                isFirstRun = false;
+                mainView.state = 'MapState';
+                map1.state = "BrowseState";
+                map1.initialize();
+            }
+
             mainView.state = 'MapState';
-            map1.state = "BrowseState";
-            map1.initialize();
+
+            if (map1.state == "")
+            {
+                map1.state = "BrowseState";
+                map1.initialize();
+            }
+            else
+            {
+                settings.visible = false;
+                map1.visible = true;
+            }
         }
     }
 
@@ -76,8 +92,6 @@ Rectangle {
 
         visible: false
 
-        settings: settings
-
         gpsData: positionSource
 
         onMapLoaded: {
@@ -90,6 +104,11 @@ Rectangle {
 
         onNavigateButtonClicked: {
             mainView.state = 'NavigateState';
+        }
+
+        onSettingsButtonClicked: {
+            settings.visible = true;
+            map1.visible = false;
         }
     }
 
@@ -105,8 +124,8 @@ Rectangle {
         }
 
         onAddressSelected: {
-            map1.showLocation(address.lon, address.lat);
             mainView.state = 'MapState';
+            map1.showLocation(address.lon, address.lat);
         }
     }
 
@@ -150,6 +169,7 @@ Rectangle {
             PropertyChanges {
                 target: map1
                 visible: true
+                settings: settings
             }
             PropertyChanges {
                  target: search1
@@ -174,6 +194,7 @@ Rectangle {
             PropertyChanges {
                 target: search1
                 visible: true
+                ws_url: settings.country.ws_url
             }
             PropertyChanges {
                 target: navigate1
@@ -198,6 +219,7 @@ Rectangle {
             PropertyChanges {
                 target: navigate1
                 visible: true
+                ws_url: settings.country.ws_url
             }
             PropertyChanges {
                 target: pathSelection1
@@ -222,6 +244,7 @@ Rectangle {
             PropertyChanges {
                 target: pathSelection1
                 visible: true
+                ws_url: settings.country.ws_url
             }
         }
     ]

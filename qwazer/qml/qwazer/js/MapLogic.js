@@ -3,14 +3,18 @@ var ERROR_MARGIN = 0.0005;
 
 function zoomIn() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomIn();");
+    settings.zoom = settings.zoom + 1;
 }
 
 function zoomInToMax() {
-    web_view1.evaluateJavaScript("g_waze_map.map.zoomTo(g_waze_map.map.getNumZoomLevels());");
+    var maxZoom = g_waze_map.map.getNumZoomLevels();
+    web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+maxZoom+");");
+    settings.zoom = maxZoom;
 }
 
 function zoomOut() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomOut();");
+    settings.zoom = settings.zoom - 1;
 }
 
 function getCurrentExtent() {
@@ -25,6 +29,7 @@ function setCenter(lon, lat)
 function setZoom(zoom)
 {
     web_view1.evaluateJavaScript("g_waze_map.map.setZoom('" + zoom + "'));");
+    settings.zoom = zoom;
 }
 
 function markDestination(lon, lat)
@@ -39,11 +44,16 @@ function markOrigin(lon, lat)
     console.log("TODO");
 }
 
+function setLastKnownPosition(lon, lat)
+{
+    settings.lastKnownPosition = {lon:lon, lat:lat};
+}
+
 function showLocation(lon, lat)
 {
     console.log("show location was requested for " + lon + ":" + lat);
     setCenter(lon, lat);
-    settings.lastKnownPosition = {lon:lon, lat:lat};
+    setLastKnownPosition(lon,lat);
     console.log("TODO - add landmark");
 }
 

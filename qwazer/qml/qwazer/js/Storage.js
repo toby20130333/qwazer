@@ -11,9 +11,9 @@ function initialize() {
     var db = getDatabase();
     db.transaction(
         function(tx) {
+            //tx.executeSql('DROP TABLE IF EXISTS settings');
             // Create the settings table if it doesn't already exist
             // If the table exists, this is skipped
-            tx.executeSql('DROP TABLE IF EXISTS settings');
             tx.executeSql('CREATE TABLE IF NOT EXISTS settings(setting TEXT UNIQUE, value TEXT)');
           });
 }

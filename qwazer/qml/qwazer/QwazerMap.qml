@@ -10,6 +10,7 @@ Rectangle {
 
     signal mapLoaded
     signal searchButtonClicked
+    signal settingsButtonClicked
     signal navigateButtonClicked
 
     property QwazerSettings settings
@@ -37,7 +38,6 @@ Rectangle {
     }
 
     function initialize() {
-
         savedMapData.location_lon = settings.country.lon;
         savedMapData.location_lat = settings.country.lat;
         if (typeof(settings.lastKnownPosition) != "undefined")
@@ -46,7 +46,9 @@ Rectangle {
             savedMapData.location_lat = settings.lastKnownPosition.lat;
         }
         savedMapData.locale = settings.country.locale;
-        savedMapData.url = settings.country.url;
+        savedMapData.map_url = settings.country.map_url;
+        savedMapData.ws_url = settings.country.ws_url;
+        savedMapData.zoom = settings.zoom;
 
         mapView.state = "BrowseState";
         web_view1.url = 'html/waze.html';
@@ -101,14 +103,31 @@ Rectangle {
                 id: savedMapData
                 WebView.windowObjectName: "savedMapData"
 
+                property bool lon_lat_changed:  false
+
                 property string location_lon
+                onLocation_lonChanged: {
+                    if (lon_lat_changed)
+                    {
+                        Logic.setLastKnownPosition(location_lon, location_lat);
+                    }
+                    lon_lat_changed = !lon_lat_changed;
+                }
                 property string location_lat
+                onLocation_latChanged: {
+                    if (lon_lat_changed)
+                    {
+                        Logic.setLastKnownPosition(location_lon, location_lat);
+                    }
+                    lon_lat_changed = !lon_lat_changed;
+                }
 
                 property string locale
 
-                property string url
+                property string map_url
+                property string ws_url
 
-                property int zoom: 8
+                property int zoom
             }
         ]
 
@@ -243,6 +262,17 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.left: parent.left
         }
+    }
+
+    Button {
+        id: settingsButton
+        anchors.top: parent.top
+        anchors.topMargin: 7
+        anchors.right: parent.right
+        anchors.rightMargin: 7
+
+        text: "הגדרות"
+        onClicked: settingsButtonClicked()
     }
 
     states: [
