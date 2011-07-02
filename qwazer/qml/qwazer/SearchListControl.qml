@@ -13,7 +13,7 @@ Rectangle {
         id: searchButton
         width: 89
         height: 50
-        text: "חפש"
+        text: translator.translate("Search") + mainView.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 0
         onClicked: {
@@ -67,7 +67,7 @@ Rectangle {
                     spacing: 10
                     Button {
                         id: selectButton
-                        text: "בחר"
+                        text: translator.translate("Choose") + mainView.forceTranslate
                         onClicked: selected({"name": name, "lon": lon, "lat": lat});
                     }
                     Text {

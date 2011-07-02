@@ -6,6 +6,18 @@ Rectangle {
     width: 800
     height: 400
 
+    property string forceTranslate
+    onForceTranslateChanged: console.log("retranslation requested")
+
+    Connections {
+        target: translator
+        onRetranslateRequired: forceTranslateChanged()
+    }
+
+    Translator {
+        id: translator
+    }
+
     QwazerSettings {
         id: settings
         visible: false

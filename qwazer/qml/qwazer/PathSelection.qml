@@ -58,7 +58,7 @@ Rectangle {
 
     Text {
         id: pathSelectionLabel
-        text: "בחר מסלול"
+        text: translator.translate("Choose course") + mainView.forceTranslate
         font.pointSize: 24
         horizontalAlignment: Text.AlignHCenter
         anchors.top: parent.top
@@ -68,7 +68,7 @@ Rectangle {
 
     Button {
         id: backButton
-        text: "חזרה"
+        text: translator.translate("Back") + mainView.forceTranslate
         anchors.right: rectangle2.right
         anchors.left: rectangle2.left
         anchors.bottom: parent.bottom
@@ -103,26 +103,26 @@ Rectangle {
                     spacing: 10
                     Button {
                         id: selectButton
-                        text: "בחר"
+                        text: translator.translate("Choose") + mainView.forceTranslate
                         onClicked:pathSelected(response)
 
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Column {
                         Text {
-                            text: "דרך " + response.routeName
+                            text: translator.translate("Through %1", response.routeName) + mainView.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: "מרחק " + response.totalDistance/1000 + ' ק"מ'
+                            text: translator.translate("Distance is %1km", response.totalDistance/1000) + mainView.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: "זמן משוער " + Math.floor(response.totalTime/60) + ":" + ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60) + " דקות"
+                            text: translator.translate("Estimated time is %1:%2 minutes", Math.floor(response.totalTime/60), ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60)) + mainView.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20

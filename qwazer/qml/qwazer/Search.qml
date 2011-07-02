@@ -26,7 +26,7 @@ Rectangle {
     Button {
         id: backButton
         height: 50
-        text: "חזרה"
+        text: translator.translate("Back") + mainView.forceTranslate
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
         anchors.rightMargin: 0

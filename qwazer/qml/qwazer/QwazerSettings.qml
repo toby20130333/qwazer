@@ -12,6 +12,7 @@ Rectangle {
     signal settingsLoaded
 
     function initialize() {
+        translator.initializeTranslation();
         Storage.initialize();
         qwazerSettings.state = "Loaded";
         settingsLoaded();
@@ -67,7 +68,7 @@ Rectangle {
             ws_url: "http://www.waze.com"
         }
         ListElement {
-            name: "ישראל"
+            name: "Israel"
             locale: "israel"
             lon: 34.78975
             lat: 32.08662
@@ -107,7 +108,7 @@ Rectangle {
 
         Text {
             id: languageLabel
-            text: "שפה:"
+            text: translator.translate("Language%1", ":") + mainView.forceTranslate
             font.pointSize: 20
         }
 
@@ -120,7 +121,7 @@ Rectangle {
 
         Text {
             id: countryLabel
-            text: "מדינת ברירת מחדל:"
+            text: translator.translate("Default Country%1", ":") + mainView.forceTranslate
             font.pointSize: 20
         }
 
@@ -133,7 +134,7 @@ Rectangle {
 
         Text {
             id: nightModeLabel
-            text: "מצב לילה:"
+            text: translator.translate("Night Mode (TODO)%1", ":") + mainView.forceTranslate
             font.pointSize: 20
         }
 
@@ -225,7 +226,11 @@ Rectangle {
                 onIsFirstRunChanged : Storage.setSetting("IsFirstRun", isFirstRun)
 
                 language: isValidValue(Storage.getSetting("Language"))? Storage.getObjectSetting("Language") : language
-                onLanguageChanged : Storage.setObjectSetting("Language", language)
+                onLanguageChanged : {
+                    Storage.setObjectSetting("Language", language);
+                    translator.setLanguage(language.langId);
+                    retranslateRequired(language.langId);
+                }
 
                 country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
                 onCountryChanged : Storage.setObjectSetting("Country", country)

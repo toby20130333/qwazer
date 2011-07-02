@@ -11,11 +11,11 @@ Rectangle {
         console.log("updating segment: " + JSON.stringify(sectionData));
         if (sectionData.length < 1000)
         {
-            sectionLengthText.text = "בעוד " + sectionData.length + " מטרים";
+            sectionLengthText.text = translator.translate("In %1m", sectionData.length);
         }
         else
         {
-            sectionLengthText.text = "בעוד " + sectionData.length + ' ק"מ';
+            sectionLengthText.text = translator.translate("In %1km", sectionData.length);
         }
         instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
         instructionsControl.state = sectionData.instruction.opcode;
@@ -113,7 +113,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בצומת פנה שמאלה"
+                text: translator.translate("Turn Left") + mainView.forceTranslate
             }
         },
         State {
@@ -131,7 +131,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בצומת פנה ימינה"
+                text: translator.translate("Turn Right") + mainView.forceTranslate
             }
         },
         State {
@@ -149,7 +149,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "המשך ישר"
+                text: translator.translate("Continue") + mainView.forceTranslate
             }
         },
         State {
@@ -167,7 +167,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "הצמד למסלול הימני"
+                text: translator.translate("Keep To The Right") + mainView.forceTranslate
             }
         },
         State {
@@ -185,7 +185,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "הצמד למסלול השמאלי"
+                text: translator.translate("Keep To The Left") + mainView.forceTranslate
             }
         },
         State {
@@ -198,7 +198,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר צא ביציאה ה-" + instructionArg.text
+                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + mainView.forceTranslate
             }
         },
         State {
@@ -211,7 +211,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר צא ביציאה ה-" + instructionArg.text
+                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + mainView.forceTranslate
             }
         },
         State {
@@ -224,7 +224,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר פנה ימינה"
+                text: translator.translate("Right At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -237,7 +237,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר פנה ימינה"
+                text: translator.translate("Right At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -250,7 +250,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר פנה שמאלה"
+                text: translator.translate("Left At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -263,7 +263,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר פנה שמאלה"
+                text: translator.translate("Left At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -275,7 +275,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר המשך ישר"
+                text: translator.translate("Stright At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -287,7 +287,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "בכיכר המשך ישר"
+                text: translator.translate("Stright At Roundabout") + mainView.forceTranslate
             }
         },
         State {
@@ -299,7 +299,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: "הגעת ליעד"
+                text: translator.translate("Approaching Destination") + mainView.forceTranslate
             }
         }
     ]

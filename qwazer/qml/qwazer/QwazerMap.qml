@@ -164,7 +164,7 @@ Rectangle {
         id: showMeButton
         width: 156
         height: 52
-        text: "הצג אותי"
+        text: translator.translate("Show Me") + mainView.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 7
         anchors.bottom: searchButton.top
@@ -175,7 +175,7 @@ Rectangle {
 
     Button {
         id: navigateButton
-        text: "נווט"
+        text: translator.translate("Navigate") + mainView.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 7
         anchors.bottom: parent.bottom
@@ -197,7 +197,7 @@ Rectangle {
         id : searchButton
         width: 156
         height: 53
-        text: "חפש"
+        text: translator.translate("Search") + mainView.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 7
         anchors.bottom: navigateButton.top
@@ -208,7 +208,7 @@ Rectangle {
 
     Button {
         id: stopNavigation
-        text: "הפסק ניווט"
+        text: translator.translate("Stop Nav") + mainView.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 7
         anchors.bottom: parent.bottom
@@ -228,7 +228,7 @@ Rectangle {
 
     ToggleButton {
         id: followMe
-        text: "עקוב אחרי"
+        text: translator.translate("Follow Me") + mainView.forceTranslate
         anchors.right: gpsState.right
         anchors.bottom: gpsState.top
         anchors.bottomMargin: 7
@@ -252,7 +252,7 @@ Rectangle {
 
         Text {
             id: gpsStateText
-            text: isGPSDataValid? "GPS OK" : "GPS BAD"
+            text: mainView.forceTranslate + isGPSDataValid? translator.translate("GPS OK") : translator.translate("GPS BAD")
             font.bold: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -271,7 +271,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 7
 
-        text: "הגדרות"
+        text: translator.translate("Settings") + mainView.forceTranslate
         onClicked: settingsButtonClicked()
     }
 
