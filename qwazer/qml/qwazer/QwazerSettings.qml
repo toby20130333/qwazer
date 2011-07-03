@@ -10,6 +10,7 @@ Rectangle {
 
     signal okClicked
     signal settingsLoaded
+    signal retranslateRequired(string langId)
 
     function initialize() {
         translator.initializeTranslation();

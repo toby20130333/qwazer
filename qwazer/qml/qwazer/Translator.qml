@@ -29,7 +29,17 @@ QtObject {
     }
 
     function translate(key, args) {
-        return Translator.translate(key, args);
+        console.log("translating " + key);
+        var value = Translator.translate(key);
+
+        if (arguments.length > 1)
+        {
+            for(var index=1; index<arguments.length; index++)
+            {
+                value = value.replace(eval("/%"+index+"/"), arguments[index]);
+            }
+        }
+        return value;
     }
 
 }

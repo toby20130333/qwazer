@@ -13,8 +13,6 @@ Rectangle {
     signal settingsButtonClicked
     signal navigateButtonClicked
 
-    property QwazerSettings settings
-
     property variant gpsData
     property variant navigationInfo
 
@@ -105,22 +103,20 @@ Rectangle {
 
                 property bool lon_lat_changed:  false
 
+                function setLastKnownLocation(lon, lat) {
+                    if (lon_lat_changed)
+                    {
+                        Logic.setLastKnownPosition(location_lon, location_lat);
+                    }
+                    lon_lat_changed = !lon_lat_changed;
+                }
+
+
                 property string location_lon
-                onLocation_lonChanged: {
-                    if (lon_lat_changed)
-                    {
-                        Logic.setLastKnownPosition(location_lon, location_lat);
-                    }
-                    lon_lat_changed = !lon_lat_changed;
-                }
+                onLocation_lonChanged: setLastKnownLocation(location_lon, location_lat)
+
                 property string location_lat
-                onLocation_latChanged: {
-                    if (lon_lat_changed)
-                    {
-                        Logic.setLastKnownPosition(location_lon, location_lat);
-                    }
-                    lon_lat_changed = !lon_lat_changed;
-                }
+                onLocation_latChanged: setLastKnownLocation(location_lon, location_lat)
 
                 property string locale
 
