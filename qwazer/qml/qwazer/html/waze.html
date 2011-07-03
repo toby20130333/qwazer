@@ -92,6 +92,7 @@
 
                 function plotCourse(coords)
                 {
+                    alert("plotting course");
                     var map = g_waze_map.map;
                     var nav_layer=null;
                     var list = map.getLayersByName("routes");
@@ -100,7 +101,8 @@
                     vec=[];
                     $.each(coords, function(index, value)
                     {
-                        vec.push(new OpenLayers.Geometry.Point(value.x, value.y));
+                        var lonLat = getNormalizedLonLat(value.x, value.y);
+                        vec.push(new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat));
                     });
                     var route = new OpenLayers.Geometry.LineString(vec);
                     var route_feature = new OpenLayers.Feature.Vector(route);

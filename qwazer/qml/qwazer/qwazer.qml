@@ -81,7 +81,7 @@ Rectangle {
 
 //        function next()
 //        {
-//            if (index < model.count())
+//            if (index < model.count - 1)
 //            {
 //                index++;
 //            }
