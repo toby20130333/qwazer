@@ -7,7 +7,7 @@ function zoomIn() {
 }
 
 function zoomInToMax() {
-    var maxZoom = g_waze_map.map.getNumZoomLevels();
+    var maxZoom = web_view1.evaluateJavaScript("g_waze_map.map.getNumZoomLevels();");
     web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+maxZoom+");");
     settings.zoom = maxZoom;
 }
@@ -119,6 +119,8 @@ function syncLocation()
     var coords = mapView.navigationInfo.coords;
     var segmentsInfo = mapView.navigationInfo.results;
 
+//    gpsData.next(); //TODO - comment - for testing with mock GPS
+
     showMe();
     if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
     {
@@ -170,8 +172,6 @@ function syncLocation()
             //stopNavigation();
         }
     }
-
-//    gpsData.next(); //TODO - comment - for testing with mock GPS
 }
 
 function clearMarkersAndRoute()

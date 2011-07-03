@@ -33,19 +33,12 @@ function setLanguage(languageId) {
     console.log("language was set");
 }
 
-function translate(key, args) {
 
-    console.log("translating " + key);
+function translate(key) {
     var value = key;
     if (typeof(_currentTranslation) != "undefined" && typeof(_currentTranslation[key]) != "undefined")
     {
         value = _currentTranslation[key];
-    }
-
-    if (typeof(args) != "undefined")
-    {
-        for(var i=0; i<args.length; i++)
-            value = value.replace(eval("/%"+(i+1)+"/"), args[i]);
     }
 
     return value;

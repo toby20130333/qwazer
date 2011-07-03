@@ -81,7 +81,10 @@ Rectangle {
 
 //        function next()
 //        {
-//            index++;
+//            if (index < model.count())
+//            {
+//                index++;
+//            }
 //            position.coordinate.longitude = model.get(index).longitude;
 //            position.coordinate.latitude = model.get(index).latitude;
 //        }
@@ -181,7 +184,6 @@ Rectangle {
             PropertyChanges {
                 target: map1
                 visible: true
-                settings: settings
             }
             PropertyChanges {
                  target: search1
