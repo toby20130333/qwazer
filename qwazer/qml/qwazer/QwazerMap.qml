@@ -36,13 +36,17 @@ Rectangle {
     }
 
     function initialize() {
-        savedMapData.location_lon = settings.country.lon;
-        savedMapData.location_lat = settings.country.lat;
         if (typeof(settings.lastKnownPosition) != "undefined")
         {
             savedMapData.location_lon = settings.lastKnownPosition.lon;
             savedMapData.location_lat = settings.lastKnownPosition.lat;
         }
+        else
+        {
+            savedMapData.location_lon = settings.country.lon;
+            savedMapData.location_lat = settings.country.lat;
+        }
+
         savedMapData.locale = settings.country.locale;
         savedMapData.map_url = settings.country.map_url;
         savedMapData.ws_url = settings.country.ws_url;
@@ -50,6 +54,12 @@ Rectangle {
 
         mapView.state = "BrowseState";
         web_view1.url = 'html/waze.html';
+    }
+
+    function reload() {
+        console.log("reload requested");
+        initialize();
+        web_view1.reload.trigger();
     }
 
     function setCenter(lon, lat) {

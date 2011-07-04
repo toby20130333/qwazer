@@ -11,10 +11,12 @@ Rectangle {
     signal okClicked
     signal settingsLoaded
     signal retranslateRequired(string langId)
+    signal mapRefreshRequested
 
     function initialize() {
-        translator.initializeTranslation();
         Storage.initialize();
+        translator.initializeTranslation();
+        qwazerSettings.state = "Loading";
         qwazerSettings.state = "Loaded";
         settingsLoaded();
     }
@@ -44,10 +46,10 @@ Rectangle {
     property variant lastKnownPosition
 
     // {name:..., langId:..., rtl:...}
-    property variant language : languagesModel.get(0)
+    property variant language
 
     // {name:..., locale:..., lon: ... , lat:..., map_url:..., ws_url:...}
-    property variant country : countriesModel.get(0)
+    property variant country
 
     // bool
     property bool nightMode : false
@@ -220,11 +222,9 @@ Rectangle {
 
     states: [
         State {
-            name: "Loaded"
+            name: "Loading"
             PropertyChanges {
                 target: qwazerSettings
-                isFirstRun: isValidValue(Storage.getSetting("IsFirstRun"))? Storage.getSetting("IsFirstRun") : isFirstRun
-                onIsFirstRunChanged : Storage.setSetting("IsFirstRun", isFirstRun)
 
                 language: isValidValue(Storage.getSetting("Language"))? Storage.getObjectSetting("Language") : language
                 onLanguageChanged : {
@@ -233,20 +233,12 @@ Rectangle {
                     retranslateRequired(language.langId);
                 }
 
-                country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
-                onCountryChanged : Storage.setObjectSetting("Country", country)
-
+                isFirstRun: isValidValue(Storage.getSetting("IsFirstRun"))? Storage.getSetting("IsFirstRun") : isFirstRun
                 lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : lastKnownPosition
-                onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
-
+                country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
                 zoom: isValidValue(Storage.getSetting("Zoom"))? Storage.getObjectSetting("Zoom") : zoom
-                onZoomChanged : Storage.setObjectSetting("Zoom", zoom)
-
                 nightMode: isValidValue(Storage.getSetting("NightMode"))? Storage.getSetting("NightMode") : nightMode
-                onNightModeChanged : isValidValue(Storage.getSetting("NightMode"))? Storage.setSetting("NightMode", nightMode) : nightMode
-
                 favoriteLocations: isValidValue(Storage.getSetting("FavoriteLocations"))? Storage.getObjectSetting("FavoriteLocations") : favoriteLocations
-                onFavoriteLocationsChanged : Storage.setObjectSetting("FavoriteLocations", favoriteLocations)
             }
 
             PropertyChanges {
@@ -262,6 +254,31 @@ Rectangle {
             PropertyChanges {
                 target: nightModeSelector
                 isSelected: nightMode
+            }
+        },
+        State {
+            name: "Loaded"
+            extend: "Loading"
+
+            PropertyChanges {
+                target: qwazerSettings
+
+                onIsFirstRunChanged : Storage.setSetting("IsFirstRun", isFirstRun)
+
+                onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
+
+                onCountryChanged : {
+                    var previousCountry = Storage.getSetting("Country");
+                    Storage.setObjectSetting("Country", country);
+                    lastKnownPosition = {lon: country.lon, lat: country.lat};
+                    mapRefreshRequested();
+                }
+
+                onZoomChanged : Storage.setObjectSetting("Zoom", zoom)
+
+                onNightModeChanged : isValidValue(Storage.getSetting("NightMode"))? Storage.setSetting("NightMode", nightMode) : nightMode
+
+                onFavoriteLocationsChanged : Storage.setObjectSetting("FavoriteLocations", favoriteLocations)
             }
         },
         State {

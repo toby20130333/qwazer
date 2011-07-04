@@ -29,7 +29,6 @@ QtObject {
     }
 
     function translate(key, args) {
-        console.log("translating " + key);
         var value = Translator.translate(key);
 
         if (arguments.length > 1)
