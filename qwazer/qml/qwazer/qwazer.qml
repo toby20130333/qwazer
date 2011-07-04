@@ -52,6 +52,8 @@ Rectangle {
                 map1.visible = true;
             }
         }
+
+        onMapRefreshRequested: map1.reload()
     }
 
     Component.onCompleted: settings.initialize()
