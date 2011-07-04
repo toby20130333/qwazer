@@ -40,7 +40,7 @@
                                        window.savedMapData.location_lat = location.lat;
                                    });
                    map.setCenter(getNormalizedLonLat(window.savedMapData.location_lon, window.savedMapData.location_lat));
-                   var nav_layer=new OpenLayers.Layer.Vector("routes");
+                   var nav_layer=new OpenLayers.Layer.Vector("routes", {renderers: ['Canvas']});
                    map.addLayer(nav_layer);
                    map.markersLayer=new OpenLayers.Layer.Markers("Markers");
                    map.addLayer(map.markersLayer);
