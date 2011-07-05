@@ -46,10 +46,10 @@ Rectangle {
     property variant lastKnownPosition
 
     // {name:..., langId:..., rtl:...}
-    property variant language
+    property variant language : languagesModel.get(0)
 
     // {name:..., locale:..., lon: ... , lat:..., map_url:..., ws_url:...}
-    property variant country
+    property variant country : countriesModel.get(0)
 
     // bool
     property bool nightMode : false
