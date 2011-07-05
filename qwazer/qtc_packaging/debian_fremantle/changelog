@@ -1,10 +1,10 @@
-qwazer (0.0.5) unstable; urgency=low
+qwazer (0.0.6) unstable; urgency=low
 
-  * Fixes to track drawing/cleanup
-  * Fixes to navigation + added basic navigation UI
-  * Added car mocker for easier testing
-  * Added GPS status & follow me button
-  * Simplified navigation dialog
-  * Hide irrelevant buttons
+  * English translation
+  * World maps support
+  * Settings dialog
+  * Auto save for previously viewed location (loaded at start)
+  * Map rotates during navigation according to driving direction
+  * Device portrait support
 
- -- Assaf Paz <damagedspline@gmail.com>  Wed, 22 June 2011 22:40:00 +0300
+ -- Assaf Paz <damagedspline@gmail.com>  Tue, 5 July 2011 06:45:00 +0300
