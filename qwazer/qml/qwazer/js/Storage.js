@@ -20,6 +20,7 @@ function initialize() {
 
 // This function is used to write a setting into the database
 function setSetting(setting, value) {
+    console.log("save " + setting + " " + value);
    // setting: string representing the setting name (eg: “username”)
    // value: string representing the value of the setting (eg: “myUsername”)
    var db = getDatabase();
@@ -49,22 +50,34 @@ function getSetting(setting) {
          res = NO_VALUE;
      }
   })
+
+  console.log("load " + setting + " " + res);
+
   // The function returns “Unknown” if the setting was not found in the database
   // For more advanced projects, this should probably be handled through error codes
-  return res
+  return res;
 }
 
 function setObjectSetting(setting, value)
 {
-    console.log("obj save " + setting + " " + JSON.stringify(value));
-    setSetting(setting, value? JSON.stringify(value) : null);
+    setSetting(setting, value? JSON.stringify(value) : NO_VALUE);
 }
 
 function getObjectSetting(setting)
 {
     var value = getSetting(setting);
-    console.log("obj load " + setting + " " + value);
-    return isValidValue(value) && value !== "" ? JSON.parse(value) : null;
+    return isValidValue(value) && value !== "" ? JSON.parse(value) : NO_VALUE;
+}
+
+function setBooleanSetting(setting, value)
+{
+    setSetting(setting, value);
+}
+
+function getBooleanSetting(setting)
+{
+    var value = getSetting(setting);
+    return isValidValue(value) ? value == 'true' : NO_VALUE;
 }
 
 function isValidValue(value)

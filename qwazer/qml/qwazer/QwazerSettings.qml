@@ -11,12 +11,11 @@ Rectangle {
     signal okClicked
     signal settingsLoaded
     signal retranslateRequired(string langId)
-    signal mapRefreshRequested
+    signal mapRefreshRequired
 
     function initialize() {
-        Storage.initialize();
         translator.initializeTranslation();
-        qwazerSettings.state = "Loading";
+        Storage.initialize();
         qwazerSettings.state = "Loaded";
         settingsLoaded();
     }
@@ -222,9 +221,12 @@ Rectangle {
 
     states: [
         State {
-            name: "Loading"
+            name: "Loaded"
             PropertyChanges {
                 target: qwazerSettings
+
+                isFirstRun: isValidValue(Storage.getBooleanSetting("IsFirstRun"))? Storage.getBooleanSetting("IsFirstRun") : isFirstRun
+                onIsFirstRunChanged : Storage.setBooleanSetting("IsFirstRun", isFirstRun)
 
                 language: isValidValue(Storage.getSetting("Language"))? Storage.getObjectSetting("Language") : language
                 onLanguageChanged : {
@@ -233,12 +235,26 @@ Rectangle {
                     retranslateRequired(language.langId);
                 }
 
-                isFirstRun: isValidValue(Storage.getSetting("IsFirstRun"))? Storage.getSetting("IsFirstRun") : isFirstRun
-                lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : lastKnownPosition
                 country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
-                zoom: isValidValue(Storage.getSetting("Zoom"))? Storage.getObjectSetting("Zoom") : zoom
-                nightMode: isValidValue(Storage.getSetting("NightMode"))? Storage.getSetting("NightMode") : nightMode
-                favoriteLocations: isValidValue(Storage.getSetting("FavoriteLocations"))? Storage.getObjectSetting("FavoriteLocations") : favoriteLocations
+                onCountryChanged : {
+                    var previousCountry = Storage.getObjectSetting("Country");
+
+                    if (!isValidValue(previousCountry) ||  previousCountry.name != country.name)
+                    {
+                        Storage.setObjectSetting("Country", country);
+                        lastKnownPosition = {lon: country.lon, lat: country.lat};
+                        mapRefreshRequired();
+                    }
+                }
+
+                lastKnownPosition: isValidValue(Storage.getSetting("LastKnownPosition"))? Storage.getObjectSetting("LastKnownPosition") : lastKnownPosition
+                onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
+
+                zoom: isValidValue(Storage.getSetting("Zoom"))? Storage.getSetting("Zoom") : zoom
+                onZoomChanged : Storage.setSetting("Zoom", zoom)
+
+                nightMode: isValidValue(Storage.getBooleanSetting("NightMode"))? Storage.getBooleanSetting("NightMode") : nightMode
+                onNightModeChanged : Storage.setBooleanSetting("NightMode", nightMode)
             }
 
             PropertyChanges {
@@ -254,31 +270,6 @@ Rectangle {
             PropertyChanges {
                 target: nightModeSelector
                 isSelected: nightMode
-            }
-        },
-        State {
-            name: "Loaded"
-            extend: "Loading"
-
-            PropertyChanges {
-                target: qwazerSettings
-
-                onIsFirstRunChanged : Storage.setSetting("IsFirstRun", isFirstRun)
-
-                onLastKnownPositionChanged : Storage.setObjectSetting("LastKnownPosition", lastKnownPosition)
-
-                onCountryChanged : {
-                    var previousCountry = Storage.getSetting("Country");
-                    Storage.setObjectSetting("Country", country);
-                    lastKnownPosition = {lon: country.lon, lat: country.lat};
-                    mapRefreshRequested();
-                }
-
-                onZoomChanged : Storage.setObjectSetting("Zoom", zoom)
-
-                onNightModeChanged : isValidValue(Storage.getSetting("NightMode"))? Storage.setSetting("NightMode", nightMode) : nightMode
-
-                onFavoriteLocationsChanged : Storage.setObjectSetting("FavoriteLocations", favoriteLocations)
             }
         },
         State {
