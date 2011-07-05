@@ -22,6 +22,7 @@ Rectangle {
         id: settings
         visible: false
         onSettingsLoaded: {
+            console.log("is first run " + isFirstRun);
             settings.visible = isFirstRun;
             if (!isFirstRun)
             {
@@ -53,7 +54,7 @@ Rectangle {
             }
         }
 
-        onMapRefreshRequested: map1.reload()
+        onMapRefreshRequired: map1.reload()
     }
 
     Component.onCompleted: settings.initialize()
