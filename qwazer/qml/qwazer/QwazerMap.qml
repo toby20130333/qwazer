@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import QtWebKit 1.0
 import "js/MapLogic.js" as Logic
+import "common_qml"
 
 Rectangle {
     id: mapView
