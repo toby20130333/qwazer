@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "common_qml"
 
 Rectangle {
     id: rectangle1

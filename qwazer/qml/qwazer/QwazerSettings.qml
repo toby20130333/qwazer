@@ -1,12 +1,34 @@
 import QtQuick 1.0
 import "js/Storage.js" as Storage
+import "common_qml"
+import "settings_qml"
 
-Rectangle {
+PageStack {
     id: qwazerSettings
-    anchors.fill: parent
 
-    width: 700
-    height: 400
+    pages: VisualItemModel {
+        MainSettingsPage {
+            id: mainSettingsPage
+            width: qwazerSettings.width
+            height: qwazerSettings.height
+            title: translator.translate("Settings") + mainView.forceTranslate
+
+            languageName: language.name
+            countryName: country.name
+            nightModeSelected: nightMode
+
+            onMoveToPrevPage: okClicked()
+            onMoveToNextPage: qwazerSettings.moveToNextPage(nextState)
+        }
+
+        ListsPage {
+            id: listsPage
+            title: "list"
+            width: qwazerSettings.width
+            height: qwazerSettings.height
+            onMoveToPrevPage: qwazerSettings.moveToPrevPage("")
+        }
+    }
 
     signal okClicked
     signal settingsLoaded
@@ -94,131 +116,6 @@ Rectangle {
         }
     }
 
-    Grid {
-        id: grid1
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
-        anchors.topMargin: 10
-        anchors.bottom: okButton.top
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottomMargin: 10
-
-        columns: 2
-        spacing: 10
-
-        Text {
-            id: languageLabel
-            text: translator.translate("Language%1", ":") + mainView.forceTranslate
-            font.pointSize: 20
-        }
-
-        Button {
-            id: selectedLanguage
-            text: ""
-
-            onClicked: qwazerSettings.state = "SelectLanguageState"
-        }
-
-        Text {
-            id: countryLabel
-            text: translator.translate("Default Country%1", ":") + mainView.forceTranslate
-            font.pointSize: 20
-        }
-
-        Button {
-            id: selectedCountry
-            text: ""
-
-            onClicked: qwazerSettings.state = "SelectCountryState"
-        }
-
-        Text {
-            id: nightModeLabel
-            text: translator.translate("Night Mode (TODO)%1", ":") + mainView.forceTranslate
-            font.pointSize: 20
-        }
-
-        ToggleButton {
-            id: nightModeSelector
-            text: isSelected? "+" : "-"
-            isSelected: false
-        }
-    }
-
-    ListView {
-        id: languagesList
-        anchors.fill: parent
-        visible: false
-        model: languagesModel
-
-        currentIndex: findItem(languagesModel, language, "name")
-        highlightFollowsCurrentItem: true
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-        focus: true
-
-        delegate: Component {
-            MouseArea {
-                height: languageName.height
-                width: languagesList.width
-                Text {
-                    id: languageName
-                    text: name
-                    font.pointSize: 32
-                }
-
-                onClicked: {
-                    settings.language = {name: name, langId: langId, rtl: rtl};
-                    qwazerSettings.state = "Loaded";
-                }
-            }
-        }
-    }
-
-    ListView {
-        id: countryList
-        anchors.fill: parent
-        visible: false
-        model: countriesModel
-
-        currentIndex: findItem(countriesModel, country, "name")
-        highlightFollowsCurrentItem: true
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-        focus: true
-
-        delegate: Component {
-            MouseArea {
-                height: countryName.height
-                width: countryList.width
-                Text {
-                    id: countryName
-                    text: name
-                    font.pointSize: 32
-                }
-
-                onClicked: {
-                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
-                    qwazerSettings.state = "Loaded";
-                }
-            }
-        }
-    }
-
-    Button {
-        id: okButton
-        text: "OK"
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-
-        onClicked: qwazerSettings.okClicked()
-    }
-
-
     states: [
         State {
             name: "Loaded"
@@ -255,59 +152,6 @@ Rectangle {
 
                 nightMode: isValidValue(Storage.getBooleanSetting("NightMode"))? Storage.getBooleanSetting("NightMode") : nightMode
                 onNightModeChanged : Storage.setBooleanSetting("NightMode", nightMode)
-            }
-
-            PropertyChanges {
-                target: selectedCountry
-                text: country.name
-            }
-
-            PropertyChanges {
-                target: selectedLanguage
-                text: language.name
-            }
-
-            PropertyChanges {
-                target: nightModeSelector
-                isSelected: nightMode
-            }
-        },
-        State {
-            name: "SelectLanguageState"
-            extend: "Loaded"
-
-            PropertyChanges {
-                target: languagesList
-                visible: true
-            }
-
-            PropertyChanges {
-                target: grid1
-                visible: false
-            }
-
-            PropertyChanges {
-                target: okButton
-                visible: false
-            }
-        },
-        State {
-            name: "SelectCountryState"
-            extend: "Loaded"
-
-            PropertyChanges {
-                target: countryList
-                visible: true
-            }
-
-            PropertyChanges {
-                target: grid1
-                visible: false
-            }
-
-            PropertyChanges {
-                target: okButton
-                visible: false
             }
         }
     ]
