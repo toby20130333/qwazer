@@ -14,7 +14,7 @@ Rectangle {
     signal moveToNextPage(string nextState)
     signal moveToPrevPage(string prevState)
 
-    Title {
+    TitleBar {
         id: titlePriv
         anchors.top: page.top
         anchors.right: page.right
