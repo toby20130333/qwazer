@@ -4,6 +4,8 @@ import "../common_qml"
 Page {
     id: listsPage
 
+    onMoveToPrevPage: qwazerSettings.moveToPrevPage("")
+
     Rectangle {
         id: rectangle1
         color: "#ffffff"
@@ -17,14 +19,13 @@ Page {
             visible: false
             model: languagesModel
             clip: true
-
-            currentIndex: findItem(languagesModel, language, "name")
+            currentIndex: findItem(languagesModel, qwazerSettings.language, "name")
             highlightFollowsCurrentItem: true
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             focus: true
 
             delegate: Component {
-                Rectangle {
+                MouseArea {
                     height: languageName.height
                     width: languagesList.width
                     Text {
@@ -32,6 +33,7 @@ Page {
                         text: name
                         font.pointSize: 32
                     }
+                    onClicked: settings.language = {name: name, langId: langId, rtl: rtl};
                 }
             }
         }
@@ -42,14 +44,13 @@ Page {
             visible: false
             model: countriesModel
             clip: true
-
-            currentIndex: findItem(countriesModel, country, "name")
+            currentIndex: findItem(countriesModel, qwazerSettings.country, "name")
             highlightFollowsCurrentItem: true
             highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             focus: true
 
             delegate: Component {
-                Rectangle {
+                MouseArea {
                     height: countryName.height
                     width: countryList.width
                     Text {
@@ -57,6 +58,8 @@ Page {
                         text: name
                         font.pointSize: 32
                     }
+
+                    onClicked: settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
                 }
             }
         }
@@ -76,10 +79,6 @@ Page {
             PropertyChanges {
                 target: listsPage
                 title: translator.translate("Country%1", ":") + mainView.forceTranslate
-                onMoveToPrevPage: {
-                    var selectedCountry = countryList.highlightItem;
-                    settings.country = {name: selectedCountry.name, locale: selectedCountry.locale, lon: selectedCountry.lon, lat: selectedCountry.lat, map_url: selectedCountry.map_url, ws_url: selectedCountry.ws_url};
-                }
             }
         },
         State {
@@ -95,10 +94,6 @@ Page {
             PropertyChanges {
                 target: listsPage
                 title: translator.translate("Language%1", ":") + mainView.forceTranslate
-                onMoveToPrevPage: {
-                    var selectedLanguage = languagesList.highlightItem;
-                    settings.language = {name: selectedLanguage.name, langId: selectedLanguage.langId, rtl: selectedLanguage.rtl};
-                }
             }
         }
     ]
