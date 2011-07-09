@@ -9,13 +9,12 @@ Rectangle {
 
     property alias rightText: rightTextLabel.text
     property alias leftText: leftTextLabel.text
-    property bool rightSelected : false
-    property alias leftSelected: !rightSelected
 
-    Row {
+    property int selectedIndex: 0
+
+    Rectangle {
         id: buttonRow
         anchors.fill: parent
-        spacing: 5
         width: (Math.max(rightTextLabel.width, leftTextLabel.width)+height)*2
         height: Math.max(rightTextLabel.height, leftTextLabel.height)
 
@@ -70,7 +69,7 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                onClicked: rightSelected = true
+                onClicked: selectedIndex = 1
             }
         }
 
@@ -115,7 +114,7 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                onClicked: leftSelected = true
+                onClicked: selectedIndex = 0
             }
         }
     }
@@ -123,7 +122,7 @@ Rectangle {
     states: [
         State {
             name: "RightSelectedState"
-            when: rightSelected
+            when: selectedIndex == 1
 
             PropertyChanges {
                 target: rightSide
@@ -142,7 +141,7 @@ Rectangle {
         },
         State {
             name: "LeftSelectedState"
-            when: leftSelected
+            when: selectedIndex == 0
 
             PropertyChanges {
                 target: leftEnder

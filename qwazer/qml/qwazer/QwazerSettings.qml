@@ -12,11 +12,6 @@ PageStack {
             width: qwazerSettings.width
             height: qwazerSettings.height
             title: translator.translate("Settings") + mainView.forceTranslate
-
-            languageName: language.name
-            countryName: country.name
-            nightModeSelected: nightMode
-
             onMoveToPrevPage: okClicked()
             onMoveToNextPage: qwazerSettings.moveToNextPage(nextState)
         }
