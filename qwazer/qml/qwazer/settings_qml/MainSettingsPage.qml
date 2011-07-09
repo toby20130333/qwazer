@@ -4,10 +4,6 @@ import "../common_qml"
 Page {
     id: mainSettingsPage
 
-    property alias countryName: selectedCountry.text
-    property alias languageName: selectedLanguage.text
-    property alias nightModeSelected: nightModeSelector.isSelected
-
     Grid {
         id: grid1
         anchors.fill: mainSettingsPage.content
@@ -23,7 +19,7 @@ Page {
 
         Button {
             id: selectedLanguage
-
+            text:  qwazerSettings.language.name
             onClicked: mainSettingsPage.moveToNextPage("LanguageSelectionState");
         }
 
@@ -35,7 +31,7 @@ Page {
 
         Button {
             id: selectedCountry
-
+            text:  qwazerSettings.country.name
             onClicked: mainSettingsPage.moveToNextPage("CountrySelectionState");
         }
 
@@ -45,9 +41,12 @@ Page {
             font.pointSize: 20
         }
 
-        ToggleButton {
+        DualStateButton {
             id: nightModeSelector
-            text: isSelected? "+" : "-"
+            leftText: translator.translate("Yes") + mainView.forceTranslate
+            rightText: translator.translate("No") + mainView.forceTranslate
+            selectedIndex: qwazerSettings.nightMode? 0 : 1
+            onSelectedIndexChanged: qwazerSettings.nightMode = (selectedIndex == 0);
         }
     }
 }
