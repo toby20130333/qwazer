@@ -165,12 +165,11 @@ Page {
 
         WebView {
             id: web_view1
-            anchors.fill: mapContent
 
-//            width: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
-//            height: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
-//            x: (mapContent.width-width)/2
-//            y: (mapContent.height-height)/2
+            width: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
+            height: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
+            x: (mapContent.width-width)/2
+            y: (mapContent.height-height)/2
 
             pressGrabTime: 0
             settings.offlineWebApplicationCacheEnabled: true
