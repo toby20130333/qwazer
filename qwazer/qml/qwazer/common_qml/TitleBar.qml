@@ -20,20 +20,17 @@ Rectangle {
 
     }
 
-    property VisualItemModel items : VisualItemModel {}
+    property VisualItemModel middleItems : VisualItemModel {}
 
     Rectangle {
-        anchors.right: titleBar.right
-        anchors.rightMargin: 10
-        anchors.left: titleLabel.right
+        color: "#00000000"
         anchors.leftMargin: 10
-
+        anchors.rightMargin: 10
+        anchors.horizontalCenter: titleBar.horizontalCenter
+        width: middelItemsListView.contentWidth
         ListView {
-            id: itemsListView
-
-            anchors.fill: parent
-
-            model: items
+            id: middelItemsListView
+            model: middleItems
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.StopAtBounds
         }

@@ -10,7 +10,7 @@ Rectangle {
     property alias toolbarLeftItems: toolbarPriv.leftItems
     property alias toolbarMiddleItems: toolbarPriv.middleItems
     property alias toolbarRightItems: toolbarPriv.rightItems
-    property alias titlebarItems: titlePriv.items
+    property alias titlebarMiddleItems: titlePriv.middleItems
     property alias content: contentPlaceholderPriv
 
     signal moveToNextPage(string nextState)
@@ -18,6 +18,7 @@ Rectangle {
 
     TitleBar {
         id: titlePriv
+
         anchors.top: page.top
         anchors.right: page.right
         anchors.left: page.left
@@ -36,6 +37,7 @@ Rectangle {
 
     ToolBar {
         id: toolbarPriv
+
         anchors.right: page.right
         anchors.left: page.left
         anchors.bottom: page.bottom
