@@ -6,6 +6,7 @@ Rectangle {
     height: buttonRow.height
     radius: Math.floor(height/2)
     border.color: "black"
+    color: "#00000000"
 
     property alias rightText: rightTextLabel.text
     property alias leftText: leftTextLabel.text
@@ -16,6 +17,7 @@ Rectangle {
         id: buttonRow
         width: (Math.max(rightTextLabel.width, leftTextLabel.width)+height)*2
         height: Math.max(rightTextLabel.height, leftTextLabel.height)
+        color: "#00000000"
 
         Rectangle {
             id: splitter
@@ -34,7 +36,7 @@ Rectangle {
             id: rightEnder
             width: dualStateButton.height
             height: dualStateButton.height
-            color: "#00000000"
+            color: "#ffffff"
             radius: dualStateButton.radius
             border.color: "#000000"
             anchors.right: parent.right

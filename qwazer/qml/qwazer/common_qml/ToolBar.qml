@@ -12,30 +12,45 @@ Rectangle {
     property VisualItemModel middleItems: VisualItemModel { }
     property VisualItemModel rightItems: VisualItemModel { }
 
-    ListView {
-        id: leftItemsListView
+    Rectangle {
+        color: "#00000000"
         anchors.left: toolBar.left
         anchors.leftMargin: 10
-        model: leftItems
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.StopAtBounds
+        width: leftItemsListView.contentWidth
+
+        ListView {
+            id: leftItemsListView
+            model: leftItems
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.StopAtBounds
+        }
     }
 
-    ListView {
-        id: middelItemsListView
-        anchors.right: rightItemsListView.left
-        anchors.left: leftItemsListView.right
-        model: middleItems
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.StopAtBounds
-    }
-
-    ListView {
-        id: rightItemsListView
-        anchors.right: toolBar.right
+    Rectangle {
+        color: "#00000000"
+        anchors.leftMargin: 10
         anchors.rightMargin: 10
-        model: rightItems
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.StopAtBounds
+        anchors.horizontalCenter: toolBar.horizontalCenter
+        width: middelItemsListView.contentWidth
+        ListView {
+            id: middelItemsListView
+            model: middleItems
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.StopAtBounds
+        }
+    }
+
+    Rectangle {
+        color: "#00000000"
+        anchors.right: toolBar.right
+        anchors.rightMargin: width + 10
+        width: rightItemsListView.contentWidth
+
+        ListView {
+            id: rightItemsListView
+            model: rightItems
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.StopAtBounds
+        }
     }
 }

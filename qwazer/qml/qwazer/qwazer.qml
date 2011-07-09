@@ -103,7 +103,7 @@ Rectangle {
 //        property variant model : ListModel {}
 //    }
 
-    QwazerMap {
+    MapPage {
         id: map1
         x: 0
         y: 0
@@ -112,19 +112,17 @@ Rectangle {
 
         visible: false
 
-        gpsData: positionSource
-
-        onMapLoaded: {
-            mainView.state = 'MapState';
-        }
+//        onMapLoaded: {
+//            mainView.state = 'MapState';
+//        }
 
         onSearchButtonClicked: {
             mainView.state = 'SearchState';
         }
 
-        onNavigateButtonClicked: {
-            mainView.state = 'NavigateState';
-        }
+//        onNavigateButtonClicked: {
+//            mainView.state = 'NavigateState';
+//        }
 
         onSettingsButtonClicked: {
             settings.visible = true;
@@ -132,7 +130,7 @@ Rectangle {
         }
     }
 
-    Search {
+    SearchPageStack {
         id: search1
         x: 0
         y: 0
@@ -149,23 +147,23 @@ Rectangle {
         }
     }
 
-    Search {
-        id: navigate1
-        x: 0
-        y: 0
-        visible: false
-        anchors.fill: parent
+//    Search {
+//        id: navigate1
+//        x: 0
+//        y: 0
+//        visible: false
+//        anchors.fill: parent
 
-        onBackButtonPressed: {
-            mainView.state = 'MapState';
-        }
+//        onBackButtonPressed: {
+//            mainView.state = 'MapState';
+//        }
 
-        onAddressSelected: {
-            mainView.state = 'PathSelectionState';
-            pathSelection1.fromToPoints = {from:{lon: positionSource.position.coordinate.longitude, lat: positionSource.position.coordinate.latitude},
-                                           to:{lon: address.lon, lat: address.lat}};
-        }
-    }
+//        onAddressSelected: {
+//            mainView.state = 'PathSelectionState';
+//            pathSelection1.fromToPoints = {from:{lon: positionSource.position.coordinate.longitude, lat: positionSource.position.coordinate.latitude},
+//                                           to:{lon: address.lon, lat: address.lat}};
+//        }
+//    }
 
     PathSelection {
         id: pathSelection1
@@ -195,10 +193,6 @@ Rectangle {
                  visible: false
             }
             PropertyChanges {
-                target: navigate1
-                visible: false
-            }
-            PropertyChanges {
                 target: pathSelection1
                 visible: false
             }
@@ -213,7 +207,7 @@ Rectangle {
             PropertyChanges {
                 target: search1
                 visible: true
-                ws_url: settings.country.ws_url
+                //ws_url: settings.country.ws_url
             }
             PropertyChanges {
                 target: navigate1
