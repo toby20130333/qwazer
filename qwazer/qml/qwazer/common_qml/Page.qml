@@ -21,10 +21,12 @@ Rectangle {
         anchors.top: page.top
         anchors.right: page.right
         anchors.left: page.left
+        z: 100
     }
 
     Rectangle {
         id: contentPlaceholderPriv
+        z: -100
 
         anchors.top: titlePriv.bottom
         anchors.bottom: toolbarPriv.top
@@ -37,6 +39,7 @@ Rectangle {
         anchors.right: page.right
         anchors.left: page.left
         anchors.bottom: page.bottom
+        z: 100
 
         onBackButtonClicked: moveToPrevPage("")
     }
