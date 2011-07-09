@@ -26,7 +26,6 @@ PageStack {
             title: "list"
             width: qwazerSettings.width
             height: qwazerSettings.height
-            onMoveToPrevPage: qwazerSettings.moveToPrevPage("")
         }
     }
 

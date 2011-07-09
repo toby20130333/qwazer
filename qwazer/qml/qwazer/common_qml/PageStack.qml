@@ -14,7 +14,7 @@ Rectangle {
         pagesView.currentItem.state = prevState;
     }
 
-    property VisualItemModel pages
+    property VisualItemModel pages : VisualItemModel {}
 
     ListView {
         id: pagesView
