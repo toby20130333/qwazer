@@ -3,7 +3,7 @@ import QtQuick 1.0
 Rectangle {
     id: titleBar
     width: parent.width
-    height: Math.max(titleLabel.height, itemsListView.height);
+    height: 50
     color: "#c4c4c4"
 
     property string title
@@ -22,15 +22,20 @@ Rectangle {
 
     property VisualItemModel items : VisualItemModel {}
 
-    ListView {
-        id: itemsListView
-        y: 0
-        anchors.right: parent.right
+    Rectangle {
+        anchors.right: titleBar.right
         anchors.rightMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: titleLabel.right
+        anchors.leftMargin: 10
 
-        model: items
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.StopAtBounds
+        ListView {
+            id: itemsListView
+
+            anchors.fill: parent
+
+            model: items
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.StopAtBounds
+        }
     }
 }

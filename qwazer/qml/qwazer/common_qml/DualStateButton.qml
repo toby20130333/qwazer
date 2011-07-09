@@ -14,7 +14,6 @@ Rectangle {
 
     Rectangle {
         id: buttonRow
-        anchors.fill: parent
         width: (Math.max(rightTextLabel.width, leftTextLabel.width)+height)*2
         height: Math.max(rightTextLabel.height, leftTextLabel.height)
 

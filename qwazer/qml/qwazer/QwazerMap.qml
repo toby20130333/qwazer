@@ -3,7 +3,7 @@ import QtWebKit 1.0
 import "js/MapLogic.js" as Logic
 import "common_qml"
 
-Rectangle {
+Page {
     id: mapView
 
     width: 780
@@ -87,204 +87,191 @@ Rectangle {
         Logic.showLocation(lon, lat);
     }
 
-    WebView {
-        id: web_view1
+    toolbarLeftItems: VisualItemModel {}
 
-        width: Math.max(parent.width, parent.height)*Math.max(parent.width, parent.height)/Math.min(parent.width, parent.height)
-        height: Math.max(parent.width, parent.height)*Math.max(parent.width, parent.height)/Math.min(parent.width, parent.height)
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
+    toolbarMiddleItems: VisualItemModel {
+        Flow {
+            spacing: 10
 
-        pressGrabTime: 0
-        settings.offlineWebApplicationCacheEnabled: true
+            Button {
+                id: showMeButton
+                text: translator.translate("Show Me") + mainView.forceTranslate
+                onClicked: Logic.showMe(true, true)
+                visible: true
+            }
 
-        transform: Rotation {
-            id: webViewRotation
-            origin.x: Math.floor(web_view1.width/2)
-            origin.y: Math.floor(web_view1.height/2)
-            axis{ x: 0; y: 0; z:1 }
+            Button {
+                id: navigateButton
+                text: translator.translate("Navigate") + mainView.forceTranslate
+                onClicked: mapView.navigateButtonClicked()
+            }
 
-            Behavior on angle { PropertyAnimation{ duration: locationUpdater.interval*0.9; easing.type: Easing.InOutSine} }
+            Button {
+                id : searchButton
+                width: 156
+                height: 53
+                text: translator.translate("Search") + mainView.forceTranslate
+                visible: true
+                onClicked: mapView.searchButtonClicked()
+            }
+
+            Button {
+                id: stopNavigation
+                text: translator.translate("Stop Nav") + mainView.forceTranslate
+                visible: false
+                onClicked: Logic.stopNavigation()
+            }
+
+            ToggleButton {
+                id: followMe
+                text: translator.translate("Follow Me") + mainView.forceTranslate
+                isSelected: false
+                visible: isGPSDataValid
+            }
+        }
+    }
+
+    titlebarItems: VisualItemModel {
+        Rectangle {
+            id: gpsState
+            border.color: "black"
+            color:  isGPSDataValid? "green" : "red"
+            radius: 3
+
+            height: gpsStateText.height
+            width: gpsStateText.width
+
+            Text {
+                id: gpsStateText
+                text: mainView.forceTranslate + isGPSDataValid? translator.translate("GPS OK") : translator.translate("GPS BAD")
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 18
+            }
         }
 
-        javaScriptWindowObjects: [
-            QtObject {
-                id: savedMapData
-                WebView.windowObjectName: "savedMapData"
-
-                property bool lon_lat_changed:  false
-
-                function setLastKnownLocation(lon, lat) {
-                    if (lon_lat_changed)
-                    {
-                        Logic.setLastKnownPosition(location_lon, location_lat);
-                    }
-                    lon_lat_changed = !lon_lat_changed;
-                }
-
-
-                property string location_lon
-                onLocation_lonChanged: setLastKnownLocation(location_lon, location_lat)
-
-                property string location_lat
-                onLocation_latChanged: setLastKnownLocation(location_lon, location_lat)
-
-                property string locale
-
-                property string map_url
-                property string ws_url
-
-                property int zoom
-            }
-        ]
-
-        onAlert: console.log(message)
-
-        onLoadFinished: mapView.mapLoaded()
-    }
-
-    Button {
-        id: zoomInButton
-        width: 67
-        height: 39
-        text: "+"
-        anchors.top: parent.top
-        anchors.topMargin: 7
-        anchors.left: zoomOutButton.right
-        anchors.leftMargin: 30
-        onClicked: Logic.zoomIn()
-    }
-
-    Button {
-        id: zoomOutButton
-        width: 62
-        height: 41
-        text: "-"
-        anchors.left: parent.left
-        anchors.leftMargin: 8
-        anchors.top: parent.top
-        anchors.topMargin: 7
-        onClicked: Logic.zoomOut()
-    }
-
-    Button {
-        id: showMeButton
-        width: 156
-        height: 52
-        text: translator.translate("Show Me") + mainView.forceTranslate
-        anchors.left: parent.left
-        anchors.leftMargin: 7
-        anchors.bottom: searchButton.top
-        anchors.bottomMargin: 7
-        onClicked: Logic.showMe(true, true)
-        visible: true
-    }
-
-    Button {
-        id: navigateButton
-        text: translator.translate("Navigate") + mainView.forceTranslate
-        anchors.left: parent.left
-        anchors.leftMargin: 7
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 7
-        width: 156
-        height: 51
-
-        onClicked: mapView.navigateButtonClicked()
-    }
-
-    Timer {
-        id: locationUpdater
-        interval: 1500
-        repeat: true
-        running: false
-    }
-
-    Button {
-        id : searchButton
-        width: 156
-        height: 53
-        text: translator.translate("Search") + mainView.forceTranslate
-        anchors.left: parent.left
-        anchors.leftMargin: 7
-        anchors.bottom: navigateButton.top
-        anchors.bottomMargin: 7
-        visible: true
-        onClicked: mapView.searchButtonClicked()
-    }
-
-    Button {
-        id: stopNavigation
-        text: translator.translate("Stop Nav") + mainView.forceTranslate
-        anchors.left: parent.left
-        anchors.leftMargin: 7
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 7
-        visible: false
-        onClicked: Logic.stopNavigation()
-    }
-
-    InstructionsControl {
-        id: currentInstruction
-        visible: false
-        anchors.bottom: stopNavigation.top
-        anchors.bottomMargin: 7
-        anchors.left: stopNavigation.left
-        anchors.right: stopNavigation.right
-    }
-
-    ToggleButton {
-        id: followMe
-        text: translator.translate("Follow Me") + mainView.forceTranslate
-        anchors.right: gpsState.right
-        anchors.bottom: gpsState.top
-        anchors.bottomMargin: 7
-        isSelected: false
-        visible: isGPSDataValid
+        Button {
+            id: settingsButton
+            text: translator.translate("Settings") + mainView.forceTranslate
+            onClicked: settingsButtonClicked()
+        }
     }
 
     Rectangle {
-        id: gpsState
+        id: mapContent
 
-        anchors.right: parent.right
-        anchors.rightMargin: 7
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 7
-        border.color: "black"
-        color:  isGPSDataValid? "green" : "red"
-        radius: 3
+        anchors.fill: mapView.content
 
-        height: 50
-        width: 150
+        WebView {
+            id: web_view1
+            anchors.fill: mapContent
 
-        Text {
-            id: gpsStateText
-            text: mainView.forceTranslate + isGPSDataValid? translator.translate("GPS OK") : translator.translate("GPS BAD")
-            font.bold: true
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 18
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
+//            width: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
+//            height: Math.max(mapContent.width, mapContent.height)*Math.max(mapContent.width, mapContent.height)/Math.min(mapContent.width, mapContent.height)
+//            x: (mapContent.width-width)/2
+//            y: (mapContent.height-height)/2
+
+            pressGrabTime: 0
+            settings.offlineWebApplicationCacheEnabled: true
+
+            transform: Rotation {
+                id: webViewRotation
+                origin.x: Math.floor(web_view1.width/2)
+                origin.y: Math.floor(web_view1.height/2)
+                axis{ x: 0; y: 0; z:1 }
+
+                Behavior on angle { PropertyAnimation{ duration: locationUpdater.interval*0.9; easing.type: Easing.InOutSine} }
+            }
+
+            javaScriptWindowObjects: [
+                QtObject {
+                    id: savedMapData
+                    WebView.windowObjectName: "savedMapData"
+
+                    property bool lon_lat_changed:  false
+
+                    function setLastKnownLocation(lon, lat) {
+                        if (lon_lat_changed)
+                        {
+                            Logic.setLastKnownPosition(location_lon, location_lat);
+                        }
+                        lon_lat_changed = !lon_lat_changed;
+                    }
+
+
+                    property string location_lon
+                    onLocation_lonChanged: setLastKnownLocation(location_lon, location_lat)
+
+                    property string location_lat
+                    onLocation_latChanged: setLastKnownLocation(location_lon, location_lat)
+
+                    property string locale
+
+                    property string map_url
+                    property string ws_url
+
+                    property int zoom
+                }
+            ]
+
+            onAlert: console.log(message)
+
+            onLoadFinished: mapView.mapLoaded()
         }
-    }
 
-    Button {
-        id: settingsButton
-        anchors.top: parent.top
-        anchors.topMargin: 7
-        anchors.right: parent.right
-        anchors.rightMargin: 7
+        Column {
+            id: zoomInOutButtons
+            spacing: 100
 
-        text: translator.translate("Settings") + mainView.forceTranslate
-        onClicked: settingsButtonClicked()
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+
+            Button {
+                id: zoomInButton
+                width: 70
+                height: width
+                text: "+"
+                radius: width
+                onClicked: Logic.zoomIn()
+            }
+
+            Button {
+                id: zoomOutButton
+                width: 70
+                height: width
+                text: "-"
+                radius: width
+                onClicked: Logic.zoomOut()
+            }
+
+        }
+
+        Timer {
+            id: locationUpdater
+            interval: 1500
+            repeat: true
+            running: false
+        }
+
+        InstructionsControl {
+            id: currentInstruction
+            visible: false
+            anchors.bottom: mapContent.bottom
+            anchors.bottomMargin: 7
+            anchors.left: mapContent.left
+        }
     }
 
     states: [
         State {
             name: "BrowseState"
+
+            PropertyChanges {
+                target: mapView
+                title: translator.translate("Browse Map") + mainView.forceTranslate
+            }
 
             PropertyChanges {
                 target: navigateButton
@@ -319,6 +306,11 @@ Rectangle {
         },
         State {
             name: "NavigateState"
+
+            PropertyChanges {
+                target: mapView
+                title: translator.translate("Navigation") + mainView.forceTranslate
+            }
 
             PropertyChanges {
                 target: stopNavigation
