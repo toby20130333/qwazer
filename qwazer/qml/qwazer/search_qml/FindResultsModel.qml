@@ -1,7 +1,6 @@
 import QtQuick 1.0
 
 Item {
-    property string ws_url
     property string address
 
     onAddressChanged: {
@@ -9,7 +8,7 @@ Item {
         model.clear();
 
         var data = {"q": address};
-        var url = ws_url + "/WAS/mozi?" + serialize(data);
+        var url = settings.country.ws_url + "/WAS/mozi?" + serialize(data);
         console.log("requesting: " + url);
         var my_JSON_object = {};
         var http_request = new XMLHttpRequest();
