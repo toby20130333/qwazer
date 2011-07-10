@@ -7,6 +7,7 @@ Page {
     Grid {
         id: grid1
         anchors.fill: mainSettingsPage.content
+        anchors.margins: 10
 
         columns: 2
         spacing: 10

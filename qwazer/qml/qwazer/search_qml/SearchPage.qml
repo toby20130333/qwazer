@@ -8,8 +8,6 @@ Page {
     width:800
     height: 400
 
-    property alias ws_url : resultsModel.ws_url
-
     signal addressSelected(variant address)
 
     toolbarRightItems: VisualItemModel {
@@ -29,62 +27,74 @@ Page {
 
         signal selected(variant selection)
 
-        Column {
-            spacing: 10
+        Rectangle {
+            id: rectangle1
+            height: 50
+            color: "#00000000"
+            anchors.left: parent.left
             anchors.leftMargin: 10
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.right: searchButton.left
+            anchors.rightMargin: 10
+            border.color: "#000000"
+            clip: true
 
-            Row {
-                spacing: 10
-                Rectangle {
-                    id: rectangle1
-                    height: 50
-                    color: "#ffffff"
-                    border.color: "#000000"
-                    width: searchView.width - searchButton.width - 20
-                    clip: true
-
-                    TextInput {
-                        id: searchField
-                        text: ""
-                        horizontalAlignment: TextInput.AlignRight
-                        font.pixelSize: 24
-                    }
-                }
-
-                Button {
-                    id: searchButton
-                    text: translator.translate("Search") + mainView.forceTranslate
-                    onClicked: {
-                        resultsModel.address = searchField.text;
-                    }
-                }
+            TextInput {
+                id: searchField
+                text: ""
+                anchors.fill: parent
+                horizontalAlignment: TextInput.AlignRight
+                font.pixelSize: 24
             }
+        }
 
-            Rectangle {
-                id: rectangle3
-                color: "#ffffff"
-                border.color: "#000000"
+        Button {
+            id: searchButton
+            text: translator.translate("Search") + mainView.forceTranslate
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            onClicked: {
+                console.log(searchField.text);
+                resultsModel.address = searchField.text;
+            }
+        }
 
-                ListView {
-                    id: resultList
-                    anchors.fill: rectangle3
-                    model: resultsModel.dataModel
+        Rectangle {
+            id: rectangle3
+            color: "#00000000"
+            border.color: "#000000"
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.top: searchButton.bottom
+            anchors.topMargin: 10
 
-                    delegate: Component {
-                        Row {
-                            spacing: 10
-                            Text {
-                                text: name
-                                width: resultList.width-selectButton.width-20
-                            }
+            ListView {
+                id: resultList
+                anchors.fill: parent
+                model: resultsModel.dataModel
+                clip: true
 
-                            Button {
-                                id: selectButton
-                                text: translator.translate("Choose") + mainView.forceTranslate
-                                onClicked: selected({"name": name, "lon": lon, "lat": lat});
-                            }
-
+                delegate: Component {
+                    Row {
+                        spacing: 10
+                        Text {
+                            text: name
+                            width: resultList.width-selectButton.width-20
                         }
+
+                        Button {
+                            id: selectButton
+                            text: translator.translate("Choose") + mainView.forceTranslate
+                            onClicked: selected({"name": name, "lon": lon, "lat": lat});
+                        }
+
                     }
                 }
             }

@@ -10,6 +10,7 @@ Page {
         id: rectangle1
         color: "#ffffff"
         anchors.fill: listsPage.content
+        anchors.margins: 10
         border.color: "black"
 
 
