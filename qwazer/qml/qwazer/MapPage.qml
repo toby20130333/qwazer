@@ -20,6 +20,7 @@ Page {
 
     function initialize() {
         map.initialize();
+        mapPage.state = "BrowseState";
     }
 
     toolbarLeftItems: VisualItemModel {}
@@ -61,6 +62,7 @@ Page {
                 id: followMe
                 text: translator.translate("Follow Me") + mainView.forceTranslate
                 isSelected: false
+                onIsSelectedChanged: map.followMe = isSelected
                 visible: isGPSDataValid
             }
         }
@@ -96,6 +98,13 @@ Page {
         }
     }
 
+    Timer {
+        id: locationUpdater
+        interval: 1500
+        repeat: true
+        running: false
+    }
+
     QwazerMap {
         id: map
 
@@ -108,13 +117,8 @@ Page {
             name: "BrowseState"
 
             PropertyChanges {
-                target: mapView
+                target: mapPage
                 title: translator.translate("Browse Map") + mainView.forceTranslate
-            }
-
-            PropertyChanges {
-                target: navigateButton
-                visible: isGPSDataValid
             }
 
             PropertyChanges {
@@ -127,27 +131,27 @@ Page {
                 visible: isGPSDataValid && !followMe.isSelected
             }
 
-            PropertyChanges {
-                target: currentInstruction
-                visible: false
-            }
+//            PropertyChanges {
+//                target: currentInstruction
+//                visible: false
+//            }
 
             PropertyChanges {
                 target: locationUpdater
-                onTriggered: Logic.showMe()
+                onTriggered: map.showMe()
                 running: true
             }
 
             PropertyChanges {
-                target: webViewRotation
-                angle: 0
+                target: map
+                mapAngle: 0
             }
         },
         State {
             name: "NavigateState"
 
             PropertyChanges {
-                target: mapView
+                target: mapPage
                 title: translator.translate("Navigation") + mainView.forceTranslate
             }
 
@@ -161,10 +165,10 @@ Page {
                 visible: false
             }
 
-            PropertyChanges {
-                target: navigateButton
-                visible: false
-            }
+//            PropertyChanges {
+//                target: navigateButton
+//                visible: false
+//            }
 
             PropertyChanges {
                 target: showMeButton
@@ -173,11 +177,11 @@ Page {
                 anchors.bottomMargin: 7
             }
 
-            PropertyChanges {
-                target: currentInstruction
-                opacity: 0.7
-                visible: true
-            }
+//            PropertyChanges {
+//                target: currentInstruction
+//                opacity: 0.7
+//                visible: true
+//            }
 
             PropertyChanges {
                 target: followMe
@@ -187,7 +191,7 @@ Page {
 
             PropertyChanges {
                 target: locationUpdater
-                onTriggered: Logic.syncLocation()
+                onTriggered: map.syncLocation()
                 running: true
             }
 
@@ -204,7 +208,7 @@ Page {
 
                     var angle = azimuth*180/Math.PI;
                     console.log(angle);
-                    webViewRotation.angle = -angle;
+                    mapAngle = -angle;
                 }
             }
         }
