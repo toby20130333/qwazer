@@ -20,18 +20,16 @@ Rectangle {
     property variant previousGpsLocation
     property variant currentGpsLocation
 
+    property alias mapAngle: webViewRotation.angle
+
+    property bool isFollowMe: false
+
     onNavigationInfoChanged: {
         Logic.navigate();
     }
 
     ListModel {
         id: searchResultList
-    }
-
-    Item {
-        id: followMe
-
-        property bool isSelected: false
     }
 
     function initialize() {
@@ -51,7 +49,6 @@ Rectangle {
         savedMapData.ws_url = settings.country.ws_url;
         savedMapData.zoom = settings.zoom;
 
-        mapView.state = "BrowseState";
         web_view1.url = 'html/waze.html';
     }
 
@@ -83,6 +80,14 @@ Rectangle {
 
     function showLocation(lon, lat) {
         Logic.showLocation(lon, lat);
+    }
+
+    function showMe() {
+        Logic.showMe();
+    }
+
+    function syncLocation() {
+        Logic.syncLocation();
     }
 
     WebView {
@@ -167,13 +172,6 @@ Rectangle {
             onClicked: Logic.zoomOut()
         }
 
-    }
-
-    Timer {
-        id: locationUpdater
-        interval: 1500
-        repeat: true
-        running: false
     }
 
     InstructionsControl {

@@ -64,14 +64,14 @@ function showMe(shouldCenter, shouldZoom)
 
     web_view1.evaluateJavaScript("markMyLocation("+mapView.currentGpsLocation.lon+","+mapView.currentGpsLocation.lat+");");
 
-    if (followMe.isSelected || shouldCenter)
+    if (isFollowMe || shouldCenter)
     {
         console.log("center");
         setCenter(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
         settings.lastKnownPosition = mapView.currentGpsLocation;
     }
 
-    if (followMe.isSelected || shouldZoom)
+    if (isFollowMe || shouldZoom)
     {
         console.log("zoom");
         zoomInToMax();

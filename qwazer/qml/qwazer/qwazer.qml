@@ -210,10 +210,6 @@ Rectangle {
                 //ws_url: settings.country.ws_url
             }
             PropertyChanges {
-                target: navigate1
-                visible: false
-            }
-            PropertyChanges {
                 target: pathSelection1
                 visible: false
             }
@@ -228,11 +224,6 @@ Rectangle {
             PropertyChanges {
                 target: search1
                 visible: false
-            }
-            PropertyChanges {
-                target: navigate1
-                visible: true
-                ws_url: settings.country.ws_url
             }
             PropertyChanges {
                 target: pathSelection1
