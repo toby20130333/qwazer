@@ -81,12 +81,14 @@ function showMe(shouldCenter, shouldZoom)
 var errorCount = 0;
 function navigate()
 {
-    // TODO - comment mock data
-//        gpsData.reset();
-//        for (var coordKey in mapView.navigationInfo.coords)
-//            gpsData.model.append({longitude: mapView.navigationInfo.coords[coordKey].x,
-//                                latitude: mapView.navigationInfo.coords[coordKey].y});
-        // end of mock data
+    if (gpsData.isFakeData)
+    {
+        // auto driver for testing
+        gpsData.reset();
+        for (var coordKey in mapView.navigationInfo.coords)
+            gpsData.model.append({longitude: mapView.navigationInfo.coords[coordKey].x,
+                                latitude: mapView.navigationInfo.coords[coordKey].y});
+    }
 
     errorCount = 0;
     clearMarkersAndRoute();
@@ -119,7 +121,11 @@ function syncLocation()
     var coords = mapView.navigationInfo.coords;
     var segmentsInfo = mapView.navigationInfo.results;
 
-//    gpsData.next(); //TODO - comment - for testing with mock GPS
+    if (gpsData.isFakeData)
+    {
+        // auto driver for testing
+        gpsData.next();
+    }
 
     showMe();
     if (segmentsInfo.length-1 == currentSegmentsInfoIndex)

@@ -4,7 +4,8 @@ import "js/translator.js" as Translator
 
 QtObject {
 
-    signal retranslateRequired(string langId)
+    property string forceTranslate
+    onForceTranslateChanged: console.log("retranslation requested")
 
     /*
     property variant folder : ListView {
@@ -25,7 +26,7 @@ QtObject {
 
     function setLanguage(languageId) {
         Translator.setLanguage(languageId);
-        retranslateRequired(languageId)
+        forceTranslateChanged();
     }
 
     function translate(key, args) {
