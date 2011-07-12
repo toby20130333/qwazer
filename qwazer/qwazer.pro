@@ -45,7 +45,11 @@ OTHER_FILES += \
     qml/qwazer/*.qml \
     qml/qwazer/js/*.js \
     qml/qwazer/js/translations/*.js \
-    qml/GPSProvider.qml
+    qml/GPSProvider.qml \
+    qml/SettingsPage.qml \
+    qml/qwazer/search_qml/*.qml \
+    qml/AddressResultsPage.qml \
+    qml/BusyPage.qml
 
 RESOURCES += \
     res.qrc

@@ -1,35 +1,61 @@
 import QtQuick 1.0
-import "../common_qml"
+import com.meego 1.0
+
 Page {
     id: selectedAddress
-    title: translator.translate("Address Details") + mainView.forceTranslate
 
-    width:800
-    height: 400
+    tools: ToolBarLayout {
 
-    toolbarRightItems: VisualItemModel {
-        Flow {
-            spacing: 10
+        ToolIcon {
+            id: backButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.leftMargin: 10;
+            iconId: "toolbar-back";
+            platformIconId: "toolbar-back"
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: appWindow.pageStack.pop()
+        }
 
-            Button {
-                text: translator.translate("Add Favorite") + mainView.forceTranslate
-            }
+        ToolIcon {
+            id: showButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.rightMargin: 10;
+            iconId: "toolbar-refresh";
+            platformIconId: "toolbar-refresh"
+            anchors.right: parent===undefined ? undefined : parent.right
+            onClicked: appWindow.pageStack.pop()
+        }
 
-            Button {
-                text: translator.translate("Show") + mainView.forceTranslate
-            }
+        ToolIcon {
+            id: navigateButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.rightMargin: 10;
+            iconId: "toolbar-share";
+            platformIconId: "toolbar-share"
+            anchors.right: showButton.left
+            onClicked: appWindow.pageStack.pop()
+        }
 
-            Button {
-                text: translator.translate("Navigate") + mainView.forceTranslate
-            }
+        ToolIcon {
+            id: addToFavoritesButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.rightMargin: 10;
+            iconId: "toolbar-add";
+            platformIconId: "toolbar-add"
+            anchors.right: navigateButton.left
+            onClicked: appWindow.pageStack.pop()
         }
     }
 
-    Column {
-        anchors.fill: selectedAddress.content
+    Grid {
+        columns:2
 
-        Text {
-            text: "address"
+        Label {
+            text: "Address:"
+        }
+
+        Label {
+            text: (selectedAddress.data===undefined || selectedAddress.data.name === undefined)? "" : selectedAddress.data.name
         }
     }
 }

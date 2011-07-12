@@ -17,5 +17,11 @@
         <file>qml/qwazer/js/OpenLayers.jsh</file>
         <file>qml/qwazer/js/WazeEmbeddedMap.jsh</file>
         <file>qml/GPSProvider.qml</file>
+        <file>qml/SettingsPage.qml</file>
+        <file>qml/SearchAddressPage.qml</file>
+        <file>qml/qwazer/search_qml/SelectedAddressDetailsPage.qml</file>
+        <file>qml/qwazer/search_qml/FindResultsModel.qml</file>
+        <file>qml/BusyPage.qml</file>
+        <file>qml/AddressResultsPage.qml</file>
     </qresource>
 </RCC>

@@ -1,9 +1,16 @@
 import QtQuick 1.0
+import "../.."
 
 Item {
+    signal loadDone
+
     property string address
+    property bool cancelled: false
 
     onAddressChanged: {
+        cancelled = false;
+        appWindow.pageStack.push(loadingResultsPage)
+
         // clear previous results
         model.clear();
 
@@ -15,15 +22,29 @@ Item {
         http_request.open("GET", url, true);
         http_request.onreadystatechange = function () {
           var done = 4, ok = 200;
+          if (cancelled) {
+            appWindow.pageStack.pop();
+            return;
+          }
           if (http_request.readyState == done && http_request.status == ok) {
               console.log(http_request.responseText);
               var a = JSON.parse(http_request.responseText);
               for (var b in a) {
+                  if (cancelled) {
+                      appWindow.pageStack.pop();
+                      return;
+                  }
                   var o = a[b];
                   model.append({name: o.name, lon: o.location.lon, lat: o.location.lat});
               }
+              appWindow.pageStack.pop();
+              loadDone();
           }
         };
+        if (cancelled) {
+            appWindow.pageStack.pop();
+            return;
+        }
         http_request.send(null);
     }
 
@@ -41,4 +62,14 @@ Item {
                                     }
 
 
+    BusyPage {
+        id: loadingResultsPage
+
+        text: "Searching for address..."
+
+        onBackClicked: {
+            cancelled = true;
+            appWindow.pageStack.pop();
+        }
+    }
 }
