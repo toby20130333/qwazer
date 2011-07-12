@@ -1,7 +1,7 @@
 import QtQuick 1.0
 import QtWebKit 1.0
 import "js/MapLogic.js" as Logic
-import "common_qml"
+import com.meego 1.0
 
 Rectangle {
     id: mapView
@@ -11,7 +11,6 @@ Rectangle {
 
     signal mapLoaded
 
-    property variant gpsData
     property variant navigationInfo
 
     property int currentCoordIndex : 0
@@ -159,7 +158,6 @@ Rectangle {
             width: 70
             height: width
             text: "+"
-            radius: width
             onClicked: Logic.zoomIn()
         }
 
@@ -168,17 +166,17 @@ Rectangle {
             width: 70
             height: width
             text: "-"
-            radius: width
             onClicked: Logic.zoomOut()
         }
 
     }
 
-    InstructionsControl {
-        id: currentInstruction
-        visible: false
-        anchors.bottom: mapView.bottom
-        anchors.bottomMargin: 7
-        anchors.left: mapView.left
-    }
+//    InstructionsControl {
+//        id: currentInstruction
+//        visible: false
+//        anchors.bottom: mapView.bottom
+//        anchors.bottomMargin: 7
+//        anchors.left: mapView.left
+//    }
+
 }

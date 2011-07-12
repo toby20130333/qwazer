@@ -1,32 +1,11 @@
 import QtQuick 1.0
 import "js/Storage.js" as Storage
-import "common_qml"
-import "settings_qml"
 
-PageStack {
+Item {
     id: qwazerSettings
-
-    pages: VisualItemModel {
-        MainSettingsPage {
-            id: mainSettingsPage
-            width: qwazerSettings.width
-            height: qwazerSettings.height
-            title: translator.translate("Settings") + mainView.forceTranslate
-            onMoveToPrevPage: okClicked()
-            onMoveToNextPage: qwazerSettings.moveToNextPage(nextState)
-        }
-
-        ListsPage {
-            id: listsPage
-            title: "list"
-            width: qwazerSettings.width
-            height: qwazerSettings.height
-        }
-    }
 
     signal okClicked
     signal settingsLoaded
-    signal retranslateRequired(string langId)
     signal mapRefreshRequired
 
     function initialize() {
@@ -40,13 +19,16 @@ PageStack {
     {
         for (var index = 0; index < model.count; index++)
         {
-            if ((field && model.get(index)[field] == item[field]) || model.get(index) == item  )
+            var element = model.get(index);
+            console.log("checking " + element[field] + " if match to " + item);
+            if ((field && element[field] == item[field]) || element == item  )
             {
-                return index;
+                console.log("return " + element[field])
+                return element;
             }
         }
 
-       return 0;
+       return model.get(0);
     }
 
     function isValidValue(value)
@@ -60,9 +42,18 @@ PageStack {
     // {lon: ..., lat:...}
     property variant lastKnownPosition
 
+
+    property string languageName
+    onLanguageNameChanged: {
+        if (language === undefined || language.name != languageName) language = findItem(languagesModel, {name: languageName}, "name")
+    }
     // {name:..., langId:..., rtl:...}
     property variant language : languagesModel.get(0)
 
+    property string countryName
+    onCountryNameChanged: {
+        if (country === undefined || country.name != countryName) country = findItem(countriesModel, {name: countryName}, "name")
+    }
     // {name:..., locale:..., lon: ... , lat:..., map_url:..., ws_url:...}
     property variant country : countriesModel.get(0)
 
@@ -123,7 +114,6 @@ PageStack {
                 onLanguageChanged : {
                     Storage.setObjectSetting("Language", language);
                     translator.setLanguage(language.langId);
-                    retranslateRequired(language.langId);
                 }
 
                 country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country

@@ -1,20 +1,17 @@
 #include <QtGui/QApplication>
-#include <QDeclarativeEngine>
-#include "qmlapplicationviewer.h"
+#include <QtDeclarative>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-    QmlApplicationViewer viewer;
-    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-
-#if defined(Q_WS_MAEMO_5)
-    viewer.addImportPath(QString("/opt/qtm12/imports"));
+    QDeclarativeView view;
+    QObject::connect(view.engine(), SIGNAL(quit()),
+                        &app, SLOT(quit()));
+    view.setSource(QUrl("qrc:/qml/main.qml"));
+#ifdef MAEMO5
+    view.showFullScreen();
+#else
+    view.showNormal();
 #endif
-
-    viewer.setMainQmlFile(QLatin1String("qml/qwazer/qwazer.qml"));
-    viewer.showExpanded();
-
     return app.exec();
 }

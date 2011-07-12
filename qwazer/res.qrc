@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/MainPage.qml</file>
+        <file>qml/qwazer/QwazerSettings.qml</file>
+        <file>qml/qwazer/js/Storage.js</file>
+        <file>qml/qwazer/js/MapLogic.js</file>
+        <file>qml/qwazer/js/translator.js</file>
+        <file>qml/qwazer/Translator.qml</file>
+        <file>qml/qwazer/js/translations/qwazer.he.js</file>
+        <file>qml/qwazer/QwazerMap.qml</file>
+        <file>qml/qwazer/html/waze.html</file>
+        <file>qml/qwazer/images/arrow.png</file>
+        <file>qml/qwazer/images/car.png</file>
+        <file>qml/qwazer/images/circle.png</file>
+        <file>qml/qwazer/js/jquery.jsh</file>
+        <file>qml/qwazer/js/OpenLayers.jsh</file>
+        <file>qml/qwazer/js/WazeEmbeddedMap.jsh</file>
+        <file>qml/GPSProvider.qml</file>
+    </qresource>
+</RCC>
