@@ -42,7 +42,7 @@ Page {
             platformIconId: "toolbar-search";
             iconId: "toolbar-search";
             anchors.right: followMeButton.left
-            //onClicked: mainPage.pageStack.push(searchAddressPage)
+            onClicked: mainPage.pageStack.push(searchAddressPage)
         }
         ToolIcon {
             id: followMeButton;
@@ -92,4 +92,6 @@ Page {
         onMapLoaded: appWindow.pageStack.push(mainPage)
     }
 
+
+    SearchAddressPage {id: searchAddressPage}
 }

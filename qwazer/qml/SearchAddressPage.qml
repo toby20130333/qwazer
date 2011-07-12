@@ -1,30 +1,40 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "qwazer/search_qml"
 
 Page {
     id:searchAddressPage
+    width: 800
+    height: 400
 
-    tools: ToolBarLayout {
-        ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
-            anchors.right: parent===undefined ? undefined : parent.right
-            onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
+    tools: commonBackButtonToolbar
+
+
+    FindResultsModel {
+        id: findAddressModel
+        onLoadDone: appWindow.pageStack.push(addressDetailsPage)
+    }
+
+    SelectedAddressDetailsPage {
+        id: addressDetailsPage
+    }
+
+    Column {
+        Label {
+            text: "Enter address to find"
         }
-    }
 
-    TextField {
-        id: addressField
-        height: 50
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-    }
+        TextField {
+            id: address
+            width: searchAddressPage.width
+            height: 50
+        }
 
-    Button {
-        id: searchButton
-        anchors.left: addressField.right
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        anchors.right: parent.right
+
+        Button {
+            id: searchButton
+            text: "Search Address"
+            onClicked: findAddressModel.address = address.text
+        }
     }
 }
