@@ -19,8 +19,8 @@ Page {
             id: homeButton;
             y: 0;
             width: 64;
-            anchors.left: parent.left;
-            anchors.leftMargin: 10;
+            anchors.right: parent.right;
+            anchors.rightMargin: 10;
             anchors.verticalCenterOffset: 0;
             iconId: "toolbar-home";
             platformIconId: "toolbar-home"
@@ -32,7 +32,7 @@ Page {
             anchors.rightMargin: 10;
             iconId: "toolbar-settings";
             platformIconId: "toolbar-settings"
-            anchors.right: quitButton.left
+            anchors.right: homeButton.left
             onClicked: appWindow.pageStack.push(settingsPage)
         }
         ToolIcon {
@@ -79,7 +79,7 @@ Page {
         ToolIcon { id: showMeButton; anchors.verticalCenterOffset: 0; anchors.rightMargin: 10; platformIconId: "toolbar-directory-move-to"; iconId: "toolbar-directory-move-to";            anchors.right: settingsButton.left
             onClicked: map.showMe(true, true)
         }
-        ToolIcon { id: quitButton; anchors.verticalCenterOffset: 0; anchors.rightMargin: 10; platformIconId: "toolbar-close"; iconId: "toolbar-close";            anchors.right: parent===undefined ? undefined : parent.right
+        ToolIcon { id: quitButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; platformIconId: "toolbar-close"; iconId: "toolbar-close";            anchors.left: parent===undefined ? undefined : parent.left
             onClicked: Qt.quit()
         }
     }

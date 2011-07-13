@@ -9,7 +9,7 @@ Item {
 
     onAddressChanged: {
         cancelled = false;
-        appWindow.pageStack.push(loadingResultsPage)
+        appWindow.pageStack.push(loadingResultsPage, null, true);
 
         // clear previous results
         model.clear();
@@ -31,18 +31,18 @@ Item {
               var a = JSON.parse(http_request.responseText);
               for (var b in a) {
                   if (cancelled) {
-                      appWindow.pageStack.pop();
+                      appWindow.pageStack.pop(searchAddressPage, true);
                       return;
                   }
                   var o = a[b];
-                  model.append({name: o.name, lon: o.location.lon, lat: o.location.lat});
+                  model.append({name: o.name, location: o.location, phone: o.phone, url: o.url, businessName: o.businessName});
               }
-              appWindow.pageStack.pop();
+              appWindow.pageStack.pop(searchAddressPage, true);
               loadDone();
           }
         };
         if (cancelled) {
-            appWindow.pageStack.pop();
+            appWindow.pageStack.pop(searchAddressPage, true);
             return;
         }
         http_request.send(null);

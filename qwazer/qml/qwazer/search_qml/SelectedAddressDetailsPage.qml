@@ -4,6 +4,12 @@ import com.meego 1.0
 Page {
     id: selectedAddress
 
+    property string name
+    property string businessName
+    property string url
+    property string phone
+    property variant location
+
     tools: ToolBarLayout {
 
         ToolIcon {
@@ -55,7 +61,42 @@ Page {
         }
 
         Label {
-            text: (selectedAddress.data===undefined || selectedAddress.data.name === undefined)? "" : selectedAddress.data.name
+            text: name
+        }
+
+        Label {
+            text: "Business Name:"
+            visible: businessName != ""
+        }
+
+        Label {
+            text: businessName
+        }
+
+        Label {
+            text: "Homepage:"
+            visible: url != ""
+        }
+
+        Label {
+            text: url
+        }
+
+        Label {
+            text: "Phone Number:"
+            visible: phone != ""
+        }
+
+        Label {
+            text: phone
+        }
+
+        Label {
+            text: "Location:"
+        }
+
+        Label {
+            text: location.lon + ", " + location.lat
         }
     }
 }
