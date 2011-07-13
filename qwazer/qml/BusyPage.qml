@@ -6,7 +6,7 @@ Page {
     anchors.fill: parent
 
     property alias text: loadStatus.text
-    property alias backIcon: quitButton.iconId
+    property alias backIcon: backButton.iconId
 
     signal backClicked
 
@@ -37,11 +37,11 @@ Page {
         visible: true
 
         ToolIcon {
-            id: quitButton;
+            id: backButton;
             y: 0;
             width: 64;
-            anchors.right: parent.right;
-            anchors.rightMargin: 10;
+            anchors.left: parent.left;
+            anchors.leftMargin: 10;
             anchors.verticalCenterOffset: 0;
             iconId: "toolbar-back";
             platformIconId: iconId

@@ -48,7 +48,7 @@ PageStackWindow {
         ToolBarLayout {
             id: commonBackButtonToolbar
             ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
-                anchors.right: parent===undefined ? undefined : parent.right
+                anchors.left: parent===undefined ? undefined : parent.left
                 onClicked: appWindow.pageStack.pop()
             }
         }

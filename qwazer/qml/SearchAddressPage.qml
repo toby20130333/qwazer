@@ -12,11 +12,11 @@ Page {
 
     FindResultsModel {
         id: findAddressModel
-        onLoadDone: appWindow.pageStack.push(addressDetailsPage)
+        onLoadDone: appWindow.pageStack.push(addressResultsPage)
     }
 
-    SelectedAddressDetailsPage {
-        id: addressDetailsPage
+    AddressResultsPage {
+        id: addressResultsPage
     }
 
     Column {
