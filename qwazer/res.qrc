@@ -23,5 +23,7 @@
         <file>qml/qwazer/search_qml/FindResultsModel.qml</file>
         <file>qml/BusyPage.qml</file>
         <file>qml/AddressResultsPage.qml</file>
+        <file>qml/qwazer/CourseResultsListModel.qml</file>
+        <file>qml/qwazer/PathSelectionPage.qml</file>
     </qresource>
 </RCC>

@@ -49,7 +49,8 @@ OTHER_FILES += \
     qml/SettingsPage.qml \
     qml/qwazer/search_qml/*.qml \
     qml/AddressResultsPage.qml \
-    qml/BusyPage.qml
+    qml/BusyPage.qml \
+    qml/qwazer/CourseResultsListModel.qml
 
 RESOURCES += \
     res.qrc
