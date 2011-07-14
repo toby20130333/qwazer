@@ -22,29 +22,24 @@ Item {
         http_request.open("GET", url, true);
         http_request.onreadystatechange = function () {
           var done = 4, ok = 200;
-          if (cancelled) {
-            appWindow.pageStack.pop();
-            return;
-          }
+          if (cancelled) return;
           if (http_request.readyState == done && http_request.status == ok) {
               console.log(http_request.responseText);
               var a = JSON.parse(http_request.responseText);
               for (var b in a) {
-                  if (cancelled) {
-                      appWindow.pageStack.pop(searchAddressPage, true);
-                      return;
-                  }
+                  if (cancelled) return;
                   var o = a[b];
                   model.append({name: o.name, location: o.location, phone: o.phone, url: o.url, businessName: o.businessName});
               }
-              appWindow.pageStack.pop(searchAddressPage, true);
+              appWindow.pageStack.pop(undefined, undefined, true);
               loadDone();
           }
+          else
+          {
+              if (cancelled) return;
+          }
         };
-        if (cancelled) {
-            appWindow.pageStack.pop(searchAddressPage, true);
-            return;
-        }
+        if (cancelled) return;
         http_request.send(null);
     }
 
@@ -69,7 +64,7 @@ Item {
 
         onBackClicked: {
             cancelled = true;
-            appWindow.pageStack.pop();
+            appWindow.pageStack.pop(undefined, undefined, true);
         }
     }
 }

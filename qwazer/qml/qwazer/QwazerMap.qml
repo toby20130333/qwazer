@@ -73,16 +73,12 @@ Rectangle {
         Logic.markOrigin(lon, lat);
     }
 
-    function search(address) {
-        Logic.search(address);
-    }
-
     function showLocation(lon, lat) {
         Logic.showLocation(lon, lat);
     }
 
-    function showMe() {
-        Logic.showMe();
+    function showMe(shouldCenter, shouldZoom) {
+        Logic.showMe(shouldCenter, shouldZoom);
     }
 
     function syncLocation() {

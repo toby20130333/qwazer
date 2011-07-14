@@ -3,7 +3,7 @@ import QtQuick 1.0
 
 Item {
     id: gps
-    property variant positionSource: fakeGpsData
+    property alias positionSource: fakeGpsData
 
 //    PositionSource {
 //        id: gpsData
@@ -24,10 +24,10 @@ Item {
             property int verticalAccuracy : 0
             property int horizontalAccuracy : 0
             property variant coordinate : QtObject {
-                property double latitude: 40.78196 // US
-                property double longitude: -73.96731 // US
-//                property double latitude: 33.21373 // Israel
-//                property double longitude: 35.57280 // Israel
+//                property double latitude: 40.78196 // US
+//                property double longitude: -73.96731 // US
+                property double latitude: 33.21373 // Israel
+                property double longitude: 35.57280 // Israel
             }
         }
 

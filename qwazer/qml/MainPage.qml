@@ -6,9 +6,15 @@ Page {
     id: mainPage
 
     function initialize() {
-        console.log("init");
         map.initialize();
-        console.log("end init");
+    }
+
+    function showLocation(lon, lat) {
+        map.showLocation(lon, lat);
+    }
+
+    function navigate(course) {
+        map.navigationInfo = course;
     }
 
     tools: ToolBarLayout {
@@ -89,7 +95,7 @@ Page {
 
         anchors.fill: mainPage
 
-        onMapLoaded: appWindow.pageStack.push(mainPage)
+        onMapLoaded: appWindow.pageStack.replace(mainPage)
     }
 
 

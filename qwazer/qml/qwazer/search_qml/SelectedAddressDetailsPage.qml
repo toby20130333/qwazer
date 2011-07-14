@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import ".."
 
 Page {
     id: selectedAddress
@@ -9,6 +10,15 @@ Page {
     property string url
     property string phone
     property variant location
+
+    CourseResultsListModel {
+        id: courseResultsModel
+        onLoadDone: appWindow.pageStack.push(courseResultsPage)
+    }
+
+    PathSelectionPage {
+        id: courseResultsPage
+    }
 
     tools: ToolBarLayout {
 
@@ -29,7 +39,10 @@ Page {
             iconId: "toolbar-refresh";
             platformIconId: "toolbar-refresh"
             anchors.right: parent===undefined ? undefined : parent.right
-            onClicked: appWindow.pageStack.pop()
+            onClicked: {
+                appWindow.pageStack.pop(mainPage);
+                mainPage.showLocation(location.lon, location.lat);
+            }
         }
 
         ToolIcon {
@@ -39,7 +52,17 @@ Page {
             iconId: "toolbar-share";
             platformIconId: "toolbar-share"
             anchors.right: showButton.left
-            onClicked: appWindow.pageStack.pop()
+            onClicked:
+                if (!courseResultsModel.fromToPoints ||
+                    courseResultsModel.fromToPoints.to.lon != location.lon ||
+                    courseResultsModel.fromToPoints.to.lat != location.lat)
+                {
+                    courseResultsModel.fromToPoints = {to: location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
+                }
+                else
+                {
+                    courseResultsModel.onLoadDone();
+                }
         }
 
         ToolIcon {
@@ -54,7 +77,9 @@ Page {
     }
 
     Grid {
+        anchors.margins: 20
         columns:2
+        spacing: 20
 
         Label {
             text: "Address:"
@@ -96,7 +121,7 @@ Page {
         }
 
         Label {
-            text: location.lon + ", " + location.lat
+            text: location? location.lon + ", " + location.lat : ""
         }
     }
 }
