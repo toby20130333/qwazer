@@ -41,16 +41,33 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
     qtc_packaging/debian_fremantle/changelog \
-    qml/*.qml \
-    qml/qwazer/*.qml \
-    qml/qwazer/js/*.js \
-    qml/qwazer/js/translations/*.js \
     qml/GPSProvider.qml \
     qml/SettingsPage.qml \
-    qml/qwazer/search_qml/*.qml \
     qml/AddressResultsPage.qml \
     qml/BusyPage.qml \
-    qml/qwazer/CourseResultsListModel.qml
+    qml/qwazer/CourseResultsListModel.qml \
+    qml/SearchAddressPage.qml \
+    qml/MainPage.qml \
+    qml/main.qml \
+    qml/qwazer/QwazerSettings.qml \
+    qml/qwazer/QwazerMap.qml \
+    qml/qwazer/PathSelectionPage.qml \
+    qml/qwazer/InstructionsControl.qml \
+    qml/qwazer/Translator.qml \
+    qml/qwazer/search_qml/SelectedAddressDetailsPage.qml \
+    qml/qwazer/search_qml/FindResultsModel.qml \
+    qml/qwazer/js/WazeEmbeddedMap.jsh \
+    qml/qwazer/js/translator.js \
+    qml/qwazer/js/Storage.js \
+    qml/qwazer/js/OpenLayers.jsh \
+    qml/qwazer/js/MapLogic.js \
+    qml/qwazer/js/jquery.jsh \
+    qml/qwazer/js/WazeEmbeddedMap.jsh \
+    qml/qwazer/js/translator.js \
+    qml/qwazer/js/Storage.js \
+    qml/qwazer/js/OpenLayers.jsh \
+    qml/qwazer/js/jquery.jsh \
+    qml/qwazer/js/translations/qwazer.he.js
 
 RESOURCES += \
     res.qrc
