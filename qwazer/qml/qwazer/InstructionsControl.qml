@@ -113,7 +113,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Turn Left") + mainView.forceTranslate
+                text: translator.translate("Turn Left") + translator.forceTranslate
             }
         },
         State {
@@ -131,7 +131,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Turn Right") + mainView.forceTranslate
+                text: translator.translate("Turn Right") + translator.forceTranslate
             }
         },
         State {
@@ -149,7 +149,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Continue") + mainView.forceTranslate
+                text: translator.translate("Continue") + translator.forceTranslate
             }
         },
         State {
@@ -167,7 +167,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Keep To The Right") + mainView.forceTranslate
+                text: translator.translate("Keep To The Right") + translator.forceTranslate
             }
         },
         State {
@@ -185,7 +185,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Keep To The Left") + mainView.forceTranslate
+                text: translator.translate("Keep To The Left") + translator.forceTranslate
             }
         },
         State {
@@ -198,7 +198,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + mainView.forceTranslate
+                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + translator.forceTranslate
             }
         },
         State {
@@ -211,7 +211,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + mainView.forceTranslate
+                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + translator.forceTranslate
             }
         },
         State {
@@ -224,7 +224,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Right At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Right At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -237,7 +237,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Right At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Right At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -250,7 +250,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Left At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Left At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -263,7 +263,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Left At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Left At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -275,7 +275,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Stright At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Stright At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -287,7 +287,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Stright At Roundabout") + mainView.forceTranslate
+                text: translator.translate("Stright At Roundabout") + translator.forceTranslate
             }
         },
         State {
@@ -299,7 +299,7 @@ Rectangle {
 
             PropertyChanges {
                 target: instructionText
-                text: translator.translate("Approaching Destination") + mainView.forceTranslate
+                text: translator.translate("Approaching Destination") + translator.forceTranslate
             }
         }
     ]

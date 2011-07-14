@@ -85,6 +85,10 @@ Rectangle {
         Logic.syncLocation();
     }
 
+    function stopNavigation() {
+        Logic.stopNavigation();
+    }
+
     WebView {
         id: web_view1
 
@@ -166,13 +170,4 @@ Rectangle {
         }
 
     }
-
-//    InstructionsControl {
-//        id: currentInstruction
-//        visible: false
-//        anchors.bottom: mapView.bottom
-//        anchors.bottomMargin: 7
-//        anchors.left: mapView.left
-//    }
-
 }

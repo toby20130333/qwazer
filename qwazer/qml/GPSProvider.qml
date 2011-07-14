@@ -14,6 +14,9 @@ Item {
     QtObject {
         // track mockup
         id: fakeGpsData
+
+        signal positionChanged
+
         property bool isFakeData: true
         property int index: 0
         property variant position : QtObject {
@@ -50,4 +53,13 @@ Item {
         property variant model : ListModel {}
     }
 
+    Timer {
+        id: locationUpdater
+        interval: 1500
+        running: true
+        onTriggered: {
+            fakeGpsData.next();
+            fakeGpsData.positionChanged();
+        }
+    }
 }
