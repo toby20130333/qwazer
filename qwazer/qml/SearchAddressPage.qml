@@ -34,7 +34,16 @@ Page {
         Button {
             id: searchButton
             text: "Search Address"
-            onClicked: findAddressModel.address = address.text
+            onClicked: {
+                if (findAddressModel.address != address.text)
+                {
+                    findAddressModel.address = address.text;
+                }
+                else
+                {
+                    appWindow.pageStack.push(addressResultsPage);
+                }
+            }
         }
     }
 }
