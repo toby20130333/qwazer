@@ -31,7 +31,7 @@ Item {
                   var o = a[b];
                   model.append({name: o.name, location: o.location, phone: o.phone, url: o.url, businessName: o.businessName});
               }
-              appWindow.pageStack.pop(undefined, undefined, true);
+              appWindow.pageStack.pop(undefined, true);
               loadDone();
           }
           else
@@ -64,7 +64,7 @@ Item {
 
         onBackClicked: {
             cancelled = true;
-            appWindow.pageStack.pop(undefined, undefined, true);
+            appWindow.pageStack.pop(undefined, true);
         }
     }
 }

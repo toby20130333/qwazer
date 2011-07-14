@@ -61,7 +61,7 @@ Page {
                 }
                 else
                 {
-                    courseResultsModel.onLoadDone();
+                    courseResultsModel.loadDone();
                 }
         }
 

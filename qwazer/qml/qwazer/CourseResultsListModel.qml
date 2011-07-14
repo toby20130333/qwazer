@@ -48,7 +48,7 @@ Item {
                    dataModel.append({response: o.response});
                 }
 
-                appWindow.pageStack.pop(undefined, undefined, true);
+                appWindow.pageStack.pop(undefined, true);
                 loadDone();
             }
             else
@@ -84,7 +84,7 @@ Item {
 
         onBackClicked: {
             cancelled = true;
-            appWindow.pageStack.pop(undefined, undefined, true);
+            appWindow.pageStack.pop(undefined, true);
         }
     }
 }
