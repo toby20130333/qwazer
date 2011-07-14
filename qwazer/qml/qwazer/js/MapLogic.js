@@ -104,10 +104,7 @@ function navigate()
     console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
 
-    mapView.state = "NavigateState";
     currentInstruction.sectionData = mapView.navigationInfo.results[0];
-
-    locationUpdater.start();
 }
 
 function syncLocation()
@@ -120,12 +117,6 @@ function syncLocation()
 
     var coords = mapView.navigationInfo.coords;
     var segmentsInfo = mapView.navigationInfo.results;
-
-    if (gpsData.isFakeData)
-    {
-        // auto driver for testing
-        gpsData.next();
-    }
 
     showMe();
     if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
@@ -199,7 +190,5 @@ function isOnTrack(loc, startPoint, endPoint)
 
 function stopNavigation()
 {
-    locationUpdater.stop();
     clearMarkersAndRoute();
-    mapView.state = "BrowseState";
 }

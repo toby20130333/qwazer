@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import ".."
 
 Page {
     id: pathSelectionPage
@@ -41,12 +42,20 @@ Page {
                 MouseArea {
                     anchors.fill: row
                     onClicked: {
-                        appWindow.pageStack.pop(null);
+                        appWindow.pageStack.push(coursePlottingBusyPage, null, true);
                         mainPage.navigate(response);
+                        appWindow.pageStack.pop(null);
                     }
                 }
             }
             model: courseResultsModel.dataModel
         }
+    }
+
+    BusyPage {
+        id: coursePlottingBusyPage
+        text: "Plotting course..."
+        backIcon: ""
+        onBackClicked: {}
     }
 }
