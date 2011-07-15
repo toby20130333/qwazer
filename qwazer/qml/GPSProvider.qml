@@ -5,10 +5,13 @@ Item {
     id: gps
     property alias positionSource: fakeGpsData
 
+    property int updateInterval: 1500
+
 //    PositionSource {
-//        id: gpsData
-//        active: true
-//        //nmeaSource: "nmealog.txt"
+//       id: gpsData
+//       active: true
+//       //nmeaSource: "nmealog.txt"
+//       updateInterval: gps.updateInterval
 //    }
 
     QtObject {
@@ -17,6 +20,7 @@ Item {
 
         signal positionChanged
 
+        property int updateInterval : gps.updateInterval
         property bool isFakeData: true
         property int index: 0
         property variant position : QtObject {
@@ -55,7 +59,7 @@ Item {
 
     Timer {
         id: locationUpdater
-        interval: 1500
+        interval: gps.updateInterval
         running: true
         repeat: true
         onTriggered: {

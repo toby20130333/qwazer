@@ -19,7 +19,7 @@ Rectangle {
     property variant previousGpsLocation
     property variant currentGpsLocation
 
-    property alias mapAngle: webViewRotation.angle
+    property bool mapRotates: false
 
     property bool isFollowMe: false
 
@@ -89,6 +89,27 @@ Rectangle {
         Logic.stopNavigation();
     }
 
+    function computeMapAngle() {
+        // thanks to http://stackoverflow.com/questions/642555/how-do-i-calculate-the-azimuth-angle-to-north-between-two-wgs84-coordinates/1050914#1050914
+        if (!currentGpsLocation ||
+            !previousGpsLocation ||
+            currentGpsLocation.lon == previousGpsLocation.lon)
+        {
+            return 0;
+        }
+
+        var dx = currentGpsLocation.lon - previousGpsLocation.lon;
+        var dy = currentGpsLocation.lat - previousGpsLocation.lat;
+
+        var azimuth = (Math.PI/2) - Math.atan(dy/dx);
+        if (dx < 0) azimuth += Math.PI;
+        else if (dy < 0) azimuth = Math.PI;
+
+        var mapAngle = azimuth*180/Math.PI;
+        console.log(mapAngle);
+        return -mapAngle;
+    }
+
     WebView {
         id: web_view1
 
@@ -106,7 +127,7 @@ Rectangle {
             origin.y: Math.floor(web_view1.height/2)
             axis{ x: 0; y: 0; z:1 }
 
-            Behavior on angle { PropertyAnimation{ duration: locationUpdater.interval*0.9; easing.type: Easing.InOutSine} }
+            Behavior on angle { PropertyAnimation{ duration: gpsData.updateInterval*0.9; easing.type: Easing.InOutSine} }
         }
 
         javaScriptWindowObjects: [
@@ -143,6 +164,25 @@ Rectangle {
         onAlert: console.log(message)
 
         onLoadFinished: mapView.mapLoaded()
+
+        states: [
+            State {
+                name: "Rotate"
+                when: mapView.mapRotates
+                PropertyChanges {
+                    target: webViewRotation
+                    angle: computeMapAngle()
+                }
+            },
+            State {
+                name: "ConstAngle"
+                when: !mapView.mapRotates
+                PropertyChanges {
+                    target: webViewRotation
+                    angle: 0
+                }
+            }
+        ]
     }
 
     Column {
@@ -168,6 +208,5 @@ Rectangle {
             text: "-"
             onClicked: Logic.zoomOut()
         }
-
     }
 }
