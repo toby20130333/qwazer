@@ -36,12 +36,12 @@ Item {
 
         function next()
         {
-            if (index < model.count - 1)
+            if (index < model.count)
             {
+                position.coordinate.longitude = model.get(index).longitude;
+                position.coordinate.latitude = model.get(index).latitude;
                 index++;
             }
-            position.coordinate.longitude = model.get(index).longitude;
-            position.coordinate.latitude = model.get(index).latitude;
         }
 
         function reset()
@@ -57,6 +57,7 @@ Item {
         id: locationUpdater
         interval: 1500
         running: true
+        repeat: true
         onTriggered: {
             fakeGpsData.next();
             fakeGpsData.positionChanged();

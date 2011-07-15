@@ -16,6 +16,12 @@ Page {
 
     function navigate(course) {
         map.navigationInfo = course;
+        state = "Navigation";
+    }
+
+    function stopNavigation() {
+        map.stopNavigation();
+        state = "Browse";
     }
 
     Item {
@@ -83,7 +89,14 @@ Page {
                     }
                 ]
             }
-            ToolIcon { id: showMeButton; anchors.verticalCenterOffset: 0; anchors.rightMargin: 10; platformIconId: "toolbar-directory-move-to"; iconId: "toolbar-directory-move-to";            anchors.right: settingsButton.left
+            ToolIcon {
+                id: showMeButton;
+                visible: !followMeButton.isSelected
+                anchors.verticalCenterOffset: 0;
+                anchors.rightMargin: 10;
+                platformIconId: "toolbar-directory-move-to";
+                iconId: "toolbar-directory-move-to";
+                anchors.right: settingsButton.left
                 onClicked: map.showMe(true, true)
             }
             ToolIcon { id: quitButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; platformIconId: "toolbar-close"; iconId: "toolbar-close";            anchors.left: parent===undefined ? undefined : parent.left
@@ -123,7 +136,7 @@ Page {
                 anchors.right: navShowMeButton.left
                 onClicked: followMeButton.isSelected = !followMeButton.isSelected
                 iconId: "toolbar-unlocked"
-                property bool isSelected: false
+                property bool isSelected: true
 
                 states: [
                     State {
@@ -150,6 +163,7 @@ Page {
             }
             ToolIcon {
                 id: navShowMeButton;
+                visible: !navFollowMeButton.isSelected
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
                 platformIconId: "toolbar-directory-move-to";
@@ -161,10 +175,10 @@ Page {
                 id: stopNavigation;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                platformIconId: "toolbar-directory-move-to";
-                iconId: "toolbar-directory-move-to";
+                platformIconId: "toolbar-stop";
+                iconId: "toolbar-stop";
                 anchors.right: navShowMeButton.left
-                onClicked: map.stopNavigation()
+                onClicked: stopNavigation()
             }
             ToolIcon {
                 id: navQuitButton;
@@ -204,6 +218,14 @@ Page {
                 tools: browseTools
             }
             PropertyChanges {
+                target: map
+                isFollowMe: followMeButton.isSelected
+            }
+            PropertyChanges {
+                target: gpsData
+                onPositionChanged: map.showMe()
+            }
+            PropertyChanges {
                 target: currentInstruction
                 visible: false
             }
@@ -217,6 +239,14 @@ Page {
             PropertyChanges {
                 target: currentInstruction
                 visible: true
+            }
+            PropertyChanges {
+                target: map
+                isFollowMe: navFollowMeButton.isSelected
+            }
+            PropertyChanges {
+                target: gpsData
+                onPositionChanged: map.syncLocation()
             }
         }
     ]
