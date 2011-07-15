@@ -206,6 +206,7 @@ Page {
         anchors.bottom: mainPage.bottom
         anchors.bottomMargin: 10
         anchors.left: mainPage.left
+        opacity: 0.7
     }
 
     SearchAddressPage {id: searchAddressPage}
@@ -220,6 +221,7 @@ Page {
             PropertyChanges {
                 target: map
                 isFollowMe: followMeButton.isSelected
+                mapRotates: false
             }
             PropertyChanges {
                 target: gpsData
@@ -243,6 +245,7 @@ Page {
             PropertyChanges {
                 target: map
                 isFollowMe: navFollowMeButton.isSelected
+                mapRotates: true
             }
             PropertyChanges {
                 target: gpsData
