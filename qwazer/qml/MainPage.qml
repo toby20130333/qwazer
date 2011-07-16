@@ -24,8 +24,7 @@ Page {
         state = "Browse";
     }
 
-    Item {
-        ToolBarLayout {
+   tools: ToolBarLayout {
             id: browseTools
 
             ToolIcon {
@@ -46,7 +45,6 @@ Page {
                 iconId: "toolbar-settings";
                 platformIconId: "toolbar-settings"
                 anchors.right: homeButton.left
-                onClicked: appWindow.pageStack.push(settingsPage)
             }
             ToolIcon {
                 id: searchButton;
@@ -56,6 +54,15 @@ Page {
                 iconId: "toolbar-search";
                 anchors.right: followMeButton.left
                 onClicked: mainPage.pageStack.push(searchAddressPage)
+            }
+            ToolIcon {
+                id: stopNavigationButton;
+                anchors.verticalCenterOffset: 0;
+                anchors.rightMargin: 10;
+                platformIconId: "toolbar-stop";
+                iconId: "toolbar-stop";
+                anchors.right: followMeButton.left
+                onClicked: map.stopNavigation()
             }
             ToolIcon {
                 id: followMeButton;
@@ -103,101 +110,32 @@ Page {
                 onClicked: Qt.quit()
             }
         }
-    }
-
-    Item {
-        ToolBarLayout {
-            id: navigationTools
-
-            ToolIcon {
-                id: navHomeButton;
-                y: 0;
-                width: 64;
-                anchors.right: parent.right;
-                anchors.rightMargin: 10;
-                anchors.verticalCenterOffset: 0;
-                iconId: "toolbar-home";
-                platformIconId: "toolbar-home"
-                onClicked: console.log("home clicked")
-            }
-            ToolIcon {
-                id: navSettingsButton;
-                anchors.verticalCenterOffset: 0;
-                anchors.rightMargin: 10;
-                iconId: "toolbar-settings";
-                platformIconId: "toolbar-settings"
-                anchors.right: navHomeButton.left
-                onClicked: appWindow.pageStack.push(navSettingsPage)
-            }
-            ToolIcon {
-                id: navFollowMeButton;
-                anchors.verticalCenterOffset: 0;
-                anchors.rightMargin: 10;
-                anchors.right: navShowMeButton.left
-                onClicked: followMeButton.isSelected = !followMeButton.isSelected
-                iconId: "toolbar-unlocked"
-                property bool isSelected: true
-
-                states: [
-                    State {
-                        name: "Selected"
-                        when:  followMeButton.isSelected
-
-                        PropertyChanges {
-                            target: followMeButton
-                            iconId: "toolbar-unlocked"
-                            platformIconId: "toolbar-unlocked"
-                        }
-                    },
-                    State {
-                        name: "UnSelected"
-                        when:  !followMeButton.isSelected
-
-                        PropertyChanges {
-                            target: followMeButton
-                            iconId: "toolbar-locked"
-                            platformIconId: "toolbar-locked"
-                        }
-                    }
-                ]
-            }
-            ToolIcon {
-                id: navShowMeButton;
-                visible: !navFollowMeButton.isSelected
-                anchors.verticalCenterOffset: 0;
-                anchors.rightMargin: 10;
-                platformIconId: "toolbar-directory-move-to";
-                iconId: "toolbar-directory-move-to";
-                anchors.right: navSettingsButton.left
-                onClicked: map.showMe(true, true)
-            }
-            ToolIcon {
-                id: stopNavigation;
-                anchors.verticalCenterOffset: 0;
-                anchors.rightMargin: 10;
-                platformIconId: "toolbar-stop";
-                iconId: "toolbar-stop";
-                anchors.right: navShowMeButton.left
-                onClicked: stopNavigation()
-            }
-            ToolIcon {
-                id: navQuitButton;
-                anchors.verticalCenterOffset: 0;
-                anchors.leftMargin: 10;
-                platformIconId: "toolbar-close";
-                iconId: "toolbar-close";
-                anchors.left: parent===undefined ? undefined : parent.left
-                onClicked: Qt.quit()
-            }
-        }
-    }
 
     QwazerMap {
         id: map
 
         anchors.fill: mainPage
 
+        isFollowMe: followMeButton.isSelected
         onMapLoaded: appWindow.pageStack.replace(mainPage)
+
+        ButtonColumn {
+            anchors.right: map.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: map.verticalCenter
+            exclusive: false
+            width: 50
+
+            Button {
+                text: "+"
+                onClicked: map.zoomIn()
+            }
+
+            Button {
+                text: "-"
+                onClicked: map.zoomOut()
+            }
+        }
     }
 
     InstructionsControl {
@@ -215,12 +153,19 @@ Page {
         State {
             name: "Browse"
             PropertyChanges {
-                target: mainPage
-                tools: browseTools
+                target: settingsButton
+                onClicked: appWindow.pageStack.push(settingsPage)
+            }
+            PropertyChanges {
+                target: stopNavigationButton
+                visible: false
+            }
+            PropertyChanges {
+                target: searchButton
+                visible: true
             }
             PropertyChanges {
                 target: map
-                isFollowMe: followMeButton.isSelected
                 mapRotates: false
             }
             PropertyChanges {
@@ -235,17 +180,24 @@ Page {
         State {
             name: "Navigation"
             PropertyChanges {
-                target: mainPage
-                tools: navigationTools
+                target: settingsButton
+                onClicked: appWindow.pageStack.push(navSettingsPage)
+            }
+            PropertyChanges {
+                target: map
+                mapRotates: true
+            }
+            PropertyChanges {
+                target: stopNavigationButton
+                visible: true
+            }
+            PropertyChanges {
+                target: searchButton
+                visible: false
             }
             PropertyChanges {
                 target: currentInstruction
                 visible: true
-            }
-            PropertyChanges {
-                target: map
-                isFollowMe: navFollowMeButton.isSelected
-                mapRotates: true
             }
             PropertyChanges {
                 target: gpsData

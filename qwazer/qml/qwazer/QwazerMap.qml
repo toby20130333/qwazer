@@ -1,7 +1,6 @@
 import QtQuick 1.0
 import QtWebKit 1.0
 import "js/MapLogic.js" as Logic
-import com.meego 1.0
 
 Rectangle {
     id: mapView
@@ -63,6 +62,14 @@ Rectangle {
 
     function setZoom(zoom) {
        Logic.setZoom(zoom);
+    }
+
+    function zoomIn() {
+        Logic.zoomIn();
+    }
+
+    function zoomOut() {
+        Logic.zoomOut();
     }
 
     function markDestination(lon, lat) {
@@ -183,30 +190,5 @@ Rectangle {
                 }
             }
         ]
-    }
-
-    Column {
-        id: zoomInOutButtons
-        spacing: 100
-
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
-
-        Button {
-            id: zoomInButton
-            width: 70
-            height: width
-            text: "+"
-            onClicked: Logic.zoomIn()
-        }
-
-        Button {
-            id: zoomOutButton
-            width: 70
-            height: width
-            text: "-"
-            onClicked: Logic.zoomOut()
-        }
     }
 }
