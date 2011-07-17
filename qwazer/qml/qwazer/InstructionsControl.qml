@@ -20,9 +20,9 @@ Rectangle {
         instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
         instructionsControl.state = sectionData.instruction.opcode;
         instructionArg.text = sectionData.instruction.arg;
-        instructionArg.visible = sectionData.instruction.arg != 0;
+        instructionArg.visible = sectionData.instruction.arg !== 0;
         var streetName = sectionData.streetName;
-        streetNameText.text = (streetName!=null)? streetName : "";
+        streetNameText.text = (streetName!==null)? streetName : "";
     }
 
     Rectangle {

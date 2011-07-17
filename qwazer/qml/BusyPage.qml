@@ -10,10 +10,6 @@ Page {
 
     signal backClicked
 
-    Component.onCompleted: {
-        settings.initialize();
-    }
-
     Row {
         id: loadingIndicator
         anchors.verticalCenter: parent.verticalCenter
