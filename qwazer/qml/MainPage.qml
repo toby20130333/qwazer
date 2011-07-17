@@ -62,7 +62,7 @@ Page {
                 platformIconId: "toolbar-stop";
                 iconId: "toolbar-stop";
                 anchors.right: followMeButton.left
-                onClicked: map.stopNavigation()
+                onClicked: mainPage.stopNavigation()
             }
             ToolIcon {
                 id: followMeButton;
@@ -198,6 +198,10 @@ Page {
             PropertyChanges {
                 target: currentInstruction
                 visible: true
+            }
+            PropertyChanges {
+                target: followMeButton
+                isSelected: true
             }
             PropertyChanges {
                 target: gpsData
