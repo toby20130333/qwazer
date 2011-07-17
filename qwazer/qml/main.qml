@@ -8,6 +8,10 @@ PageStackWindow {
 
     initialPage: settingsLoadPage
 
+    Component.onCompleted: {
+        settings.initialize();
+    }
+
     property alias gpsData: gps.positionSource
 
     GPSProvider {
@@ -17,7 +21,16 @@ PageStackWindow {
     QwazerSettings {
         id: settings
 
-        onSettingsLoaded: mainPage.initialize()
+        onSettingsLoaded: {
+            if (typeof(settings.isFirstRun) == "undefined" || settings.isFirstRun)
+            {
+                appWindow.pageStack.replace(settingsPage, null, true);
+            }
+            else
+            {
+                mainPage.initialize();
+            }
+        }
     }
 
     Translator { id: translator }

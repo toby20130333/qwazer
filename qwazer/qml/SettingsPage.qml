@@ -4,7 +4,23 @@ import com.meego 1.0
 Page {
     id: settingsPage
 
-    tools: commonBackButtonToolbar
+    tools: ToolBarLayout {
+        id: commonBackButtonToolbar
+        ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: {
+               if (settings.isFirstRun)
+               {
+                   settings.isFirstRun = !settings.isFirstRun;
+                   appWindow.pageStack.replace(mainPage, null, true);
+               }
+               else
+               {
+                   appWindow.pageStack.pop();
+               }
+            }
+        }
+    }
 
     Grid {
         columns: 2
