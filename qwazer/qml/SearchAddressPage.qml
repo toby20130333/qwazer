@@ -7,7 +7,25 @@ Page {
     width: 800
     height: 400
 
-    tools: commonBackButtonToolbar
+    tools: ToolBarLayout {
+        id: backButtonWithModeToolbar
+        ButtonRow {
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            Button {
+                text: "Search"
+            }
+
+            Button {
+                text: "Favorites"
+            }
+        }
+
+        ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
+            anchors.left: parent===undefined ? undefined : parent.left
+            onClicked: appWindow.pageStack.pop()
+        }
+    }
 
 
     FindResultsModel {
