@@ -82,7 +82,7 @@ Page {
         spacing: 20
 
         Label {
-            text: "Address:"
+            text: translator.translate("Address%1", ":") + translator.forceTranslate
         }
 
         Label {
@@ -90,7 +90,7 @@ Page {
         }
 
         Label {
-            text: "Business Name:"
+            text: translator.translate("Business Name%1", ":") + translator.forceTranslate
             visible: businessName != ""
         }
 
@@ -99,7 +99,7 @@ Page {
         }
 
         Label {
-            text: "Homepage:"
+            text: translator.translate("Homepage%1", ":") + translator.forceTranslate
             visible: url != ""
         }
 
@@ -108,7 +108,7 @@ Page {
         }
 
         Label {
-            text: "Phone Number:"
+            text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
             visible: phone != ""
         }
 
@@ -117,7 +117,7 @@ Page {
         }
 
         Label {
-            text: "Location:"
+            text: translator.translate("Location%1", ":") + translator.forceTranslate
         }
 
         Label {

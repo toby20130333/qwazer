@@ -80,7 +80,7 @@ Item {
     BusyPage {
         id: loadingResultsPage
 
-        text: "Calculating Course..."
+        text: translator.translate("Calculating Course%1", "...") + translator.forceTranslate
 
         onBackClicked: {
             cancelled = true;

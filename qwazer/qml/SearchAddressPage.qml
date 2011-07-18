@@ -13,11 +13,11 @@ Page {
             anchors.right: parent.right
             anchors.rightMargin: 10
             Button {
-                text: "Search"
+                text: translator.translate("Search") + translator.forceTranslate
             }
 
             Button {
-                text: "Favorites"
+                text: translator.translate("Favorites") + translator.forceTranslate
             }
         }
 
@@ -39,7 +39,7 @@ Page {
 
     Column {
         Label {
-            text: "Enter address to find"
+            text: translator.translate("Enter address to find") + translator.forceTranslate
         }
 
         TextField {
@@ -51,7 +51,7 @@ Page {
 
         Button {
             id: searchButton
-            text: "Search Address"
+            text: translator.translate("Search Address") + translator.forceTranslate
             onClicked: {
                 if (findAddressModel.address != address.text)
                 {

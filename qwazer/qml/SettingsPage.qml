@@ -27,7 +27,7 @@ Page {
         spacing: 20
 
         Label {
-            text: "Language:"
+            text: translator.translate("Language%1", ":") + translator.forceTranslate
         }
 
         Button {
@@ -36,7 +36,7 @@ Page {
         }
 
         Label {
-            text: "Default Country:"
+            text: translator.translate("Default Country%1", ":") + translator.forceTranslate
         }
 
         Button {
@@ -45,7 +45,7 @@ Page {
         }
 
         CheckBox {
-            text: "Night Mode (TODO)"
+            text: translator.translate("Night Mode (TODO)") + translator.forceTranslate
             onCheckedChanged: settings.nightMode = checked
         }
     }
