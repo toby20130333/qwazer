@@ -135,7 +135,7 @@ Rectangle {
             origin.y: Math.floor(web_view1.height/2)
             axis{ x: 0; y: 0; z:1 }
 
-            Behavior on angle { PropertyAnimation{ duration: gpsData.updateInterval; easing.type: Easing.InOutSine} }
+            Behavior on angle { PropertyAnimation{ duration: gpsData.updateInterval*0.9; easing.type: Easing.InOutSine} }
         }
 
         javaScriptWindowObjects: [
