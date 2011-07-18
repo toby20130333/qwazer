@@ -44,8 +44,12 @@ Page {
             onClicked: countriesMenu.open()
         }
 
-        CheckBox {
-            text: translator.translate("Night Mode (TODO)") + translator.forceTranslate
+        Label {
+            text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+            checked: settings.nightMode
             onCheckedChanged: settings.nightMode = checked
         }
     }

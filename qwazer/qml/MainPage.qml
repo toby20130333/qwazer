@@ -149,6 +149,8 @@ Page {
 
     SearchAddressPage {id: searchAddressPage}
 
+    NavSettingsPage {id: navSettingsPage }
+
     states: [
         State {
             name: "Browse"

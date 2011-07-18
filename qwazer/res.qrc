@@ -26,5 +26,6 @@
         <file>qml/qwazer/CourseResultsListModel.qml</file>
         <file>qml/qwazer/PathSelectionPage.qml</file>
         <file>qml/qwazer/InstructionsControl.qml</file>
+        <file>qml/NavSettingsPage.qml</file>
     </qresource>
 </RCC>
