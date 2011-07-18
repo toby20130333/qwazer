@@ -6,6 +6,10 @@ Page {
     id: mainPage
     state: "Browse"
 
+    property bool isGPSDataValid :  gpsData.position.verticalAccuracyValid &&
+                                    gpsData.position.horizontalAccuracyValid &&
+                                    gpsData.position.verticalAccuracy < 100 &&
+                                    gpsData.position.horizontalAccuracy < 100
     function initialize() {
         map.initialize();
     }
@@ -145,6 +149,14 @@ Page {
         anchors.bottomMargin: 10
         anchors.left: mainPage.left
         opacity: 0.7
+    }
+
+    Notification {
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: translator.translate("Bad GPS Reception") + translator.forceTranslate
+
+        active: !isGPSDataValid
     }
 
     SearchAddressPage {id: searchAddressPage}

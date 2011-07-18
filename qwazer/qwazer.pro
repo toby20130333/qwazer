@@ -68,7 +68,8 @@ OTHER_FILES += \
     qml/qwazer/js/OpenLayers.jsh \
     qml/qwazer/js/jquery.jsh \
     qml/qwazer/js/translations/qwazer.he.js \
-    qml/NavSettingsPage.qml
+    qml/NavSettingsPage.qml \
+    qml/qwazer/Notification.qml
 
 RESOURCES += \
     res.qrc
