@@ -1,5 +1,5 @@
 // generate translation file:
-// langID=he && ( echo -e "var _translation_${langID}={};\n\nfunction get_translation_${langID}() {\n\treturn _translation_${langID};\n}\n";grep -R '\.translate[ ]*([ ]*"[^"]*"' qwazer/qml/qwazer/ | sed 's/.*translate[ ]*([ ]*"\([^"]*\)".*/_translation_'${langID}'["\1"]="\1";/g' |sort -u ) >  qwazer/qml/qwazer/js/translations/qwazer.${langID}.js
+// langID=he && ( echo -e "var _translation_${langID}={};\n\nfunction get_translation_${langID}() {\n\treturn _translation_${langID};\n}\n";([ -e qwazer/qml/qwazer/js/translations/qwazer.${langID}.js ] && grep '_translation_he.*="' qwazer/qml/qwazer/js/translations/qwazer.${langID}.js;grep -R '\.translate[ ]*([ ]*"[^"]*"' qwazer/qml/ | sed 's/.*translate[ ]*([ ]*"\([^"]*\)".*/_translation_'${langID}'["\1"]="\1";/g') |sort -u ) >  qwazer/qml/qwazer/js/translations/qwazer.${langID}.js.new && mv qwazer/qml/qwazer/js/translations/qwazer.${langID}.js.new qwazer/qml/qwazer/js/translations/qwazer.${langID}.js
 
 var _currentTranslation;
 var _translations = [];

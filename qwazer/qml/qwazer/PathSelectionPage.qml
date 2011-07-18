@@ -54,7 +54,7 @@ Page {
 
     BusyPage {
         id: coursePlottingBusyPage
-        text: "Plotting course..."
+        text: translator.translate("Plotting course%1", "...") + translator.forceTranslate
         backIcon: ""
         onBackClicked: {}
     }

@@ -24,7 +24,7 @@ Page {
         Label {
             id: loadStatus
 
-            text: "Loading..."
+            text: translator.translate("Loading%1", "...") + translator.forceTranslate
         }
     }
 

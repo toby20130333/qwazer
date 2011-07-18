@@ -60,7 +60,7 @@ Item {
     BusyPage {
         id: loadingResultsPage
 
-        text: "Searching for address..."
+        text: translator.translate("Searching for address%1", "...") + translator.forceTranslate
 
         onBackClicked: {
             cancelled = true;

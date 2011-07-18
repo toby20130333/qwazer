@@ -11,11 +11,11 @@ Rectangle {
         console.log("updating segment: " + JSON.stringify(sectionData));
         if (sectionData.length < 1000)
         {
-            sectionLengthText.text = translator.translate("In %1m", sectionData.length);
+            sectionLengthText.text = translator.translate("In %1m", sectionData.length) + translator.forceTranslate;
         }
         else
         {
-            sectionLengthText.text = translator.translate("In %1km", sectionData.length);
+            sectionLengthText.text = translator.translate("In %1km", sectionData.length) + translator.forceTranslate;
         }
         instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
         instructionsControl.state = sectionData.instruction.opcode;
