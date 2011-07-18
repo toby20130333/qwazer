@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QObject::connect(view.engine(), SIGNAL(quit()),
                         &app, SLOT(quit()));
     view.setSource(QUrl("qrc:/qml/main.qml"));
-#ifdef MAEMO5
+#ifdef Q_WS_MAEMO_5
     view.showFullScreen();
 #else
     view.showNormal();
