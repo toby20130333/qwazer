@@ -2,6 +2,7 @@ import QtQuick 1.0
 
 Rectangle {
     id: notification
+    anchors.horizontalCenter: parent.horizontalCenter
     width: 200
     height: 50
     color: "#00000000"
@@ -62,10 +63,19 @@ Rectangle {
         State {
             name: "ActiveState"
             when: notification.active
+
+            PropertyChanges {
+                target: notification
+                y: 0
+            }
         },
         State {
             name: "NonActiveState"
             when: !notification.active
+            PropertyChanges {
+                target: notification
+                y: -notification.height
+            }
         }
     ]
 
@@ -76,11 +86,9 @@ Rectangle {
 
             NumberAnimation {
                 target: notification
-                property: "opacity"
-                easing.type: Easing.Linear
-                duration: 1000;
-                from: 1
-                to: 0
+                property: "y"
+                easing.type: Easing.OutQuad
+                duration: 1000
             }
         },
         Transition {
@@ -89,11 +97,9 @@ Rectangle {
 
             NumberAnimation {
                 target: notification
-                property: "opacity"
-                easing.type: Easing.Linear
+                property: "y"
+                easing.type: Easing.InQuad
                 duration: 1000;
-                from: 0
-                to: 1
             }
         }
     ]
