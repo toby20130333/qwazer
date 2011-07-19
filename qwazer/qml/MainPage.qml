@@ -152,8 +152,6 @@ Page {
     }
 
     Notification {
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
         text: translator.translate("Bad GPS Reception") + translator.forceTranslate
 
         active: !isGPSDataValid

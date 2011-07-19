@@ -41,11 +41,7 @@ Page {
                 }
                 MouseArea {
                     anchors.fill: row
-                    onClicked: {
-                        appWindow.pageStack.push(coursePlottingBusyPage, null, true);
-                        mainPage.navigate(response);
-                        appWindow.pageStack.pop(null);
-                    }
+                    onClicked: appWindow.pageStack.push(coursePlottingBusyPage, {course: response}, true);
                 }
             }
             model: courseResultsModel.dataModel
@@ -57,5 +53,18 @@ Page {
         text: translator.translate("Plotting course%1", "...") + translator.forceTranslate
         backIcon: ""
         onBackClicked: {}
+
+        property variant course
+        onCourseChanged: delayedWorker.running = true
+
+        Timer {
+            id: delayedWorker
+            interval: 1000
+            onTriggered: {
+                appWindow.pageStack.pop(null, true);
+                mainPage.navigate(coursePlottingBusyPage.course);
+            }
+            repeat: false
+        }
     }
 }
