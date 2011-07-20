@@ -5,7 +5,7 @@ Item {
     id: gps
     property alias positionSource: fakeGpsData
 
-    property int updateInterval: 1500
+    property int updateInterval: 2000
 
 //    PositionSource {
 //       id: gpsData

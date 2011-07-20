@@ -33,5 +33,13 @@ Page {
         Switch {
 
         }
+
+        Label {
+            text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+
+        }
     }
 }
