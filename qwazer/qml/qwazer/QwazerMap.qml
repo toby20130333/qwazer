@@ -90,6 +90,7 @@ Rectangle {
     }
 
     function syncLocation() {
+        Logic.showMe();
         Logic.syncLocation();
     }
 
@@ -115,7 +116,7 @@ Rectangle {
 
         var mapAngle = azimuth*180/Math.PI;
         console.log(mapAngle + ": " + gpsData.updateInterval);
-        return -mapAngle;
+        return (mapAngle>-180)? -mapAngle : mapAngle;
     }
 
     WebView {
@@ -135,7 +136,12 @@ Rectangle {
             origin.y: Math.floor(web_view1.height/2)
             axis{ x: 0; y: 0; z:1 }
 
-            Behavior on angle { PropertyAnimation{ duration: gpsData.updateInterval*0.9; easing.type: Easing.InOutSine} }
+            Behavior on angle {
+                PropertyAnimation{
+                    duration: gpsData.updateInterval/4;
+                    easing.type: Easing.InOutSine
+                }
+            }
         }
 
         javaScriptWindowObjects: [

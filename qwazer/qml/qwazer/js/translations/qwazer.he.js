@@ -39,6 +39,7 @@ _translation_he["Phone Number%1"]="מספר טלפון%1";
 _translation_he["Plotting course%1"]="משרטט מסלול%1";
 _translation_he["Right At Roundabout"]="בכיכר פנה ימינה";
 _translation_he["Roundabout Exit At %1"]="בכיכר צא ביציאה ה%1";
+_translation_he["Screen stays lit%1"]="השאר מסך דלוק%1";
 _translation_he["Search Address"]="חפש כתובת";
 _translation_he["Searching for address%1"]="מחפש כתובת%1";
 _translation_he["Search"]="חפש";

@@ -66,14 +66,12 @@ function showMe(shouldCenter, shouldZoom)
 
     if (isFollowMe || shouldCenter)
     {
-        console.log("center");
         setCenter(mapView.currentGpsLocation.lon, mapView.currentGpsLocation.lat);
         settings.lastKnownPosition = mapView.currentGpsLocation;
     }
 
     if (isFollowMe || shouldZoom)
     {
-        console.log("zoom");
         zoomInToMax();
     }
 }
@@ -118,7 +116,6 @@ function syncLocation()
     var coords = mapView.navigationInfo.coords;
     var segmentsInfo = mapView.navigationInfo.results;
 
-    showMe();
     if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
     {
         return;
