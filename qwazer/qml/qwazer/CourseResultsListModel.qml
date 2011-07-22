@@ -75,16 +75,4 @@ Item {
 
                                         signal loadCompleted()
                                     }
-
-
-    BusyPage {
-        id: loadingResultsPage
-
-        text: translator.translate("Calculating Course%1", "...") + translator.forceTranslate
-
-        onBackClicked: {
-            cancelled = true;
-            appWindow.pageStack.pop(undefined, true);
-        }
-    }
 }

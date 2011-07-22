@@ -1,4 +1,11 @@
 # Add more folders to ship with the application, here
+folder_01.source = qml/qwazer
+folder_01.target = qml
+folder_02.source = qml/maemo
+folder_02.target = qml
+folder_03.source = qml/meego
+folder_03.target = qml
+DEPLOYMENTFOLDERS = folder_01 folder_02 folder_03
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -40,39 +47,7 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/copyright \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
-    qtc_packaging/debian_fremantle/changelog \
-    qml/GPSProvider.qml \
-    qml/SettingsPage.qml \
-    qml/AddressResultsPage.qml \
-    qml/BusyPage.qml \
-    qml/qwazer/CourseResultsListModel.qml \
-    qml/SearchAddressPage.qml \
-    qml/MainPage.qml \
-    qml/main.qml \
-    qml/qwazer/QwazerSettings.qml \
-    qml/qwazer/QwazerMap.qml \
-    qml/qwazer/PathSelectionPage.qml \
-    qml/qwazer/InstructionsControl.qml \
-    qml/qwazer/Translator.qml \
-    qml/qwazer/search_qml/SelectedAddressDetailsPage.qml \
-    qml/qwazer/search_qml/FindResultsModel.qml \
-    qml/qwazer/js/WazeEmbeddedMap.jsh \
-    qml/qwazer/js/translator.js \
-    qml/qwazer/js/Storage.js \
-    qml/qwazer/js/OpenLayers.jsh \
-    qml/qwazer/js/MapLogic.js \
-    qml/qwazer/js/jquery.jsh \
-    qml/qwazer/js/WazeEmbeddedMap.jsh \
-    qml/qwazer/js/translator.js \
-    qml/qwazer/js/Storage.js \
-    qml/qwazer/js/OpenLayers.jsh \
-    qml/qwazer/js/jquery.jsh \
-    qml/qwazer/js/translations/qwazer.he.js \
-    qml/NavSettingsPage.qml \
-    qml/qwazer/Notification.qml
-
-RESOURCES += \
-    res.qrc
+    qtc_packaging/debian_fremantle/changelog
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
