@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
     QDir qwazerDir = QDir(app.applicationDirPath());
 
 
-#ifdef Q_WS_MAEMO_5
-    qwazerDir.cdUp();
+//#ifdef Q_WS_MAEMO_5
+//    qwazerDir.cdUp();
     view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/maemo/main.qml")));
-    view.showFullScreen();
-#else
-    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/meego/main.qml")));
+//    view.showFullScreen();
+//#else
+//    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/meego/main.qml")));
     view.showNormal();
-#endif
+//#endif
     return app.exec();
 }
