@@ -1,0 +1,37 @@
+var _translation_he={};
+
+function get_translation_he() {
+	return _translation_he;
+}
+
+_translation_he["Address%1"]="Address%1";
+_translation_he["Approaching Destination"]="Approaching Destination";
+_translation_he["Back"]="Back";
+_translation_he["Business Name%1"]="Business Name%1";
+_translation_he["Calculating Course%1"]="Calculating Course%1";
+_translation_he["Continue"]="Continue";
+_translation_he["Distance is %1km"]="Distance is %1km";
+_translation_he["Estimated time is %1:%2 minutes"]="Estimated time is %1:%2 minutes";
+_translation_he["Follow Me%1"]="Follow Me%1";
+_translation_he["Fullscreen instructions%1"]="Fullscreen instructions%1";
+_translation_he["Homepage%1"]="Homepage%1";
+_translation_he["In %1km"]="In %1km";
+_translation_he["In %1m"]="In %1m";
+_translation_he["Keep To The Left"]="Keep To The Left";
+_translation_he["Keep To The Right"]="Keep To The Right";
+_translation_he["Left At Roundabout"]="Left At Roundabout";
+_translation_he["Location%1"]="Location%1";
+_translation_he["Navigation Settings"]="Navigation Settings";
+_translation_he["No"]="No";
+_translation_he["North Locked%1"]="North Locked%1";
+_translation_he["Phone Number%1"]="Phone Number%1";
+_translation_he["Plotting course%1"]="Plotting course%1";
+_translation_he["Right At Roundabout"]="Right At Roundabout";
+_translation_he["Roundabout Exit At %1"]="Roundabout Exit At %1";
+_translation_he["Searching for address%1"]="Searching for address%1";
+_translation_he["Show Next Turns%1"]="Show Next Turns%1";
+_translation_he["Stright At Roundabout"]="Stright At Roundabout";
+_translation_he["Through %1"]="Through %1";
+_translation_he["Turn Left"]="Turn Left";
+_translation_he["Turn Right"]="Turn Right";
+_translation_he["Yes"]="Yes";
