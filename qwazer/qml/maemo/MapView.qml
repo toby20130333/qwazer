@@ -20,6 +20,7 @@ Rectangle {
     }
 
     function navigate(course) {
+        mainView.state = "MapState";
         map.navigationInfo = course;
         mainPageLogic.state = "Navigation";
     }

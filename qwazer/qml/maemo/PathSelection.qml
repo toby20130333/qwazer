@@ -5,7 +5,6 @@ Rectangle {
     anchors.fill: parent
 
     signal backButtonClicked
-    signal pathSelected(variant route)
 
     Text {
         id: pathSelectionLabel
@@ -30,7 +29,6 @@ Rectangle {
 
     ListModel {
         id: pathListModel
-
     }
 
     Rectangle {
@@ -49,41 +47,35 @@ Rectangle {
         ListView {
             id: pathList
             anchors.fill: parent
-            delegate: Component {
-                Row {
+            delegate: Rectangle {
+                id: row
+                border.color: "black"
+                radius: 10
+                width: col.width
+                height: col.height
+                Column {
+                    id: col
+                    anchors.margins: 10
                     spacing: 10
-                    Button {
-                        id: selectButton
-                        text: translator.translate("Choose") + translator.forceTranslate
-                        onClicked:pathSelected(response)
-
-                        anchors.verticalCenter: parent.verticalCenter
+                    Text {
+                        text: (response)? translator.translate("Through %1", response.routeName) + translator.forceTranslate : ""
+                        width: pathList.width
                     }
-                    Column {
-                        Text {
-                            text: translator.translate("Through %1", response.routeName) + translator.forceTranslate
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignRight
-                            width: pathList.width-selectButton.width-20
-                        }
-                        Text {
-                            text: translator.translate("Distance is %1km", response.totalDistance/1000) + translator.forceTranslate
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignRight
-                            width: pathList.width-selectButton.width-20
-                        }
-                        Text {
-                            text: translator.translate("Estimated time is %1:%2 minutes", Math.floor(response.totalTime/60), ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60)) + translator.forceTranslate
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignRight
-                            width: pathList.width-selectButton.width-20
-                        }
+                    Text {
+                        text: (response)? translator.translate("Distance is %1km", response.totalDistance/1000) + translator.forceTranslate : ""
+                        width: pathList.width
+                    }
+                    Text {
+                        text: (response)? (translator.translate("Estimated time is %1:%2 minutes", Math.floor(response.totalTime/60), ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60)) + translator.forceTranslate) : ""
+                        width: pathList.width
                     }
                 }
+                MouseArea {
+                    anchors.fill: row
+                    onClicked: qwazerMapView.navigate(response)
+                }
             }
-            model: pathListModel
+            model: courseResultsModel.dataModel
         }
     }
-
-
 }

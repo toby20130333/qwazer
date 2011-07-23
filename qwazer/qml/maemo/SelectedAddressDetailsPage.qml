@@ -22,6 +22,7 @@ Rectangle {
 
     PathSelection {
         id: courseResultsPage
+        onBackButtonClicked: addressDetailsPage.state = "AddressDetails"
     }
 
     Flow {
@@ -36,7 +37,7 @@ Rectangle {
         Button {
             id: backButton
             text: "Back"
-            onClicked: addressDetails.backButtonClicked()
+            onClicked: addressDetailsPage.backButtonClicked()
         }
 
         Button {
