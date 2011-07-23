@@ -15,6 +15,20 @@ Rectangle {
         map.initialize();
     }
 
+    function showLocation(lon, lat) {
+        map.showLocation(lon, lat);
+    }
+
+    function navigate(course) {
+        map.navigationInfo = course;
+        mainPageLogic.state = "Navigation";
+    }
+
+    function stopNavigation() {
+        map.stopNavigation();
+        mainPageLogic.state = "Browse";
+    }
+
     QwazerMap {
         id: map
 

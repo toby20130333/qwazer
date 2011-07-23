@@ -19,12 +19,15 @@ Rectangle {
         anchors.bottomMargin: 10
         anchors.topMargin: 10
         onSelected: {
-            addressDetails.name = selection.name;
-            addressDetails.location = selection.location;
-            addressDetails.phone = selection.phone;
-            addressDetails.url = selection.url;
-            addressDetails.businessName = selection.businessName;
-            searchView.state = "SearchResults";
+            if (typeof(addressDetailsPage.addressDetails) == "undefined" ||
+                addressDetailsPage.addressDetails.name != selection.name)
+            {
+                addressDetailsPage.addressDetails = selection;
+            }
+            else
+            {
+                addressDetailsPage.addressDetailsChanged();
+            }
         }
     }
 
@@ -41,9 +44,10 @@ Rectangle {
     }
 
     SelectedAddressDetailsPage {
-        id: addressDetails
+        id: addressDetailsPage
 
         onBackButtonClicked: searchView.state = "Search"
+        onAddressDetailsChanged: searchView.state = "SearchResults"
     }
 
     states: [
@@ -58,7 +62,7 @@ Rectangle {
                 visible: true
             }
             PropertyChanges {
-                target: addressDetails
+                target: addressDetailsPage
                 visible: false
             }
         },
@@ -73,8 +77,9 @@ Rectangle {
                 visible: false
             }
             PropertyChanges {
-                target: addressDetails
+                target: addressDetailsPage
                 visible: true
+                state: "AddressDetails"
             }
         }
     ]
