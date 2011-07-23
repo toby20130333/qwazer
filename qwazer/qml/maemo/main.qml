@@ -78,13 +78,8 @@ Rectangle {
         visible: false
         anchors.fill: parent
 
-        onBackButtonPressed: {
+        onBackButtonClicked: {
             mainView.state = 'MapState';
-        }
-
-        onAddressSelected: {
-            mainView.state = 'MapState';
-            qwazerMapView.showLocation(address.lon, address.lat);
         }
     }
 
@@ -134,7 +129,7 @@ Rectangle {
             PropertyChanges {
                 target: search1
                 visible: true
-                ws_url: settings.country.ws_url
+                state: "Search"
             }
             PropertyChanges {
                 target: pathSelection1
@@ -179,7 +174,6 @@ Rectangle {
             PropertyChanges {
                 target: pathSelection1
                 visible: true
-                ws_url: settings.country.ws_url
             }
             PropertyChanges {
                 target: settingsPage

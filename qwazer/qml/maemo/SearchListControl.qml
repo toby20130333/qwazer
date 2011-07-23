@@ -1,11 +1,10 @@
 import QtQuick 1.0
+import "../qwazer/search_qml"
 
 Rectangle {
     id: rectangle2
     width: 300
     height: 300
-
-    property alias ws_url : resultsModel.ws_url
 
     signal selected(variant selection)
 
@@ -13,7 +12,7 @@ Rectangle {
         id: searchButton
         width: 89
         height: 50
-        text: translator.translate("Search") + mainView.forceTranslate
+        text: translator.translate("Search") + translator.forceTranslate
         anchors.left: parent.left
         anchors.leftMargin: 0
         onClicked: {
@@ -61,24 +60,18 @@ Rectangle {
             id: resultList
             anchors.fill: parent
             model: resultsModel.dataModel
+            clip: true
 
-            delegate: Component {
-                Row {
-                    spacing: 10
-                    Button {
+            delegate: Button {
                         id: selectButton
-                        text: translator.translate("Choose") + mainView.forceTranslate
-                        onClicked: selected({"name": name, "lon": lon, "lat": lat});
-                    }
-                    Text {
                         text: name
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        width: resultList.width-selectButton.width-20
-                    }
-                }
+                        onClicked: selected({name: name,
+                                            location: location,
+                                            phone: phone? phone:"",
+                                            url: url? url:"",
+                                            businessName: businessName? businessName:""});
+                        width: resultList.width
             }
         }
     }
-
 }
