@@ -30,7 +30,8 @@ Page {
 
     FindResultsModel {
         id: findAddressModel
-        onLoadDone: appWindow.pageStack.push(addressResultsPage)
+        onLoadDone: appWindow.pageStack.replace(addressResultsPage)
+        onAddressChanged: appWindow.pageStack.push(loadingResultsPage, null, true)
 
         BusyPage {
             id: loadingResultsPage

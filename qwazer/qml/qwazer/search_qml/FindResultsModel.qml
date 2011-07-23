@@ -8,7 +8,6 @@ Item {
 
     onAddressChanged: {
         cancelled = false;
-        appWindow.pageStack.push(loadingResultsPage, null, true);
 
         // clear previous results
         model.clear();
@@ -30,7 +29,6 @@ Item {
                   var o = a[b];
                   model.append({name: o.name, location: o.location, phone: o.phone, url: o.url, businessName: o.businessName});
               }
-              appWindow.pageStack.pop(undefined, true);
               loadDone();
           }
           else

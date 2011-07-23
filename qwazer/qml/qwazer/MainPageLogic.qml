@@ -11,7 +11,7 @@ Item {
             name: "Browse"
             PropertyChanges {
                 target: settingsButton
-                onClicked: appWindow.pageStack.push(settingsPage)
+                onClicked: mainView.state = "SettingsState";
             }
             PropertyChanges {
                 target: stopNavigationButton

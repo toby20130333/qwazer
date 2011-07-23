@@ -83,7 +83,7 @@ Rectangle {
 
         Button {
             id: selectedLanguage
-            text: settings.languageName
+            text: settings.language.name
 
             onClicked: settingsPage.state = "SelectLanguageState"
         }
@@ -96,7 +96,7 @@ Rectangle {
 
         Button {
             id: selectedCountry
-            text: settings.countryName
+            text: settings.country.name
 
             onClicked: settingsPage.state = "SelectCountryState"
         }
@@ -124,6 +124,7 @@ Rectangle {
         highlightFollowsCurrentItem: true
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
+        clip: true
 
         delegate: Component {
             Button {
@@ -147,6 +148,7 @@ Rectangle {
         highlightFollowsCurrentItem: true
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
+        clip: true
 
         delegate: Component {
             Button {
