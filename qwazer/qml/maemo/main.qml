@@ -83,21 +83,6 @@ Rectangle {
         }
     }
 
-    PathSelection {
-        id: pathSelection1
-        anchors.fill: parent
-        visible: false
-
-        onBackButtonClicked: {
-            mainView.state = 'NavigateState';
-        }
-
-        onPathSelected: {
-             mainView.state = 'MapState';
-             qwazerMapView.navigationInfo = route;
-        }
-    }
-
     states: [
         State {
             name: "MapState"
