@@ -1,24 +1,36 @@
 import QtQuick 1.0
+import "../qwazer"
 
 Rectangle {
-    id: addressDetails
+    id: addressDetailsPage
     anchors.fill: parent
 
     signal backButtonClicked
 
-    property string name
-    property string businessName
-    property string url
-    property string phone
-    property variant location
+    property variant addressDetails: {
+                                         name: "",
+                                         location: {lon: "", lat:""},
+                                         phone: "",
+                                         url: "",
+                                         businessName: ""
+                                     }
+
+    CourseResultsListModel {
+        id: courseResultsModel
+        onLoadDone: addressDetailsPage.state = "PathSelection"
+    }
+
+    PathSelection {
+        id: courseResultsPage
+    }
 
     Flow {
         id: addressToolBar
-        anchors.right: addressDetails.right
+        anchors.right: addressDetailsPage.right
         anchors.rightMargin: spacing
-        anchors.left: addressDetails.left
+        anchors.left: addressDetailsPage.left
         anchors.leftMargin: spacing
-        anchors.top: addressDetails.top
+        anchors.top: addressDetailsPage.top
         spacing: 20
 
         Button {
@@ -30,11 +42,27 @@ Rectangle {
         Button {
             id: navigateButton
             text: "Navigate"
+            onClicked: {
+                if (!courseResultsModel.fromToPoints ||
+                    courseResultsModel.fromToPoints.to.lon != addressDetails.location.lon ||
+                    courseResultsModel.fromToPoints.to.lat != addressDetails.location.lat)
+                {
+                    courseResultsModel.fromToPoints = {to: addressDetails.location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
+                }
+                else
+                {
+                    courseResultsModel.loadDone();
+                }
+            }
         }
 
         Button {
             id: showLocationButton;
             text: "Show"
+            onClicked: {
+                mainView.state = "MapState";
+                qwazerMapView.showLocation(addressDetails.location.lon, addressDetails.location.lat);
+            }
         }
 
         Button {
@@ -58,34 +86,34 @@ Rectangle {
         }
 
         Text {
-            text: name
+            text: addressDetails.name
         }
 
         Text {
             text: translator.translate("Business Name%1", ":") + translator.forceTranslate
-            visible: businessName != ""
+            visible: addressDetails.businessName !== ""
         }
 
         Text {
-            text: businessName
+            text: addressDetails.businessName
         }
 
         Text {
             text: translator.translate("Homepage%1", ":") + translator.forceTranslate
-            visible: url != ""
+            visible: addressDetails.url !== ""
         }
 
         Text {
-            text: url
+            text: addressDetails.url
         }
 
         Text {
             text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
-            visible: phone != ""
+            visible: addressDetails.phone !== ""
         }
 
         Text {
-            text: phone
+            text: addressDetails.phone
         }
 
         Text {
@@ -93,7 +121,40 @@ Rectangle {
         }
 
         Text {
-            text: location? location.lon + ", " + location.lat : ""
+            text: addressDetails.location? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
         }
     }
+
+    states: [
+        State {
+            name: "AddressDetails"
+            PropertyChanges {
+                target: addressToolBar
+                visible: true
+            }
+            PropertyChanges {
+                target: detailsGrid
+                visible: true
+            }
+            PropertyChanges {
+                target: courseResultsPage
+                visible: false
+            }
+        },
+        State {
+            name: "PathSelection"
+            PropertyChanges {
+                target: addressToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: detailsGrid
+                visible: false
+            }
+            PropertyChanges {
+                target: courseResultsPage
+                visible: true
+            }
+        }
+    ]
 }

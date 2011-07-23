@@ -10,7 +10,6 @@ Item {
     property variant fromToPoints
     onFromToPointsChanged: {
         cancelled = false;
-        appWindow.pageStack.push(loadingResultsPage, null, true);
 
         // clear previous results
         model.clear();
@@ -48,7 +47,6 @@ Item {
                    dataModel.append({response: o.response});
                 }
 
-                appWindow.pageStack.pop(undefined, true);
                 loadDone();
             }
             else
@@ -57,7 +55,6 @@ Item {
             }
         };
         if (cancelled) {
-            appWindow.pageStack.pop(undefined, undefined, true);
             return;
         }
         http_request.send(null);

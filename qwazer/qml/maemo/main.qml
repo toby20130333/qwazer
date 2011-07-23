@@ -88,7 +88,7 @@ Rectangle {
         anchors.fill: parent
         visible: false
 
-        onBackButtonPressed: {
+        onBackButtonClicked: {
             mainView.state = 'NavigateState';
         }
 
@@ -111,10 +111,6 @@ Rectangle {
                  visible: false
             }
             PropertyChanges {
-                target: pathSelection1
-                visible: false
-            }
-            PropertyChanges {
                 target: settingsPage
                 visible: false
             }
@@ -132,10 +128,6 @@ Rectangle {
                 state: "Search"
             }
             PropertyChanges {
-                target: pathSelection1
-                visible: false
-            }
-            PropertyChanges {
                 target: settingsPage
                 visible: false
             }
@@ -149,10 +141,6 @@ Rectangle {
             }
             PropertyChanges {
                 target: search1
-                visible: false
-            }
-            PropertyChanges {
-                target: pathSelection1
                 visible: false
             }
             PropertyChanges {
@@ -172,10 +160,6 @@ Rectangle {
                 visible: false
             }
             PropertyChanges {
-                target: pathSelection1
-                visible: true
-            }
-            PropertyChanges {
                 target: settingsPage
                 visible: false
             }
@@ -189,10 +173,6 @@ Rectangle {
             }
             PropertyChanges {
                 target: search1
-                visible: false
-            }
-            PropertyChanges {
-                target: pathSelection1
                 visible: false
             }
             PropertyChanges {

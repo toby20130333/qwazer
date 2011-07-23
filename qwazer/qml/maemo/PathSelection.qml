@@ -2,63 +2,14 @@ import QtQuick 1.0
 
 Rectangle {
     id: rectangle1
-    width: 300
-    height: 300
+    anchors.fill: parent
 
-    signal backButtonPressed
+    signal backButtonClicked
     signal pathSelected(variant route)
-
-    property string ws_url
-    property variant fromToPoints
-
-    onFromToPointsChanged: {
-        // clear previous results
-        pathListModel.clear();
-
-        var data={from:"x:"+fromToPoints.from.lon+" y:"+fromToPoints.from.lat+" bd:true",to:"x:"+fromToPoints.to.lon+" y:"+fromToPoints.to.lat+" bd:true",returnJSON:true,returnInstructions:true,returnGeometries:true,timeout:60000,nPaths:2};
-        var url = ws_url + "/RoutingManager/routingRequest?" + serialize(data);
-        console.log("requesting: " + url);
-        var http_request = new XMLHttpRequest();
-        http_request.open("GET", url, true);
-        http_request.onreadystatechange = function () {
-          var done = 4, ok = 200;
-          if (http_request.readyState == done && http_request.status == ok) {
-              // console.log(http_request.responseText);
-              var a= eval('(' + http_request.responseText + ')'); // not using JSON.parse because of crash
-              for (var b in a.alternatives) {
-                  var o = a.alternatives[b];
-                  console.log("appending track that goes through: " + o.response.routeName);
-
-                  var totalTime = 0;
-                  var totalDistance = 0;
-                  for (var key in o.response.results) {
-                      var pathElement = o.response.results[key];
-                      totalTime += pathElement.crossTime;
-                      totalDistance += pathElement.length;
-                      pathElement.streetName = o.response.streetNames[pathElement.street];
-                  }
-
-                  o.response.totalTime = totalTime;
-                  o.response.totalDistance = totalDistance;
-                  o.response.coords = o.coords;
-
-                  pathListModel.append({response: o.response});
-              }
-          }
-        };
-        http_request.send(null);
-    }
-
-    function serialize (obj) {
-      var str = [];
-      for(var p in obj)
-         str.push(p + "=" + encodeURIComponent(obj[p]));
-      return str.join("&");
-    }
 
     Text {
         id: pathSelectionLabel
-        text: translator.translate("Choose course") + mainView.forceTranslate
+        text: translator.translate("Choose course") + translator.forceTranslate
         font.pointSize: 24
         horizontalAlignment: Text.AlignHCenter
         anchors.top: parent.top
@@ -68,13 +19,13 @@ Rectangle {
 
     Button {
         id: backButton
-        text: translator.translate("Back") + mainView.forceTranslate
+        text: translator.translate("Back") + translator.forceTranslate
         anchors.right: rectangle2.right
         anchors.left: rectangle2.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
         height: 50
-        onClicked: backButtonPressed()
+        onClicked: backButtonClicked()
     }
 
     ListModel {
@@ -103,26 +54,26 @@ Rectangle {
                     spacing: 10
                     Button {
                         id: selectButton
-                        text: translator.translate("Choose") + mainView.forceTranslate
+                        text: translator.translate("Choose") + translator.forceTranslate
                         onClicked:pathSelected(response)
 
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Column {
                         Text {
-                            text: translator.translate("Through %1", response.routeName) + mainView.forceTranslate
+                            text: translator.translate("Through %1", response.routeName) + translator.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: translator.translate("Distance is %1km", response.totalDistance/1000) + mainView.forceTranslate
+                            text: translator.translate("Distance is %1km", response.totalDistance/1000) + translator.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
                         }
                         Text {
-                            text: translator.translate("Estimated time is %1:%2 minutes", Math.floor(response.totalTime/60), ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60)) + mainView.forceTranslate
+                            text: translator.translate("Estimated time is %1:%2 minutes", Math.floor(response.totalTime/60), ((response.totalTime%60 > 9)? response.totalTime%60 : "0" + response.totalTime%60)) + translator.forceTranslate
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignRight
                             width: pathList.width-selectButton.width-20
