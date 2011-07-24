@@ -83,6 +83,12 @@ Rectangle {
         }
     }
 
+    NavSettingsPage {
+        id: navSettings
+        visible: false
+        onBackButtonClicked: mainView.state = "MapState"
+    }
+
     states: [
         State {
             name: "MapState"
@@ -97,6 +103,10 @@ Rectangle {
             }
             PropertyChanges {
                 target: settingsPage
+                visible: false
+            }
+            PropertyChanges {
+                target: navSettings
                 visible: false
             }
         },
@@ -116,36 +126,8 @@ Rectangle {
                 target: settingsPage
                 visible: false
             }
-        },
-        State {
-            name: "NavigateState"
-
             PropertyChanges {
-                target: qwazerMapView
-                visible: false
-            }
-            PropertyChanges {
-                target: search1
-                visible: false
-            }
-            PropertyChanges {
-                target: settingsPage
-                visible: false
-            }
-        },
-        State {
-            name: "PathSelectionState"
-
-            PropertyChanges {
-                target: qwazerMapView
-                visible: false
-            }
-            PropertyChanges {
-                target: search1
-                visible: false
-            }
-            PropertyChanges {
-                target: settingsPage
+                target: navSettings
                 visible: false
             }
         },
@@ -162,6 +144,30 @@ Rectangle {
             }
             PropertyChanges {
                 target: settingsPage
+                visible: true
+            }
+            PropertyChanges {
+                target: navSettings
+                visible: false
+            }
+        },
+        State {
+            name: "NavSettingsState"
+
+            PropertyChanges {
+                target: qwazerMapView
+                visible: false
+            }
+            PropertyChanges {
+                target: search1
+                visible: false
+            }
+            PropertyChanges {
+                target: settingsPage
+                visible: false
+            }
+            PropertyChanges {
+                target: navSettings
                 visible: true
             }
         }

@@ -128,5 +128,7 @@ Rectangle {
     MainPageLogic {
         id: mainPageLogic
         state:  "Browse"
+        onShowApplicationSettings: mainView.state = "SettingsState"
+        onShowNavigationSettings: mainView.state = "NavSettingsState"
     }
 }

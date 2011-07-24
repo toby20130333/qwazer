@@ -6,12 +6,16 @@ Item {
                                     gpsData.position.horizontalAccuracyValid &&
                                     gpsData.position.verticalAccuracy < 100 &&
                                     gpsData.position.horizontalAccuracy < 100
+
+    signal showNavigationSettings
+    signal showApplicationSettings
+
     states: [
         State {
             name: "Browse"
             PropertyChanges {
                 target: settingsButton
-                onClicked: mainView.state = "SettingsState";
+                onClicked: showApplicationSettings()
             }
             PropertyChanges {
                 target: stopNavigationButton
@@ -38,7 +42,7 @@ Item {
             name: "Navigation"
             PropertyChanges {
                 target: settingsButton
-                onClicked: appWindow.pageStack.push(navSettingsPage)
+                onClicked: showNavigationSettings()
             }
             PropertyChanges {
                 target: map

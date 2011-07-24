@@ -161,5 +161,7 @@ Page {
     MainPageLogic {
         id: mainPageStates
         state: "Browse"
+        onShowApplicationSettings: appWindow.pageStack.push(settingsPage)
+        onShowNavigationSettings: appWindow.pageStack.push(navSettingsPage)
     }
 }

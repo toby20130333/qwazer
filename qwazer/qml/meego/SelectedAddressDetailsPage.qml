@@ -13,7 +13,8 @@ Page {
 
     CourseResultsListModel {
         id: courseResultsModel
-        onLoadDone: appWindow.pageStack.push(courseResultsPage)
+        onLoadDone: appWindow.pageStack.replace(courseResultsPage)
+        onFromToPointsChanged: appWindow.pageStack.push(loadingResultsPage, null, true)
 
         BusyPage {
             id: loadingResultsPage
