@@ -71,25 +71,25 @@ Rectangle {
 
             Button {
                 id: searchButton
-                text: "Search"
+                text: translator.translate("Search") + translator.forceTranslate
                 onClicked: searchButtonClicked()
             }
 
             Button {
                 id: settingsButton
-                text: "Settings"
+                text: translator.translate("Settings") + translator.forceTranslate
                 onClicked: settingsButtonClicked()
             }
 
             Button {
                 id: stopNavigationButton;
-                text: "Stop"
+                text: translator.translate("Stop Nav") + translator.forceTranslate
                 onClicked: mainPage.stopNavigation()
             }
             Button {
                 id: followMeButton;
                 onClicked: followMeButton.isSelected = !followMeButton.isSelected
-                text: "Locked"
+                text: translator.translate("Unlocked") + translator.forceTranslate
                 property bool isSelected: false
 
                 states: [
@@ -99,7 +99,7 @@ Rectangle {
 
                         PropertyChanges {
                             target: followMeButton
-                            text: "Unlocked"
+                            text: translator.translate("Locked") + translator.forceTranslate
                         }
                     },
                     State {
@@ -108,10 +108,16 @@ Rectangle {
 
                         PropertyChanges {
                             target: followMeButton
-                            text: "Locked"
+                            text: translator.translate("Unlocked") + translator.forceTranslate
                         }
                     }
                 ]
+            }
+            Button {
+                id: showMeButton;
+                text: translator.translate("Show Me") + translator.forceTranslate
+                visible: !followMeButton.isSelected
+                onClicked: map.showMe(true, true)
             }
         }
     }
