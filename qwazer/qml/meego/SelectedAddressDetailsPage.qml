@@ -81,7 +81,7 @@ Page {
             anchors.rightMargin: 10;
             iconSource: Images.unfavorites
             anchors.right: navigateButton.left
-            onClicked: appWindow.pageStack.pop()
+            onClicked: addToFavoritesButton.isSelected = !addToFavoritesButton.isSelected
 
             property bool isSelected: false
 
