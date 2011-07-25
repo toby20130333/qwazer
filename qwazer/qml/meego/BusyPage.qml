@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "../qwazer/js/Images.js" as Images
 
 Page {
     id: settingsLoadPage
@@ -39,8 +40,7 @@ Page {
             anchors.left: parent.left;
             anchors.leftMargin: 10;
             anchors.verticalCenterOffset: 0;
-            iconId: "toolbar-back";
-            platformIconId: iconId
+            iconSource: Images.back
             onClicked: backClicked();
         }
     }

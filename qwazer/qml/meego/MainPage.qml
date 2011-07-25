@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "../qwazer/js/Images.js" as Images
 import "../qwazer"
 
 Page {
@@ -43,16 +44,14 @@ Page {
                 id: settingsButton;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                iconId: "toolbar-settings";
-                platformIconId: "toolbar-settings"
+                iconSource: Images.settings
                 anchors.right: homeButton.left
             }
             ToolIcon {
                 id: searchButton;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                platformIconId: "toolbar-search";
-                iconId: "toolbar-search";
+                iconSource: Images.find
                 anchors.right: followMeButton.left
                 onClicked: mainPage.pageStack.push(searchAddressPage)
             }
@@ -71,7 +70,7 @@ Page {
                 anchors.rightMargin: 10;
                 anchors.right: showMeButton.left
                 onClicked: followMeButton.isSelected = !followMeButton.isSelected
-                iconId: "toolbar-unlocked"
+                iconSource: Images.unlock_browse
                 property bool isSelected: false
 
                 states: [
@@ -81,8 +80,7 @@ Page {
 
                         PropertyChanges {
                             target: followMeButton
-                            iconId: "toolbar-unlocked"
-                            platformIconId: "toolbar-unlocked"
+                            iconSource: Images.unlock_browse
                         }
                     },
                     State {
@@ -91,8 +89,7 @@ Page {
 
                         PropertyChanges {
                             target: followMeButton
-                            iconId: "toolbar-locked"
-                            platformIconId: "toolbar-locked"
+                            iconSource: Images.lock_browse
                         }
                     }
                 ]
@@ -102,8 +99,7 @@ Page {
                 visible: !followMeButton.isSelected
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                platformIconId: "toolbar-directory-move-to";
-                iconId: "toolbar-directory-move-to";
+                iconSource: Images.show_me
                 anchors.right: settingsButton.left
                 onClicked: map.showMe(true, true)
             }

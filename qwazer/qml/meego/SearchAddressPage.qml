@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import com.meego 1.0
 import "../qwazer/search_qml"
+import "../qwazer/js/Images.js" as Images
 
 Page {
     id:searchAddressPage
@@ -13,15 +14,21 @@ Page {
             anchors.right: parent.right
             anchors.rightMargin: 10
             Button {
+                iconSource: Images.find
                 text: translator.translate("Search") + translator.forceTranslate
             }
 
             Button {
+                iconSource: Images.favorites
                 text: translator.translate("Favorites") + translator.forceTranslate
             }
         }
 
-        ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
+        ToolIcon {
+            id: backButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.leftMargin: 10;
+            iconSource: Images.back
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: appWindow.pageStack.pop()
         }

@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import com.meego 1.0
 import "../qwazer"
+import "../qwazer/js/Images.js" as Images
 
 PageStackWindow {
     id: appWindow
@@ -59,7 +60,11 @@ PageStackWindow {
     Item {
         ToolBarLayout {
             id: commonBackButtonToolbar
-            ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
+            ToolIcon {
+                id: backButton;
+                anchors.verticalCenterOffset: 0;
+                anchors.leftMargin: 10;
+                iconSource: Images.back
                 anchors.left: parent===undefined ? undefined : parent.left
                 onClicked: appWindow.pageStack.pop()
             }
