@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import com.meego 1.0
 import "../qwazer"
+import "../qwazer/js/Images.js" as Images
 
 Page {
     id: selectedAddress
@@ -38,8 +39,7 @@ Page {
             id: backButton;
             anchors.verticalCenterOffset: 0;
             anchors.leftMargin: 10;
-            iconId: "toolbar-back";
-            platformIconId: "toolbar-back"
+            iconSource: Images.back
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: appWindow.pageStack.pop()
         }
@@ -48,8 +48,7 @@ Page {
             id: showButton;
             anchors.verticalCenterOffset: 0;
             anchors.rightMargin: 10;
-            iconId: "toolbar-refresh";
-            platformIconId: "toolbar-refresh"
+            iconSource: Images.show
             anchors.right: parent===undefined ? undefined : parent.right
             onClicked: {
                 appWindow.pageStack.pop(mainPage);
@@ -61,8 +60,7 @@ Page {
             id: navigateButton;
             anchors.verticalCenterOffset: 0;
             anchors.rightMargin: 10;
-            iconId: "toolbar-share";
-            platformIconId: "toolbar-share"
+            iconSource: Images.navigate
             anchors.right: showButton.left
             onClicked:
                 if (!courseResultsModel.fromToPoints ||
@@ -81,10 +79,30 @@ Page {
             id: addToFavoritesButton;
             anchors.verticalCenterOffset: 0;
             anchors.rightMargin: 10;
-            iconId: "toolbar-add";
-            platformIconId: "toolbar-add"
+            iconSource: Images.unfavorites
             anchors.right: navigateButton.left
             onClicked: appWindow.pageStack.pop()
+
+            property bool isSelected: false
+
+            states: [
+                State {
+                    name: "Selected"
+                    when: addToFavoritesButton.isSelected
+                    PropertyChanges {
+                        target: addToFavoritesButton
+                        iconSource: Images.favorites
+                    }
+                },
+                State {
+                    name: "Unselected"
+                    when: !addToFavoritesButton.isSelected
+                    PropertyChanges {
+                        target: addToFavoritesButton
+                        iconSource: Images.unfavorites
+                    }
+                }
+            ]
         }
     }
 

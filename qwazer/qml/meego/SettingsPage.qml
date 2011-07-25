@@ -1,12 +1,17 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "../qwazer/js/Images.js" as Images
 
 Page {
     id: settingsPage
 
     tools: ToolBarLayout {
         id: commonBackButtonToolbar
-        ToolIcon { id: backButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; iconId: "toolbar-back"; platformIconId: "toolbar-back"
+        ToolIcon {
+            id: backButton;
+            anchors.verticalCenterOffset: 0;
+            anchors.leftMargin: 10;
+            iconSource: Images.back
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: {
                if (settings.isFirstRun)
