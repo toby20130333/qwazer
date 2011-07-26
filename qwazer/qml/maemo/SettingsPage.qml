@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "../qwazer/js/Images.js" as Images
 
 Rectangle {
     id: settingsPage
@@ -63,14 +64,8 @@ Rectangle {
 
     Grid {
         id: grid1
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
-        anchors.topMargin: 10
-        anchors.bottom: okButton.top
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottomMargin: 10
+        anchors.margins: 10
+        anchors.fill: parent
 
         columns: 2
         spacing: 10
@@ -163,17 +158,20 @@ Rectangle {
         }
     }
 
-    Button {
-        id: okButton
-        text: "OK"
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
 
-        onClicked: settingsPage.okClicked()
+    ToolBar {
+        height: settingsToolBar.height
+        toolBarItems:
+        Flow {
+            id: settingsToolBar
+            IconButton {
+                id: okButton
+                text: translator.translate("Back") + translator.forceTranslate
+                iconSource: Images.back
+
+                onClicked: settingsPage.okClicked()
+            }
+        }
     }
 
 

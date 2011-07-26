@@ -1,7 +1,8 @@
 import QtQuick 1.0
+import "../qwazer/js/Images.js" as Images
 
 Rectangle {
-    id: rectangle1
+    id: pathSelection
     anchors.fill: parent
 
     signal backButtonClicked
@@ -16,15 +17,18 @@ Rectangle {
         anchors.right: rectangle2.right
     }
 
-    Button {
-        id: backButton
-        text: translator.translate("Back") + translator.forceTranslate
-        anchors.right: rectangle2.right
-        anchors.left: rectangle2.left
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        height: 50
-        onClicked: backButtonClicked()
+    ToolBar {
+        height: pathSelectionToolBarButtons.height
+        toolBarItems:
+        Flow {
+            id: pathSelectionToolBarButtons
+            spacing: 20
+            IconButton {
+                text: translator.translate("Back") + translator.forceTranslate
+                iconSource: Images.back
+                onClicked: pathSelection.backButtonClicked()
+            }
+        }
     }
 
     ListModel {
@@ -35,14 +39,8 @@ Rectangle {
         id: rectangle2
         color: "#ffffff"
         border.color: "#000000"
-        anchors.bottom: backButton.top
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: pathSelectionLabel.bottom
-        anchors.topMargin: 10
-        anchors.bottomMargin: 10
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
+        anchors.fill: parent
+        anchors.margins: 10
 
         ListView {
             id: pathList

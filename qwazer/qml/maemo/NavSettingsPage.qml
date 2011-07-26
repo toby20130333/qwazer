@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "../qwazer/js/Images.js" as Images
 
 Rectangle {
     id: navSettings
@@ -8,29 +9,25 @@ Rectangle {
 
     signal backButtonClicked
 
-    Flow {
-        id: toolbarNavSettingsRow
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: parent.top
-        Button {
-            text: translator.translate("Back") + translator.forceTranslate
-            onClicked: navSettings.backButtonClicked()
+    ToolBar {
+        height: toolbarNavSettingsRow.height
+        Flow {
+            id: toolbarNavSettingsRow
+            spacing: 20
+
+            IconButton {
+                iconSource: Images.back
+                text: translator.translate("Back") + translator.forceTranslate
+                onClicked: navSettings.backButtonClicked()
+            }
         }
     }
 
     Grid {
         id: grid1
-        anchors.right: parent.right
-        anchors.rightMargin: 20
+        anchors.right: parent.fill
+        anchors.margins: 20
         anchors.left: parent.left
-        anchors.leftMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.top: toolbarNavSettingsRow.bottom
-        anchors.topMargin: 20
         columns: 2
         spacing: 20
 
