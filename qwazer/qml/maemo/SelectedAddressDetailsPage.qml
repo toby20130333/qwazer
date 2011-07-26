@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import "../qwazer"
+import "../qwazer/js/Images.js" as Images
 
 Rectangle {
     id: addressDetailsPage
@@ -25,59 +26,84 @@ Rectangle {
         onBackButtonClicked: addressDetailsPage.state = "AddressDetails"
     }
 
-    Flow {
-        id: addressToolBar
-        anchors.right: addressDetailsPage.right
-        anchors.rightMargin: spacing
-        anchors.left: addressDetailsPage.left
-        anchors.leftMargin: spacing
-        anchors.top: addressDetailsPage.top
-        spacing: 20
+    ToolBar {
+        height: addressToolBar.height
+        toolBarItems:
+        Flow {
+            id: addressToolBar
+            spacing: 20
 
-        Button {
-            id: backButton
-            text: "Back"
-            onClicked: addressDetailsPage.backButtonClicked()
-        }
+            IconButton {
+                id: backButton
+                text: translator.translate("Back") + translator.forceTranslate
+                iconSource: Images.back
+                onClicked: addressDetailsPage.backButtonClicked()
+            }
 
-        Button {
-            id: navigateButton
-            text: "Navigate"
-            onClicked: {
-                if (!courseResultsModel.fromToPoints ||
-                    courseResultsModel.fromToPoints.to.lon != addressDetails.location.lon ||
-                    courseResultsModel.fromToPoints.to.lat != addressDetails.location.lat)
-                {
-                    courseResultsModel.fromToPoints = {to: addressDetails.location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
-                }
-                else
-                {
-                    courseResultsModel.loadDone();
+            IconButton {
+                id: navigateButton
+                text: translator.translate("Navigate") + translator.forceTranslate
+                iconSource: Images.navigate
+                onClicked: {
+                    if (!courseResultsModel.fromToPoints ||
+                        courseResultsModel.fromToPoints.to.lon != addressDetails.location.lon ||
+                        courseResultsModel.fromToPoints.to.lat != addressDetails.location.lat)
+                    {
+                        courseResultsModel.fromToPoints = {to: addressDetails.location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
+                    }
+                    else
+                    {
+                        courseResultsModel.loadDone();
+                    }
                 }
             }
-        }
 
-        Button {
-            id: showLocationButton;
-            text: "Show"
-            onClicked: {
-                mainView.state = "MapState";
-                qwazerMapView.showLocation(addressDetails.location.lon, addressDetails.location.lat);
+            IconButton {
+                id: showLocationButton;
+                text: translator.translate("Show") + translator.forceTranslate
+                iconSource: Images.show
+                onClicked: {
+                    mainView.state = "MapState";
+                    qwazerMapView.showLocation(addressDetails.location.lon, addressDetails.location.lat);
+                }
             }
-        }
 
-        Button {
-            id: addTopFavoritesButton;
-            text: "Add to Favorites"
+            IconButton {
+                id: addFavoritesButton;
+                onClicked: addFavoritesButton.isSelected = !addFavoritesButton.isSelected
+                iconSource: Images.unfavorites
+                text: translator.translate("Unfavorite") + translator.forceTranslate
+                property bool isSelected: false
+
+                states: [
+                    State {
+                        name: "Selected"
+                        when:  addFavoritesButton.isSelected
+
+                        PropertyChanges {
+                            target: addFavoritesButton
+                            text: translator.translate("Favorite") + translator.forceTranslate
+                            iconSource: Images.favorites
+                        }
+                    },
+                    State {
+                        name: "UnSelected"
+                        when:  !addFavoritesButton.isSelected
+
+                        PropertyChanges {
+                            target: addFavoritesButton
+                            text: translator.translate("Unfavorite") + translator.forceTranslate
+                            iconSource: Images.unfavorites
+                        }
+                    }
+                ]
+            }
         }
     }
 
     Grid {
         id: detailsGrid
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: addressToolBar.bottom
+        anchors.fill: parent
         anchors.margins: 20
         columns:2
         spacing: 20

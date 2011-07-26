@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "../qwazer/js/Images.js" as Images
 
 Rectangle {
     id: searchView
@@ -10,14 +11,8 @@ Rectangle {
 
     SearchListControl {
         id: searchControl
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
-        anchors.bottom: backButton.top
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottomMargin: 10
-        anchors.topMargin: 10
+        anchors.margins: 10
+        anchors.fill: searchView
         onSelected: {
             if (typeof(addressDetailsPage.addressDetails) == "undefined" ||
                 addressDetailsPage.addressDetails.name != selection.name)
@@ -31,16 +26,19 @@ Rectangle {
         }
     }
 
-    Button {
-        id: backButton
-        text: translator.translate("Back") + translator.forceTranslate
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        anchors.rightMargin: 0
-        anchors.leftMargin: 0
-        anchors.right: searchControl.left
-        anchors.left: searchControl.right
-        onClicked: searchView.backButtonClicked()
+    ToolBar {
+        height: toolBarButtons.height
+        toolBarItems:
+        Flow {
+            id: toolBarButtons
+            spacing: 20
+            IconButton {
+                id: backButton
+                text: translator.translate("Back") + translator.forceTranslate
+                iconSource: Images.back
+                onClicked: searchView.backButtonClicked()
+            }
+        }
     }
 
     SelectedAddressDetailsPage {
