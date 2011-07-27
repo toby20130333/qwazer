@@ -2,8 +2,8 @@ import QtQuick 1.0
 
 Rectangle {
     id: iconButton
-    width: 64
-    height: 64
+    width: Math.max(iconImage.sourceSize.width, iconText.width)
+    height: iconImage.sourceSize.height + iconText.paintedHeight
     color: "#00000000"
 
     signal clicked
@@ -13,6 +13,8 @@ Rectangle {
 
     Image {
         id: iconImage
+        width: sourceSize.width
+        height: sourceSize.height
         anchors.right: parent.right
         anchors.rightMargin: 0
         anchors.left: parent.left
@@ -26,6 +28,10 @@ Rectangle {
     Text {
         id: iconText
         text: iconButton.text
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
         anchors.top: iconImage.bottom
         anchors.topMargin: 0
         anchors.bottom: parent.bottom
