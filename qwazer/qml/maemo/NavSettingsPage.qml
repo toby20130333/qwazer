@@ -1,7 +1,7 @@
 import QtQuick 1.0
 import "../qwazer/js/Images.js" as Images
 
-Rectangle {
+Page {
     id: navSettings
     width: 800
     height: 400
@@ -9,8 +9,7 @@ Rectangle {
 
     signal backButtonClicked
 
-    ToolBar {
-        height: toolbarNavSettingsRow.height
+    tools: VisualItemModel {
         Flow {
             id: toolbarNavSettingsRow
             spacing: 20

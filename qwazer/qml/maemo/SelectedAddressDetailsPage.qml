@@ -2,7 +2,7 @@ import QtQuick 1.0
 import "../qwazer"
 import "../qwazer/js/Images.js" as Images
 
-Rectangle {
+Page {
     id: addressDetailsPage
     anchors.fill: parent
 
@@ -26,9 +26,7 @@ Rectangle {
         onBackButtonClicked: addressDetailsPage.state = "AddressDetails"
     }
 
-    ToolBar {
-        height: addressToolBar.height
-        toolBarItems:
+    tools: VisualItemModel {
         Flow {
             id: addressToolBar
             spacing: 20

@@ -5,8 +5,9 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.right: parent.right
     anchors.left: parent.left
+    height: tools.height
 
-    property alias toolBarItems: tools.children
+    property VisualItemModel toolBarItems
 
     Rectangle {
         id: shadow
@@ -32,8 +33,13 @@ Rectangle {
 
     Rectangle {
         id: tools
-        color: "#848484"
-        anchors.topMargin: 0
+        height: visualItems.height
         anchors.fill: parent
+        color: "#848484"
+        ListView {
+            id: visualItems
+            height: 63
+            model: toolBarItems
+        }
     }
 }
