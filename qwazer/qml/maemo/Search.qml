@@ -1,7 +1,7 @@
 import QtQuick 1.0
 import "../qwazer/js/Images.js" as Images
 
-Rectangle {
+Page {
     id: searchView
     anchors.fill: parent
     width: 780
@@ -26,9 +26,7 @@ Rectangle {
         }
     }
 
-    ToolBar {
-        height: toolBarButtons.height
-        toolBarItems:
+    tools: VisualItemModel {
         Flow {
             id: toolBarButtons
             spacing: 20

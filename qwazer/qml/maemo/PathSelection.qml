@@ -1,7 +1,7 @@
 import QtQuick 1.0
 import "../qwazer/js/Images.js" as Images
 
-Rectangle {
+Page {
     id: pathSelection
     anchors.fill: parent
 
@@ -17,9 +17,7 @@ Rectangle {
         anchors.right: rectangle2.right
     }
 
-    ToolBar {
-        height: pathSelectionToolBarButtons.height
-        toolBarItems:
+    tools: VisualItemModel {
         Flow {
             id: pathSelectionToolBarButtons
             spacing: 20

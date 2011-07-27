@@ -7,6 +7,7 @@ Rectangle {
     height: 400
 
     property alias gpsData: gps.positionSource
+    property alias tools: toolBar.toolBarItems
 
     Component.onCompleted: {
         settings.initialize();
@@ -51,35 +52,45 @@ Rectangle {
 
     Translator { id: translator }
 
-    MapView {
-        id: qwazerMapView
-        x: 0
-        y: 0
+    Rectangle {
+        id: content
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.bottom: toolBar.top
+        anchors.bottomMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 0
 
-        anchors.fill: parent
+        MapView {
+            id: qwazerMapView
 
-        visible: false
+            anchors.fill: parent
 
-        onMapLoaded: {
-            mainView.state = 'MapState';
+            visible: false
+
+            onMapLoaded: {
+                mainView.state = 'MapState';
+            }
+
+            onSearchButtonClicked: {
+                mainView.state = 'SearchState';
+            }
+
+            onSettingsButtonClicked: mainView.state = "SettingsState"
         }
 
-        onSearchButtonClicked: {
-            mainView.state = 'SearchState';
-        }
+        Search {
+            id: search1
+            x: 0
+            y: 0
+            visible: false
+            anchors.fill: parent
 
-        onSettingsButtonClicked: mainView.state = "SettingsState"
-    }
-
-    Search {
-        id: search1
-        x: 0
-        y: 0
-        visible: false
-        anchors.fill: parent
-
-        onBackButtonClicked: {
-            mainView.state = 'MapState';
+            onBackButtonClicked: {
+                mainView.state = 'MapState';
+            }
         }
     }
 
@@ -87,6 +98,10 @@ Rectangle {
         id: navSettings
         visible: false
         onBackButtonClicked: mainView.state = "MapState"
+    }
+
+    ToolBar {
+        id: toolBar
     }
 
     states: [
