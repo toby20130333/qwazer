@@ -13,12 +13,6 @@ Rectangle {
 
     Image {
         id: iconImage
-        width: sourceSize.width
-        height: sourceSize.height
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
         anchors.top: parent.top
         anchors.topMargin: 0
         source: iconButton.iconSource
@@ -28,10 +22,7 @@ Rectangle {
     Text {
         id: iconText
         text: iconButton.text
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: iconImage.bottom
         anchors.topMargin: 0
         anchors.bottom: parent.bottom
