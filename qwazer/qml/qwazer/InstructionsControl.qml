@@ -22,7 +22,7 @@ Rectangle {
         instructionArg.text = sectionData.instruction.arg;
         instructionArg.visible = sectionData.instruction.arg !== 0;
         var streetName = sectionData.streetName;
-        streetNameText.text = (streetName!==null)? streetName : "";
+        streetNameText.text = (typeof(streetName) != "undefined")? streetName : "";
     }
 
     Rectangle {

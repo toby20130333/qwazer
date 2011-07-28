@@ -8,13 +8,7 @@ Page {
 
     signal backButtonClicked
 
-    property variant addressDetails: {
-                                         name: "",
-                                         location: {lon: "", lat:""},
-                                         phone: "",
-                                         url: "",
-                                         businessName: ""
-                                     }
+    property variant addressDetails
 
     CourseResultsListModel {
         id: courseResultsModel
@@ -111,34 +105,34 @@ Page {
         }
 
         Text {
-            text: addressDetails.name
+            text: (typeof(addressDetails) != "undefined")? addressDetails.name : ""
         }
 
         Text {
             text: translator.translate("Business Name%1", ":") + translator.forceTranslate
-            visible: addressDetails.businessName !== ""
+            visible: (typeof(addressDetails) != "undefined") && addressDetails.businessName !== ""
         }
 
         Text {
-            text: addressDetails.businessName
+            text: (typeof(addressDetails) != "undefined")? addressDetails.businessName : ""
         }
 
         Text {
             text: translator.translate("Homepage%1", ":") + translator.forceTranslate
-            visible: addressDetails.url !== ""
+            visible: typeof(addressDetails) != "undefined" && addressDetails.url !== ""
         }
 
         Text {
-            text: addressDetails.url
+            text: (typeof(addressDetails) != "undefined")? addressDetails.url : ""
         }
 
         Text {
             text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
-            visible: addressDetails.phone !== ""
+            visible: typeof(addressDetails) != "undefined" && addressDetails.phone !== ""
         }
 
         Text {
-            text: addressDetails.phone
+            text: (typeof(addressDetails) != "undefined")? addressDetails.phone : ""
         }
 
         Text {
@@ -146,7 +140,7 @@ Page {
         }
 
         Text {
-            text: addressDetails.location? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
+            text: (typeof(addressDetails) != "undefined" && addressDetails.location)? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
         }
     }
 

@@ -32,24 +32,6 @@ Rectangle {
         }
     }
 
-    SettingsPage {
-        id: settingsPage
-        visible: false
-
-        onOkClicked: {
-            if (settings.isFirstRun)
-            {
-                settings.isFirstRun = !settings.isFirstRun;
-                qwazerMapView.initialize();
-
-            }
-            else
-            {
-                mainView.state = 'MapState';
-            }
-        }
-    }
-
     Translator { id: translator }
 
     Rectangle {
@@ -92,13 +74,32 @@ Rectangle {
                 mainView.state = 'MapState';
             }
         }
+
+        SettingsPage {
+            id: settingsPage
+            visible: false
+
+            onOkClicked: {
+                if (settings.isFirstRun)
+                {
+                    settings.isFirstRun = !settings.isFirstRun;
+                    qwazerMapView.initialize();
+
+                }
+                else
+                {
+                    mainView.state = 'MapState';
+                }
+            }
+        }
+
+        NavSettingsPage {
+            id: navSettings
+            visible: false
+            onBackButtonClicked: mainView.state = "MapState"
+        }
     }
 
-    NavSettingsPage {
-        id: navSettings
-        visible: false
-        onBackButtonClicked: mainView.state = "MapState"
-    }
 
     ToolBar {
         id: toolBar
