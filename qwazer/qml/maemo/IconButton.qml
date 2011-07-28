@@ -13,6 +13,7 @@ Rectangle {
 
     Image {
         id: iconImage
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 0
         source: iconButton.iconSource
