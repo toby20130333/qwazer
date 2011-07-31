@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
 
 
 //#ifdef Q_WS_MAEMO_5
-//    qwazerDir.cdUp();
+    qwazerDir.cdUp();
     view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/maemo/main.qml")));
-//    view.showFullScreen();
+    view.showMaximized();
 //#else
 //    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/meego/main.qml")));
-    view.showNormal();
+//    view.showNormal();
 //#endif
     return app.exec();
 }

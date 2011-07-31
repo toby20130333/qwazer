@@ -122,10 +122,8 @@ Rectangle {
     WebView {
         id: web_view1
 
-        width: Math.max(mapView.width, mapView.height)*Math.max(mapView.width, mapView.height)/Math.min(mapView.width, mapView.height)
-        height: Math.max(mapView.width, mapView.height)*Math.max(mapView.width, mapView.height)/Math.min(mapView.width, mapView.height)
-        x: (mapView.width-width)/2
-        y: (mapView.height-height)/2
+        anchors.fill: mapView
+        anchors.margins: -Math.abs(mapView.width - mapView.height)
 
         pressGrabTime: 0
         settings.offlineWebApplicationCacheEnabled: true
