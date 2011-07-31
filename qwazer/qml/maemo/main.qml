@@ -5,9 +5,10 @@ Rectangle {
     id: mainView
     width: 800
     height: 400
+    anchors.fill: parent
 
     property alias gpsData: gps.positionSource
-    property alias tools: toolBar.toolBarItems
+    property VisualItemModel tools
 
     Component.onCompleted: {
         settings.initialize();
@@ -103,6 +104,7 @@ Rectangle {
 
     ToolBar {
         id: toolBar
+        toolBarItems: tools
     }
 
     states: [

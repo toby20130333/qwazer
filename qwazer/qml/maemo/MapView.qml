@@ -34,8 +34,6 @@ Page {
     QwazerMap {
         id: map
 
-        anchors.fill: mainPage
-
         isFollowMe: followMeButton.isSelected
         onMapLoaded: mainPage.mapLoaded()
 

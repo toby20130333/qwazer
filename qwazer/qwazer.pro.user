@@ -2,7 +2,7 @@
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">3</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -436,18 +436,22 @@
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles" type="QVariantList">
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_7_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_6_armel.deb</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts" type="QVariantList">
        <value type="QString">10.0.0.1</value>
        <value type="QString">10.0.0.8</value>
+       <value type="QString">10.0.0.8</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
+       <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes" type="QVariantList">
        <value type="QDateTime">2011-07-21T20:54:25</value>
        <value type="QDateTime">2011-07-21T23:20:28</value>
+       <value type="QDateTime">2011-07-28T20:29:37</value>
       </valuelist>
      </valuemap>
      <value key="ProjectExplorer.BuildStepList.StepsCount" type="int">2</value>
@@ -733,7 +737,7 @@
       <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
       <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
       <value key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibrary" type="bool">true</value>
-      <value key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QString"></value>
+      <value key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QString">DEFINES+="DMAIN_QML=/qml/maemo/main.qml"</value>
       <value key="QtProjectManager.QMakeBuildStep.QMakeForced" type="bool">false</value>
      </valuemap>
      <valuemap key="ProjectExplorer.BuildStepList.Step.1" type="QVariantMap">
