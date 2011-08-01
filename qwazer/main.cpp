@@ -9,14 +9,14 @@ int main(int argc, char *argv[])
                         &app, SLOT(quit()));
     QDir qwazerDir = QDir(app.applicationDirPath());
 
-
-//#ifdef Q_WS_MAEMO_5
+#ifdef Q_WS_MAEMO_5
     qwazerDir.cdUp();
-    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/maemo/main.qml")));
     view.showMaximized();
-//#else
-//    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/meego/main.qml")));
-//    view.showNormal();
-//#endif
+#else
+    view.showNormal();
+#endif
+
+    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append("/qml/maemo/main.qml")));
+
     return app.exec();
 }

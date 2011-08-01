@@ -10,7 +10,7 @@ DEPLOYMENTFOLDERS = folder_01 folder_02 folder_03
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-QT+= declarative
+QT+= core gui declarative
 symbian:TARGET.UID3 = 0xEB2035FC
 
 # Smart Installer package's UID

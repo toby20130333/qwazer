@@ -12,6 +12,7 @@ Page {
     tools: VisualItemModel {
         Flow {
             id: toolbarNavSettingsRow
+            anchors.margins: 20
             spacing: 20
 
             IconButton {
