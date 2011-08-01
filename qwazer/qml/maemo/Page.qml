@@ -5,12 +5,6 @@ Rectangle {
     anchors.fill: parent
 
     property VisualItemModel tools
-
-    onVisibleChanged: {
-        if (visible)
-        {
-            mainView.tools = page.tools;
-        }
-    }
-
+    property bool refreshTools
+    onRefreshToolsChanged: mainView.tools = page.tools;
 }
