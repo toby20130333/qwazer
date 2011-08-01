@@ -27,7 +27,6 @@ Page {
             spacing: 20
 
             IconButton {
-                id: backButton
                 text: translator.translate("Back") + translator.forceTranslate
                 iconSource: Images.back
                 onClicked: addressDetailsPage.backButtonClicked()

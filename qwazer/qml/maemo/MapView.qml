@@ -9,7 +9,6 @@ Page {
     height: parent.height
 
     signal mapLoaded
-    signal searchButtonClicked
     signal settingsButtonClicked
 
     function initialize()
@@ -22,7 +21,7 @@ Page {
     }
 
     function navigate(course) {
-        mainView.state = "MapState";
+        mainPage.state = "Map";
         map.navigationInfo = course;
         mainPageLogic.state = "Navigation";
     }
@@ -62,6 +61,15 @@ Page {
         }
     }
 
+    SearchAddressPage {
+        id: searchPage
+        anchors.fill: parent
+
+        onBackButtonClicked: {
+            mainPage.state = 'Map';
+        }
+    }
+
     tools: VisualItemModel {
         Flow {
             id: toolBarButtons
@@ -72,7 +80,7 @@ Page {
                 id: searchButton
                 iconSource: Images.find
                 text: translator.translate("Search") + translator.forceTranslate
-                onClicked: searchButtonClicked()
+                onClicked: mainPage.state = "Search"
             }
 
             IconButton {
@@ -142,4 +150,31 @@ Page {
         onShowApplicationSettings: mainView.state = "SettingsState"
         onShowNavigationSettings: mainView.state = "NavSettingsState"
     }
+
+    states: [
+        State {
+            name: "Map"
+
+            PropertyChanges {
+                target: mainPage
+                visible: true
+            }
+            PropertyChanges {
+                 target: searchPage
+                 visible: false
+            }
+        },
+        State {
+            name: "Search"
+
+            PropertyChanges {
+                target: mainPage
+                visible: false
+            }
+            PropertyChanges {
+                target: searchPage
+                state: "Search"
+            }
+        }
+    ]
 }

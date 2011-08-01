@@ -44,34 +44,25 @@ Rectangle {
         anchors.bottom: toolBar.top
         anchors.bottomMargin: 0
         anchors.top: mainView.top
-        anchors.topMargin: -13
+//        anchors.topMargin: -13
+
+        BusyPage {
+            id: settingsLoadPage
+            visible: mainView.state == ""
+            backIcon: ""
+            onBackClicked: {}
+        }
 
         MapView {
             id: qwazerMapView
-
-            anchors.fill: content
-
             visible: false
+            anchors.fill: content
 
             onMapLoaded: {
                 mainView.state = 'MapState';
             }
 
-            onSearchButtonClicked: {
-                mainView.state = 'SearchState';
-            }
-
             onSettingsButtonClicked: mainView.state = "SettingsState"
-        }
-
-        Search {
-            id: search1
-            visible: false
-            anchors.fill: content
-
-            onBackButtonClicked: {
-                mainView.state = 'MapState';
-            }
         }
 
         SettingsPage {
@@ -95,8 +86,8 @@ Rectangle {
 
         NavSettingsPage {
             id: navSettings
-            anchors.fill: content
             visible: false
+            anchors.fill: content
             onBackButtonClicked: mainView.state = "MapState"
         }
     }
@@ -115,31 +106,8 @@ Rectangle {
             PropertyChanges {
                 target: qwazerMapView
                 visible: true
-            }
-            PropertyChanges {
-                 target: search1
-                 visible: false
-            }
-            PropertyChanges {
-                target: settingsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: navSettings
-                visible: false
-            }
-        },
-        State {
-            name: "SearchState"
-
-            PropertyChanges {
-                target: qwazerMapView
-                visible: false
-            }
-            PropertyChanges {
-                target: search1
-                visible: true
-                state: "Search"
+                refreshTools: eval("!qwazerMapView.refreshTools")
+                state: "Map"
             }
             PropertyChanges {
                 target: settingsPage
@@ -158,11 +126,8 @@ Rectangle {
                 visible: false
             }
             PropertyChanges {
-                target: search1
-                visible: false
-            }
-            PropertyChanges {
                 target: settingsPage
+                refreshTools: eval("!settingsPage.refreshTools")
                 visible: true
             }
             PropertyChanges {
@@ -178,15 +143,12 @@ Rectangle {
                 visible: false
             }
             PropertyChanges {
-                target: search1
-                visible: false
-            }
-            PropertyChanges {
                 target: settingsPage
                 visible: false
             }
             PropertyChanges {
                 target: navSettings
+                refreshTools: eval("!navSettings.refreshTools")
                 visible: true
             }
         }
