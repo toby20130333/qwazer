@@ -161,6 +161,7 @@ Page {
 
     tools: VisualItemModel {
         Flow {
+            anchors.margins: 20
             IconButton {
                 id: okButton
                 text: translator.translate("Back") + translator.forceTranslate

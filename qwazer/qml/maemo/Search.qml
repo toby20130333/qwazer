@@ -4,7 +4,7 @@ import "../qwazer/js/Images.js" as Images
 Page {
     id: searchView
     anchors.fill: parent
-    width: 780
+    width: 800
     height: 400
 
     signal backButtonClicked
@@ -29,12 +29,20 @@ Page {
     tools: VisualItemModel {
         Flow {
             id: toolBarButtons
+            anchors.margins: 20
             spacing: 20
             IconButton {
                 id: backButton
                 text: translator.translate("Back") + translator.forceTranslate
                 iconSource: Images.back
                 onClicked: searchView.backButtonClicked()
+            }
+
+            DualStateButton {
+                anchors.verticalCenter: toolBarButtons.verticalCenter
+                leftText: translator.translate("Search") + translator.forceTranslate
+                rightText: translator.translate("Favorites") + translator.forceTranslate
+                selectedIndex: 0
             }
         }
     }

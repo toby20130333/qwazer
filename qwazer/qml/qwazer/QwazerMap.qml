@@ -5,8 +5,8 @@ import "js/MapLogic.js" as Logic
 Rectangle {
     id: mapView
 
-    width: 780
-    height: 400
+    width: parent.width
+    height: parent.height
 
     signal mapLoaded
 
@@ -122,8 +122,10 @@ Rectangle {
     WebView {
         id: web_view1
 
-        anchors.fill: mapView
-        anchors.margins: -Math.abs(mapView.width - mapView.height)
+        width: Math.max(parent.width, parent.height) + Math.abs(parent.width - parent.height)/2
+        height: Math.max(parent.width, parent.height) + Math.abs(parent.width - parent.height)/2
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
 
         pressGrabTime: 0
         settings.offlineWebApplicationCacheEnabled: true

@@ -4,8 +4,9 @@ import "../qwazer/js/Images.js" as Images
 
 Page {
     id: mainPage
-    width: 800
-    height: 400
+
+    width: parent.width
+    height: parent.height
 
     signal mapLoaded
     signal searchButtonClicked
@@ -35,35 +36,36 @@ Page {
         id: map
 
         isFollowMe: followMeButton.isSelected
-        onMapLoaded: mainPage.mapLoaded()
+        onMapLoaded: mainPage.mapLoaded() 
+    }
 
-        Column {
-            id: zoomButtons
-            anchors.right: map.right
-            anchors.rightMargin: 10
-            anchors.verticalCenter: map.verticalCenter
-            spacing: 50
-            width: 50
+    Column {
+        id: zoomButtons
+        anchors.right: mainPage.right
+        anchors.rightMargin: 10
+        anchors.verticalCenter: mainPage.verticalCenter
+        spacing: 50
+        width: 50
 
-            Button {
-                text: "+"
-                width: height
-                radius: height
-                onClicked: map.zoomIn()
-            }
+        Button {
+            text: "+"
+            width: height
+            radius: height
+            onClicked: map.zoomIn()
+        }
 
-            Button {
-                text: "-"
-                width: height
-                radius: height
-                onClicked: map.zoomOut()
-            }
+        Button {
+            text: "-"
+            width: height
+            radius: height
+            onClicked: map.zoomOut()
         }
     }
 
     tools: VisualItemModel {
         Flow {
             id: toolBarButtons
+            anchors.margins: 20
             spacing: 20
 
             IconButton {

@@ -20,6 +20,7 @@ Page {
     tools: VisualItemModel {
         Flow {
             id: pathSelectionToolBarButtons
+            anchors.margins: 20
             spacing: 20
             IconButton {
                 text: translator.translate("Back") + translator.forceTranslate

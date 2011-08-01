@@ -23,6 +23,7 @@ Page {
     tools: VisualItemModel {
         Flow {
             id: addressToolBar
+            anchors.margins: 20
             spacing: 20
 
             IconButton {

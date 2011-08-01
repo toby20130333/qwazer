@@ -3,9 +3,9 @@ import "../qwazer"
 
 Rectangle {
     id: mainView
+
     width: 800
     height: 400
-    anchors.fill: parent
 
     property alias gpsData: gps.positionSource
     property VisualItemModel tools
@@ -37,19 +37,19 @@ Rectangle {
 
     Rectangle {
         id: content
-        anchors.right: parent.right
+        anchors.right: mainView.right
         anchors.rightMargin: 0
-        anchors.left: parent.left
+        anchors.left: mainView.left
         anchors.leftMargin: 0
         anchors.bottom: toolBar.top
         anchors.bottomMargin: 0
-        anchors.top: parent.top
-        anchors.topMargin: 0
+        anchors.top: mainView.top
+        anchors.topMargin: -13
 
         MapView {
             id: qwazerMapView
 
-            anchors.fill: parent
+            anchors.fill: content
 
             visible: false
 
@@ -66,10 +66,8 @@ Rectangle {
 
         Search {
             id: search1
-            x: 0
-            y: 0
             visible: false
-            anchors.fill: parent
+            anchors.fill: content
 
             onBackButtonClicked: {
                 mainView.state = 'MapState';
@@ -78,6 +76,7 @@ Rectangle {
 
         SettingsPage {
             id: settingsPage
+            anchors.fill: content
             visible: false
 
             onOkClicked: {
@@ -96,6 +95,7 @@ Rectangle {
 
         NavSettingsPage {
             id: navSettings
+            anchors.fill: content
             visible: false
             onBackButtonClicked: mainView.state = "MapState"
         }
@@ -105,6 +105,7 @@ Rectangle {
     ToolBar {
         id: toolBar
         toolBarItems: tools
+        anchors.bottomMargin: -13
     }
 
     states: [
