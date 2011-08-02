@@ -81,7 +81,7 @@ Page {
                         }
                         MouseArea {
                             anchors.fill: row
-                            onClicked: qwazerMapView.navigate(response)
+                            onClicked: coursePlottingBusyPage.course = response;
                         }
                     }
                     model: courseResultsModel.dataModel
