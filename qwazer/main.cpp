@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     QDir qwazerDir = QDir(app.applicationDirPath());
 
 #ifdef Q_WS_MAEMO_5
+    view.engine()->addImportPath(QString("/opt/qtm12/imports"));
     qwazerDir.cdUp();
     view.showMaximized();
 #else
