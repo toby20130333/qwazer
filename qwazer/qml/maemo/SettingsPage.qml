@@ -62,102 +62,108 @@ Page {
         }
     }
 
-    Grid {
-        id: grid1
-        anchors.margins: 10
-        anchors.fill: parent
-
-        columns: 2
-        spacing: 10
-
-        Text {
-            id: languageLabel
-            text: translator.translate("Language%1", ":") + translator.forceTranslate
-            font.pointSize: 20
-        }
-
-        Button {
-            id: selectedLanguage
-            text: settings.language.name
-
-            onClicked: settingsPage.state = "SelectLanguageState"
-        }
-
-        Text {
-            id: countryLabel
-            text: translator.translate("Default Country%1", ":") + translator.forceTranslate
-            font.pointSize: 20
-        }
-
-        Button {
-            id: selectedCountry
-            text: settings.country.name
-
-            onClicked: settingsPage.state = "SelectCountryState"
-        }
-
-        Text {
-            id: nightModeLabel
-            text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
-            font.pointSize: 20
-        }
-
-        ToggleButton {
-            id: nightModeSelector
-            text: isSelected? "+" : "-"
-            isSelected: settings.nightMode
-        }
-    }
-
-    ListView {
+    Page {
         id: languagesList
-        anchors.fill: parent
-        visible: false
-        model: languagesModel
+        ListView {
+            anchors.fill: parent
+            model: languagesModel
 
-        currentIndex: findItem(languagesModel, settings.language, "name")
-        highlightFollowsCurrentItem: true
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-        focus: true
-        clip: true
+            currentIndex: findItem(languagesModel, settings.language, "name")
+            highlightFollowsCurrentItem: true
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            focus: true
+            clip: true
 
-        delegate: Component {
-            Button {
-                width: languagesList.width
-                text: name
-                onClicked: {
-                    settings.language = {name: name, langId: langId, rtl: rtl};
-                    settingsPage.state = "Loaded";
+            delegate: Component {
+                Button {
+                    width: languagesList.width
+                    text: name
+                    onClicked: {
+                        settings.language = {name: name, langId: langId, rtl: rtl};
+                        settingsPage.state = "Loaded";
+                    }
                 }
             }
         }
     }
 
-    ListView {
+
+    Page {
         id: countryList
-        anchors.fill: parent
-        visible: false
-        model: countriesModel
 
-        currentIndex: findItem(countriesModel, settings.country, "name")
-        highlightFollowsCurrentItem: true
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-        focus: true
-        clip: true
+        ListView {
 
-        delegate: Component {
-            Button {
-                width: countryList.width
-                text: name
+            anchors.fill: parent
+            model: countriesModel
 
-                onClicked: {
-                    settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
-                    settingsPage.state = "Loaded";
+            currentIndex: findItem(countriesModel, settings.country, "name")
+            highlightFollowsCurrentItem: true
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            focus: true
+            clip: true
+
+            delegate: Component {
+                Button {
+                    width: countryList.width
+                    text: name
+
+                    onClicked: {
+                        settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
+                        settingsPage.state = "Loaded";
+                    }
                 }
             }
         }
     }
 
+    content: VisualItemModel {
+        Grid {
+            id: grid1
+            anchors.margins: 10
+            anchors.fill: parent
+
+            columns: 2
+            spacing: 10
+
+            Text {
+                id: languageLabel
+                text: translator.translate("Language%1", ":") + translator.forceTranslate
+                font.pointSize: 20
+            }
+
+            Button {
+                id: selectedLanguage
+                text: settings.language.name
+
+                onClicked: settingsPage.state = "SelectLanguageState"
+            }
+
+            Text {
+                id: countryLabel
+                text: translator.translate("Default Country%1", ":") + translator.forceTranslate
+                font.pointSize: 20
+            }
+
+            Button {
+                id: selectedCountry
+                text: settings.country.name
+
+                onClicked: settingsPage.state = "SelectCountryState"
+            }
+
+            Text {
+                id: nightModeLabel
+                text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
+                font.pointSize: 20
+            }
+
+            ToggleButton {
+                id: nightModeSelector
+                text: isSelected? "+" : "-"
+                isSelected: settings.nightMode
+            }
+        }
+    }
 
     tools: VisualItemModel {
         Flow {
@@ -188,11 +194,6 @@ Page {
             }
 
             PropertyChanges {
-                target: grid1
-                visible: true
-            }
-
-            PropertyChanges {
                 target: okButton
                 visible: true
             }
@@ -206,11 +207,6 @@ Page {
             }
 
             PropertyChanges {
-                target: grid1
-                visible: false
-            }
-
-            PropertyChanges {
                 target: okButton
                 visible: false
             }
@@ -221,11 +217,6 @@ Page {
             PropertyChanges {
                 target: countryList
                 visible: true
-            }
-
-            PropertyChanges {
-                target: grid1
-                visible: false
             }
 
             PropertyChanges {

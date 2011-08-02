@@ -22,71 +22,41 @@ Page {
            }
        }
 
-    SelectedAddressDetailsPage {
-        id: addressDetailsPage
-
-        onAddressDetailsChanged: searchResultsPage.state = "AddressDetails"
-        onBackButtonClicked: searchResultsPage.state = "Results"
-    }
-
-    Rectangle {
-        id: resultsRect
-        color: "#00000000"
-        radius: 10
-        anchors.fill: parent
-        border.color: "#000000"
+    content: VisualItemModel {
+        Rectangle {
+            id: resultsRect
+            color: "#00000000"
+            radius: 10
+            anchors.fill: parent
+            border.color: "#000000"
 
 
-        ListView {
-            id: resultsListView
-            model: findAddressModel.dataModel
-            anchors.fill: resultsRect
-            clip: true
-            delegate: Button {
-                text: name
-                width: resultsListView.width
-                onClicked: {
-                    var o = findAddressModel.dataModel.get(index);
-                    if (typeof(addressDetailsPage.addressDetails) == "undefined" ||
-                        addressDetailsPage.addressDetails.name != o.name)
-                    {
-                        addressDetailsPage.addressDetails =  {name: o.name,
-                                location: o.location,
-                                phone: o.phone? o.phone:"",
-                                url: o.url? o.url:"",
-                                businessName: o.businessName? o.businessName:""};
-                    }
-                    else
-                    {
-                        addressDetailsPage.addressDetailsChanged();
+            ListView {
+                id: resultsListView
+                model: findAddressModel.dataModel
+                anchors.fill: resultsRect
+                clip: true
+                delegate: Button {
+                    text: name
+                    width: resultsListView.width
+                    onClicked: {
+                        var o = findAddressModel.dataModel.get(index);
+                        if (typeof(addressDetailsPage.addressDetails) == "undefined" ||
+                            addressDetailsPage.addressDetails.name != o.name)
+                        {
+                            addressDetailsPage.addressDetails =  {name: o.name,
+                                    location: o.location,
+                                    phone: o.phone? o.phone:"",
+                                    url: o.url? o.url:"",
+                                    businessName: o.businessName? o.businessName:""};
+                        }
+                        else
+                        {
+                            addressDetailsPage.addressDetailsChanged();
+                        }
                     }
                 }
             }
         }
     }
-
-    states: [
-        State {
-            name: "Results"
-            PropertyChanges {
-                target: searchResultsPage
-                visible: true
-            }
-            PropertyChanges {
-                target: addressDetailsPage
-                visible: false
-            }
-        },
-        State {
-            name: "AddressDetails"
-            PropertyChanges {
-                target: searchResultsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: addressDetailsPage
-                visible: true
-            }
-        }
-    ]
 }

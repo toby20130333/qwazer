@@ -12,6 +12,7 @@ Page {
 
     property alias text: loadStatus.text
     property alias backIcon: backButton.iconSource
+    property alias backText: backButton.text
 
     signal backClicked
 

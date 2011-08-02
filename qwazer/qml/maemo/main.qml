@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import "../qwazer"
+import "../qwazer/search_qml"
 
 Rectangle {
     id: mainView
@@ -8,9 +9,20 @@ Rectangle {
     height: 400
 
     property alias gpsData: gps.positionSource
-    property VisualItemModel tools
+
+    property Page __activePage2
+    property Page activePage
+    onActivePageChanged: {
+        if (__activePage2 !== null)
+        {
+            __activePage2.visible = false;
+        }
+        activePage.visible = true;
+        __activePage2 = activePage;
+    }
 
     Component.onCompleted: {
+        settingsLoadPage.visible = true;
         settings.initialize();
     }
 
@@ -24,7 +36,7 @@ Rectangle {
         onSettingsLoaded: {
             if (typeof(settings.isFirstRun) == "undefined" || settings.isFirstRun)
             {
-                mainView.state = "SettingsState";
+                activePage = settingsPage;
             }
             else
             {
@@ -33,124 +45,87 @@ Rectangle {
         }
     }
 
+    FindResultsModel {
+        id: findAddressModel
+        onLoadDone: activePage = addressResultsPage
+        onAddressChanged: activePage = loadingResultsPage
+    }
+
+    CourseResultsListModel {
+        id: courseResultsModel
+        onLoadDone: activePage = courseResultsPage
+    }
+
     Translator { id: translator }
 
-    Rectangle {
-        id: content
-        anchors.right: mainView.right
-        anchors.rightMargin: 0
-        anchors.left: mainView.left
-        anchors.leftMargin: 0
-        anchors.bottom: toolBar.top
-        anchors.bottomMargin: 0
-        anchors.top: mainView.top
-//        anchors.topMargin: -13
 
-        BusyPage {
-            id: settingsLoadPage
-            visible: mainView.state == ""
-            backIcon: ""
-            onBackClicked: {}
-        }
+    BusyPage {
+        id: settingsLoadPage
+        backText: ""
+        backIcon: ""
+        onBackClicked: {}
+    }
 
-        MapView {
-            id: qwazerMapView
-            visible: false
-            anchors.fill: content
+    MapView {
+        id: qwazerMapView
 
-            onMapLoaded: {
-                mainView.state = 'MapState';
+        onMapLoaded: activePage = qwazerMapView
+        onSearchButtonClicked: activePage = searchPage
+        onSettingsButtonClicked: activePage = settingsPage
+    }
+
+    SettingsPage {
+        id: settingsPage
+
+        onOkClicked: {
+            if (settings.isFirstRun)
+            {
+                settings.isFirstRun = !settings.isFirstRun;
+                qwazerMapView.initialize();
             }
-
-            onSettingsButtonClicked: mainView.state = "SettingsState"
-        }
-
-        SettingsPage {
-            id: settingsPage
-            anchors.fill: content
-            visible: false
-
-            onOkClicked: {
-                if (settings.isFirstRun)
-                {
-                    settings.isFirstRun = !settings.isFirstRun;
-                    qwazerMapView.initialize();
-
-                }
-                else
-                {
-                    mainView.state = 'MapState';
-                }
+            else
+            {
+               activePage = qwazerMapView;
             }
-        }
-
-        NavSettingsPage {
-            id: navSettings
-            visible: false
-            anchors.fill: content
-            onBackButtonClicked: mainView.state = "MapState"
         }
     }
 
-
-    ToolBar {
-        id: toolBar
-        toolBarItems: tools
-        anchors.bottomMargin: -13
+    NavSettingsPage {
+        id: navSettings
+        onBackButtonClicked: activePage = qwazerMapView
     }
 
-    states: [
-        State {
-            name: "MapState"
+    SearchAddressPage {
+        id: searchPage
 
-            PropertyChanges {
-                target: qwazerMapView
-                visible: true
-                refreshTools: eval("!qwazerMapView.refreshTools")
-                state: "Map"
-            }
-            PropertyChanges {
-                target: settingsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: navSettings
-                visible: false
-            }
-        },
-        State {
-            name: "SettingsState"
+        onBackButtonClicked: activePage = qwazerMapView
+    }
 
-            PropertyChanges {
-                target: qwazerMapView
-                visible: false
-            }
-            PropertyChanges {
-                target: settingsPage
-                refreshTools: eval("!settingsPage.refreshTools")
-                visible: true
-            }
-            PropertyChanges {
-                target: navSettings
-                visible: false
-            }
-        },
-        State {
-            name: "NavSettingsState"
+    SelectedAddressDetailsPage {
+        id: addressDetailsPage
 
-            PropertyChanges {
-                target: qwazerMapView
-                visible: false
-            }
-            PropertyChanges {
-                target: settingsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: navSettings
-                refreshTools: eval("!navSettings.refreshTools")
-                visible: true
-            }
+        onAddressDetailsChanged: activePage = addressDetailsPage
+        onBackButtonClicked: activePage = addressDetailsPage
+    }
+
+    BusyPage {
+        id: loadingResultsPage
+
+        text: translator.translate("Searching for address%1", "...") + translator.forceTranslate
+
+        onBackClicked: {
+            findAddressModel.cancelled = true;
+            activePage = searchPage;
         }
-    ]
+    }
+
+    AddressResultsPage {
+        id: addressResultsPage
+        onBackButtonClicked: activePage = searchPage
+    }
+
+    PathSelection {
+        id: courseResultsPage
+        onBackButtonClicked: activePage = addressDetailsPage
+    }
 }
