@@ -24,6 +24,7 @@ Page {
     function navigate(course) {
         map.navigationInfo = course;
         mainPageLogic.state = "Navigation";
+        activePage = qwazerMapView;
     }
 
     function stopNavigation() {

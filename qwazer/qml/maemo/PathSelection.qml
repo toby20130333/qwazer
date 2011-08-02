@@ -3,11 +3,8 @@ import "../qwazer/js/Images.js" as Images
 
 Page {
     id: pathSelection
-    anchors.fill: parent
 
     signal backButtonClicked
-
-
 
     tools: VisualItemModel {
         Flow {
@@ -25,28 +22,40 @@ Page {
     ListModel {
         id: pathListModel
     }
+
     content: VisualItemModel {
         Rectangle {
+            anchors.fill: parent
+
             Text {
                 id: pathSelectionLabel
                 text: translator.translate("Choose course") + translator.forceTranslate
                 font.pointSize: 24
                 horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: 10
-                anchors.right: rectangle2.right
             }
 
             Rectangle {
                 id: rectangle2
                 color: "#ffffff"
                 border.color: "#000000"
-                anchors.fill: parent
-                anchors.margins: 10
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: pathSelectionLabel.bottom
+                anchors.bottom: parent.bottom
+
+                anchors.rightMargin: 10
+                anchors.leftMargin: 10
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
 
                 ListView {
                     id: pathList
                     anchors.fill: parent
+                    clip: true
+                    boundsBehavior: ListView.StopAtBounds
                     delegate: Rectangle {
                         id: row
                         border.color: "black"
