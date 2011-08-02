@@ -32,11 +32,7 @@ Page {
         Column {
             id: searchPageContent
             spacing: 20
-            anchors.rightMargin: 20
-            anchors.leftMargin: 20
-            anchors.bottomMargin: 20
-            anchors.topMargin: 20
-            anchors.fill: searchAddressPage
+            anchors.fill: parent
 
             Text {
                 anchors.horizontalCenter: searchPageContent.horizontalCenter
@@ -46,7 +42,9 @@ Page {
             Rectangle {
                 height: 50
                 anchors.right: parent.right
+                anchors.rightMargin: 20
                 anchors.left: parent.left
+                anchors.leftMargin: 20
                 border.color: "black"
 
                 TextEdit {

@@ -35,6 +35,7 @@ Page {
                 id: resultsListView
                 model: findAddressModel.dataModel
                 anchors.fill: resultsRect
+                boundsBehavior: ListView.StopAtBounds
                 clip: true
                 delegate: Button {
                     text: name
