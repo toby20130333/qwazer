@@ -24,7 +24,6 @@ Page {
     function navigate(course) {
         map.navigationInfo = course;
         mainPageLogic.state = "Navigation";
-        activePage = qwazerMapView;
     }
 
     function stopNavigation() {
@@ -65,6 +64,15 @@ Page {
                         onClicked: map.zoomOut()
                     }
                 }
+            }
+
+            InstructionsControl {
+                id: currentInstruction
+                visible: false
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+                anchors.left: parent.left
+                opacity: 0.7
             }
         }
     }
@@ -132,15 +140,6 @@ Page {
                 onClicked: map.showMe(true, true)
             }
         }
-    }
-
-    InstructionsControl {
-        id: currentInstruction
-        visible: false
-        anchors.bottom: mainPage.bottom
-        anchors.bottomMargin: 10
-        anchors.left: mainPage.left
-        opacity: 0.7
     }
 
     MainPageLogic {

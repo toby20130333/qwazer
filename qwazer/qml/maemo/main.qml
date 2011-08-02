@@ -119,6 +119,40 @@ Rectangle {
         }
     }
 
+    BusyPage {
+        id: coursePlottingBusyPage
+        text: translator.translate("Plotting course%1", "...") + translator.forceTranslate
+        backIcon: ""
+        onBackClicked: {}
+
+        property variant course
+        onCourseChanged: {
+            activePage = coursePlottingBusyPage;
+            delayedWorker.running = true;
+        }
+
+        Timer {
+            id: delayedWorker
+            interval: 1000
+            onTriggered: {
+                qwazerMapView.navigate(coursePlottingBusyPage.course);
+                activePage = qwazerMapView;
+            }
+            repeat: false
+        }
+    }
+
+    BusyPage {
+        id: courseCalcBusyPage
+
+        text: translator.translate("Calculating Course%1", "...") + translator.forceTranslate
+
+        onBackClicked: {
+            cancelled = true;
+            activePage = addressDetailsPage;
+        }
+    }
+
     AddressResultsPage {
         id: addressResultsPage
         onBackButtonClicked: activePage = searchPage

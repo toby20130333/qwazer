@@ -31,6 +31,7 @@ Page {
                         courseResultsModel.fromToPoints.to.lon != addressDetails.location.lon ||
                         courseResultsModel.fromToPoints.to.lat != addressDetails.location.lat)
                     {
+                        activePage = courseCalcBusyPage;
                         courseResultsModel.fromToPoints = {to: addressDetails.location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
                     }
                     else
