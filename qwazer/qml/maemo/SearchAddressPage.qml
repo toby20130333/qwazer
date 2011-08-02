@@ -28,124 +28,49 @@ Page {
         }
     }
 
-    FindResultsModel {
-        id: findAddressModel
-        onLoadDone: searchAddressPage.state = "Results"
-        onAddressChanged: searchAddressPage.state = "Loading"
-    }
+    content: VisualItemModel {
+        Column {
+            id: searchPageContent
+            spacing: 20
+            anchors.rightMargin: 20
+            anchors.leftMargin: 20
+            anchors.bottomMargin: 20
+            anchors.topMargin: 20
+            anchors.fill: searchAddressPage
 
-    BusyPage {
-        id: loadingResultsPage
-
-        text: translator.translate("Searching for address%1", "...") + translator.forceTranslate
-
-        onBackClicked: {
-            findAddressModel.cancelled = true;
-            loadingResultsPage.state = "Search";
-        }
-    }
-
-    AddressResultsPage {
-        id: addressResultsPage
-        onBackButtonClicked: searchAddressPage.state = "Search"
-    }
-
-    Column {
-        id: searchPageContent
-        spacing: 20
-        anchors.rightMargin: 20
-        anchors.leftMargin: 20
-        anchors.bottomMargin: 20
-        anchors.topMargin: 20
-        anchors.fill: searchAddressPage
-
-        Text {
-            anchors.horizontalCenter: searchPageContent.horizontalCenter
-            text: translator.translate("Enter address to find") + translator.forceTranslate
-        }
-
-        Rectangle {
-            height: 50
-            anchors.right: parent.right
-            anchors.left: parent.left
-            border.color: "black"
-
-            TextEdit {
-                id: address
-                anchors.fill: parent
+            Text {
+                anchors.horizontalCenter: searchPageContent.horizontalCenter
+                text: translator.translate("Enter address to find") + translator.forceTranslate
             }
-        }
 
+            Rectangle {
+                height: 50
+                anchors.right: parent.right
+                anchors.left: parent.left
+                border.color: "black"
 
-        Button {
-            id: searchButton
-            anchors.horizontalCenter: searchPageContent.horizontalCenter
-            text: translator.translate("Search Address") + translator.forceTranslate
-            onClicked: {
-                if (findAddressModel.address != address.text)
-                {
-                    findAddressModel.address = address.text;
+                TextEdit {
+                    id: address
+                    anchors.fill: parent
                 }
-                else
-                {
-                    searchAddressPage.state = "Results";
+            }
+
+
+            Button {
+                id: searchButton
+                anchors.horizontalCenter: searchPageContent.horizontalCenter
+                text: translator.translate("Search Address") + translator.forceTranslate
+                onClicked: {
+                    if (findAddressModel.address != address.text)
+                    {
+                        findAddressModel.address = address.text;
+                    }
+                    else
+                    {
+                        activePage = addressResultsPage;
+                    }
                 }
             }
         }
     }
-
-    states: [
-        State {
-            name: "Search"
-            PropertyChanges {
-                target: searchAddressPage
-                refreshTools: !searchAddressPage.refreshTools
-            }
-            PropertyChanges {
-                target: searchPageContent
-                visible: true
-            }
-            PropertyChanges {
-                target: addressResultsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: loadingResultsPage
-                visible: false
-            }
-        },
-        State {
-            name: "Loading"
-            PropertyChanges {
-                target: addressResultsPage
-                visible: false
-            }
-            PropertyChanges {
-                target: searchPageContent
-                visible: true
-            }
-            PropertyChanges {
-                target: loadingResultsPage
-                refreshTools: !loadingResultsPage.refreshTools
-                visible: true
-            }
-        },
-        State {
-            name: "Results"
-            PropertyChanges {
-                target: addressResultsPage
-                visible: true
-                refreshTools: !addressResultsPage.refreshTools
-                state: "Results"
-            }
-            PropertyChanges {
-                target: searchPageContent
-                visible: true
-            }
-            PropertyChanges {
-                target: loadingResultsPage
-                visible: false
-            }
-        }
-    ]
 }

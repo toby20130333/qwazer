@@ -23,44 +23,46 @@ Page {
         }
     }
 
-    Grid {
-        id: grid1
-        anchors.right: parent.fill
-        anchors.margins: 20
-        anchors.left: parent.left
-        columns: 2
-        spacing: 20
+    content: VisualItemModel {
+        Grid {
+            id: grid1
+            anchors.right: parent.fill
+            anchors.margins: 20
+            anchors.left: parent.left
+            columns: 2
+            spacing: 20
 
-        Text {
-            text: translator.translate("Fullscreen instructions%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("Fullscreen instructions%1", ":") + translator.forceTranslate
+            }
 
-        ToggleButton {
-            text: isSelected? "+" : "-"
-        }
+            ToggleButton {
+                text: isSelected? "+" : "-"
+            }
 
-        Text {
-            text: translator.translate("North Locked%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("North Locked%1", ":") + translator.forceTranslate
+            }
 
-        ToggleButton {
-            text: isSelected? "+" : "-"
-        }
+            ToggleButton {
+                text: isSelected? "+" : "-"
+            }
 
-        Text {
-            text: translator.translate("Show Next Turns%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("Show Next Turns%1", ":") + translator.forceTranslate
+            }
 
-        ToggleButton {
-            text: isSelected? "+" : "-"
-        }
+            ToggleButton {
+                text: isSelected? "+" : "-"
+            }
 
-        Text {
-            text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
+            }
 
-        ToggleButton {
-            text: isSelected? "+" : "-"
+            ToggleButton {
+                text: isSelected? "+" : "-"
+            }
         }
     }
 }

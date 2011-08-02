@@ -10,16 +10,6 @@ Page {
 
     property variant addressDetails
 
-    CourseResultsListModel {
-        id: courseResultsModel
-        onLoadDone: addressDetailsPage.state = "PathSelection"
-    }
-
-    PathSelection {
-        id: courseResultsPage
-        onBackButtonClicked: addressDetailsPage.state = "AddressDetails"
-    }
-
     tools: VisualItemModel {
         Flow {
             id: addressToolBar
@@ -55,7 +45,7 @@ Page {
                 text: translator.translate("Show") + translator.forceTranslate
                 iconSource: Images.show
                 onClicked: {
-                    mainView.state = "MapState";
+                    activePage = qwazerMapView;
                     qwazerMapView.showLocation(addressDetails.location.lon, addressDetails.location.lat);
                 }
             }
@@ -93,87 +83,55 @@ Page {
         }
     }
 
-    Grid {
-        id: detailsGrid
-        anchors.fill: parent
-        anchors.margins: 20
-        columns:2
-        spacing: 20
+    content: VisualItemModel {
+        Grid {
+            id: detailsGrid
+            anchors.margins: 20
+            columns:2
+            spacing: 20
 
-        Text {
-            text: translator.translate("Address%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("Address%1", ":") + translator.forceTranslate
+            }
 
-        Text {
-            text: (typeof(addressDetails) != "undefined")? addressDetails.name : ""
-        }
+            Text {
+                text: (typeof(addressDetails) != "undefined")? addressDetails.name : ""
+            }
 
-        Text {
-            text: translator.translate("Business Name%1", ":") + translator.forceTranslate
-            visible: (typeof(addressDetails) != "undefined") && addressDetails.businessName !== ""
-        }
+            Text {
+                text: translator.translate("Business Name%1", ":") + translator.forceTranslate
+                visible: (typeof(addressDetails) != "undefined") && addressDetails.businessName !== ""
+            }
 
-        Text {
-            text: (typeof(addressDetails) != "undefined")? addressDetails.businessName : ""
-        }
+            Text {
+                text: (typeof(addressDetails) != "undefined")? addressDetails.businessName : ""
+            }
 
-        Text {
-            text: translator.translate("Homepage%1", ":") + translator.forceTranslate
-            visible: typeof(addressDetails) != "undefined" && addressDetails.url !== ""
-        }
+            Text {
+                text: translator.translate("Homepage%1", ":") + translator.forceTranslate
+                visible: typeof(addressDetails) != "undefined" && addressDetails.url !== ""
+            }
 
-        Text {
-            text: (typeof(addressDetails) != "undefined")? addressDetails.url : ""
-        }
+            Text {
+                text: (typeof(addressDetails) != "undefined")? addressDetails.url : ""
+            }
 
-        Text {
-            text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
-            visible: typeof(addressDetails) != "undefined" && addressDetails.phone !== ""
-        }
+            Text {
+                text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
+                visible: typeof(addressDetails) != "undefined" && addressDetails.phone !== ""
+            }
 
-        Text {
-            text: (typeof(addressDetails) != "undefined")? addressDetails.phone : ""
-        }
+            Text {
+                text: (typeof(addressDetails) != "undefined")? addressDetails.phone : ""
+            }
 
-        Text {
-            text: translator.translate("Location%1", ":") + translator.forceTranslate
-        }
+            Text {
+                text: translator.translate("Location%1", ":") + translator.forceTranslate
+            }
 
-        Text {
-            text: (typeof(addressDetails) != "undefined" && addressDetails.location)? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
+            Text {
+                text: (typeof(addressDetails) != "undefined" && addressDetails.location)? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
+            }
         }
     }
-
-    states: [
-        State {
-            name: "AddressDetails"
-            PropertyChanges {
-                target: addressToolBar
-                visible: true
-            }
-            PropertyChanges {
-                target: detailsGrid
-                visible: true
-            }
-            PropertyChanges {
-                target: courseResultsPage
-                visible: false
-            }
-        },
-        State {
-            name: "PathSelection"
-            PropertyChanges {
-                target: addressToolBar
-                visible: false
-            }
-            PropertyChanges {
-                target: detailsGrid
-                visible: false
-            }
-            PropertyChanges {
-                target: courseResultsPage
-                visible: true
-            }
-        }
-    ]
 }

@@ -10,6 +10,7 @@ Page {
 
     signal mapLoaded
     signal settingsButtonClicked
+    signal searchButtonClicked
 
     function initialize()
     {
@@ -21,7 +22,6 @@ Page {
     }
 
     function navigate(course) {
-        mainPage.state = "Map";
         map.navigationInfo = course;
         mainPageLogic.state = "Navigation";
     }
@@ -31,42 +31,40 @@ Page {
         mainPageLogic.state = "Browse";
     }
 
-    QwazerMap {
-        id: map
+    content: VisualItemModel {
+        Rectangle {
+            width: container.width
+            height: container.height
 
-        isFollowMe: followMeButton.isSelected
-        onMapLoaded: mainPage.mapLoaded() 
-    }
+            QwazerMap {
+                id: map
+                anchors.fill: parent
+                isFollowMe: followMeButton.isSelected
+                onMapLoaded: mainPage.mapLoaded()
 
-    Column {
-        id: zoomButtons
-        anchors.right: mainPage.right
-        anchors.rightMargin: 10
-        anchors.verticalCenter: mainPage.verticalCenter
-        spacing: 50
-        width: 50
+                Column {
+                    id: zoomButtons
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 50
+                    width: 50
 
-        Button {
-            text: "+"
-            width: height
-            radius: height
-            onClicked: map.zoomIn()
-        }
+                    Button {
+                        text: "+"
+                        width: height
+                        radius: height
+                        onClicked: map.zoomIn()
+                    }
 
-        Button {
-            text: "-"
-            width: height
-            radius: height
-            onClicked: map.zoomOut()
-        }
-    }
-
-    SearchAddressPage {
-        id: searchPage
-        anchors.fill: parent
-
-        onBackButtonClicked: {
-            mainPage.state = 'Map';
+                    Button {
+                        text: "-"
+                        width: height
+                        radius: height
+                        onClicked: map.zoomOut()
+                    }
+                }
+            }
         }
     }
 
@@ -80,7 +78,7 @@ Page {
                 id: searchButton
                 iconSource: Images.find
                 text: translator.translate("Search") + translator.forceTranslate
-                onClicked: mainPage.state = "Search"
+                onClicked: searchButtonClicked()
             }
 
             IconButton {
@@ -147,34 +145,7 @@ Page {
     MainPageLogic {
         id: mainPageLogic
         state:  "Browse"
-        onShowApplicationSettings: mainView.state = "SettingsState"
-        onShowNavigationSettings: mainView.state = "NavSettingsState"
+        onShowApplicationSettings: settingsButtonClicked()
+        onShowNavigationSettings: settingsButtonClicked()
     }
-
-    states: [
-        State {
-            name: "Map"
-
-            PropertyChanges {
-                target: mainPage
-                visible: true
-            }
-            PropertyChanges {
-                 target: searchPage
-                 visible: false
-            }
-        },
-        State {
-            name: "Search"
-
-            PropertyChanges {
-                target: mainPage
-                visible: false
-            }
-            PropertyChanges {
-                target: searchPage
-                state: "Search"
-            }
-        }
-    ]
 }
