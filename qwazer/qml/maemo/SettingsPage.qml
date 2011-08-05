@@ -5,6 +5,8 @@ Page {
     id: settingsPage
     anchors.fill: parent
 
+    state: "Loaded"
+
     width: 700
     height: 400
 
@@ -62,62 +64,8 @@ Page {
         }
     }
 
-    Page {
-        id: languagesList
-        ListView {
-            anchors.fill: parent
-            model: languagesModel
-
-            currentIndex: findItem(languagesModel, settings.language, "name")
-            highlightFollowsCurrentItem: true
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            focus: true
-            clip: true
-
-            delegate: Component {
-                Button {
-                    width: languagesList.width
-                    text: name
-                    onClicked: {
-                        settings.language = {name: name, langId: langId, rtl: rtl};
-                        settingsPage.state = "Loaded";
-                    }
-                }
-            }
-        }
-    }
-
-
-    Page {
-        id: countryList
-
-        ListView {
-
-            anchors.fill: parent
-            model: countriesModel
-
-            currentIndex: findItem(countriesModel, settings.country, "name")
-            highlightFollowsCurrentItem: true
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            focus: true
-            clip: true
-
-            delegate: Component {
-                Button {
-                    width: countryList.width
-                    text: name
-
-                    onClicked: {
-                        settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
-                        settingsPage.state = "Loaded";
-                    }
-                }
-            }
-        }
-    }
-
     content: VisualItemModel {
-        Grid {
+         Grid {
             id: grid1
             anchors.margins: 10
             anchors.fill: parent
@@ -178,6 +126,68 @@ Page {
         }
     }
 
+    Menu {
+        id: languagesList
+
+        onBackButtonClicked: settingsPage.state = "Loaded"
+
+        menuItems: VisualItemModel {
+                ListView {
+                    id: langButtonList
+                    anchors.fill: parent
+                    model: languagesModel
+
+                    currentIndex: findItem(languagesModel, settings.language, "name")
+                    highlightFollowsCurrentItem: true
+                    highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                    focus: true
+                    clip: true
+
+                    delegate: Component {
+                        ListItem {
+                            text: name
+                            width: langButtonList.width
+                            onClicked: {
+                                settings.language = {name: name, langId: langId, rtl: rtl};
+                                settingsPage.state = "Loaded";
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+    Menu {
+        id: countryList
+
+        onBackButtonClicked: settingsPage.state = "Loaded"
+
+        menuItems: VisualItemModel {
+                ListView {
+                    id: countryButtonList
+                    anchors.fill: parent
+                    model: countriesModel
+
+                    currentIndex: findItem(countriesModel, settings.country, "name")
+                    highlightFollowsCurrentItem: true
+                    highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                    focus: true
+                    clip: true
+
+                    delegate: Component {
+                        ListItem {
+                            width: countryButtonList.width
+                            text: name
+                            onClicked: {
+                                settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
+                                settingsPage.state = "Loaded";
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
 
     states: [
         State {
@@ -192,11 +202,6 @@ Page {
                 target: countryList
                 visible: false
             }
-
-            PropertyChanges {
-                target: okButton
-                visible: true
-            }
         },
         State {
             name: "SelectLanguageState"
@@ -205,11 +210,6 @@ Page {
                 target: languagesList
                 visible: true
             }
-
-            PropertyChanges {
-                target: okButton
-                visible: false
-            }
         },
         State {
             name: "SelectCountryState"
@@ -217,11 +217,6 @@ Page {
             PropertyChanges {
                 target: countryList
                 visible: true
-            }
-
-            PropertyChanges {
-                target: okButton
-                visible: false
             }
         }
     ]
