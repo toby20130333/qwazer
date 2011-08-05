@@ -32,7 +32,9 @@ Rectangle {
     }
 
     function initialize() {
-        if (typeof(settings.lastKnownPosition) != "undefined")
+        if (typeof(settings.lastKnownPosition) != "undefined" &&
+            typeof(settings.lastKnownPosition.lon) != "undefined" &&
+            typeof(settings.lastKnownPosition.lat) != "undefined")
         {
             savedMapData.location_lon = settings.lastKnownPosition.lon;
             savedMapData.location_lat = settings.lastKnownPosition.lat;
