@@ -1,10 +1,8 @@
-qwazer (0.0.6) unstable; urgency=low
+qwazer (0.0.7) unstable; urgency=low
 
-  * English translation
-  * World maps support
-  * Settings dialog
-  * Auto save for previously viewed location (loaded at start)
-  * Map rotates during navigation according to driving direction
-  * Device portrait support
+  * New UI (toolbar, notifications, busy screens...)
+  * New icons
+  * Favorite locations
+  * Redesigned for future Meego code reuse
 
- -- Assaf Paz <damagedspline@gmail.com>  Tue, 5 July 2011 23:53:00 +0300
+ -- Assaf Paz <damagedspline@gmail.com>  Fri, 5 Aug 2011 6:53:00 +0300
