@@ -4,6 +4,8 @@ Rectangle {
     id: menu
     color: "#00000000"
     anchors.fill: parent
+    anchors.topMargin: -14 // ugly n900 specific hack
+    anchors.bottomMargin: -13 // ugly n900 specific hack
 
     property VisualItemModel menuItems
 
