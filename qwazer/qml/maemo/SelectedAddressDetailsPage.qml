@@ -59,7 +59,11 @@ Page {
                 property bool isSelected: (typeof(addressDetails) != "undefined")? settings.isFavoriteLocation(addressDetails.name) : false
                 onIsSelectedChanged: {
                     if (isSelected) {
-                        settings.addFavoriteLocation(addressDetails);
+                        if (settings.isFavoriteLocation(addressDetails.name) === false)
+                        {
+                            // avoid multiple insertions - only add if not already in
+                            settings.addFavoriteLocation(addressDetails);
+                        }
                     }
                     else {
                         settings.removeFavoriteLocation(addressDetails.name);
