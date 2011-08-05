@@ -36,6 +36,21 @@ Item {
         return Storage.isValidValue(value);
     }
 
+    function addFavoriteLocation(name, lon, lat)
+    {
+        return Storage.addFavorite(name, lon, lat);
+    }
+
+    function removeFavoriteLocation(name)
+    {
+        return Storage.removeFavorite(name);
+    }
+
+    function isFavoriteLocation(name)
+    {
+        return Storage.isFavorite(name);
+    }
+
     // bool
     property bool isFirstRun : true
 
@@ -63,7 +78,7 @@ Item {
     // int
     property int zoom : 8
 
-    property variant favoriteLocations
+    property ListModel favoriteLocations: ListModel {}
 
     ListModel {
         id: countriesModel

@@ -15,7 +15,16 @@ function initialize() {
             // Create the settings table if it doesn't already exist
             // If the table exists, this is skipped
             tx.executeSql('CREATE TABLE IF NOT EXISTS settings(setting TEXT UNIQUE, value TEXT)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS favoriteLocations(name TEXT UNIQUE, details TEXT)');
           });
+
+    db.transaction(function(tx) {
+            var rs = tx.executeSql('SELECT * FROM favoriteLocations;');
+            for(var i = 0; i < rs.rows.length; i++) {
+                var location = rs.rows.item(i).details;
+                favoriteLocations.append(JSON.parse(location));
+            }
+         });
 }
 
 // This function is used to write a setting into the database
@@ -27,14 +36,12 @@ function setSetting(setting, value) {
    var res = "";
    db.transaction(function(tx) {
         var rs = tx.executeSql('INSERT OR REPLACE INTO settings VALUES (?,?);', [setting,value]);
-              //console.log(rs.rowsAffected)
-              if (rs.rowsAffected > 0) {
-                res = "OK";
-              } else {
-                res = "Error";
-              }
+        if (rs.rowsAffected > 0) {
+            res = "OK";
+        } else {
+            res = "Error";
         }
-  );
+    });
   // The function returns “OK” if it was successful, or “Error” if it wasn't
   return res;
 }
@@ -83,4 +90,55 @@ function getBooleanSetting(setting)
 function isValidValue(value)
 {
     return value != NO_VALUE;
+}
+
+function addFavorite(details)
+{
+    var parsedDetails = JSON.stringify(details);
+    console.log("add favorite " + parsedDetails);
+    var db = getDatabase();
+    var res = "";
+    db.transaction(function(tx) {
+        var rs = tx.executeSql('INSERT OR REPLACE INTO favoriteLocations VALUES (?,?);', [details.name,parsedDetails]);
+        if (rs.rowsAffected > 0) {
+            res = "OK";
+        } else {
+            res = "Error";
+        }
+    });
+    // The function returns “OK” if it was successful, or “Error” if it wasn't
+    return res;
+}
+
+function removeFavorite(name)
+{
+    console.log("remove favorite " + name);
+    var db = getDatabase();
+    var res = "";
+    db.transaction(function(tx) {
+        var rs = tx.executeSql('DELETE FROM favoriteLocations WHERE name = ?;', [name]);
+        if (rs.rowsAffected > 0) {
+            res = "OK";
+        } else {
+            res = "Error";
+        }
+    });
+    // The function returns “OK” if it was successful, or “Error” if it wasn't
+    return res;
+}
+
+function isFavorite(name)
+{
+    console.log("check if location is favorite " + name);
+    var db = getDatabase();
+    var res = false;
+    db.transaction(function(tx) {
+        var rs = tx.executeSql('SELECT * FROM favoriteLocations WHERE name = ?;', [name]);
+        if (rs.rows.length > 0)
+        {
+            res = true;
+        }
+    });
+    // The function returns “OK” if it was successful, or “Error” if it wasn't
+    return res;
 }

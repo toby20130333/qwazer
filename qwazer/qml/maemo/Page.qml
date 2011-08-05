@@ -15,7 +15,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.bottom: toolBar.top
         anchors.top: parent.top
-        anchors.topMargin: -13 // ugly n900 specific hack
+        anchors.topMargin: -14 // ugly n900 specific hack
 
         ListView {
             anchors.fill: contentPriv

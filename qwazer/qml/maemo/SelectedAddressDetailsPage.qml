@@ -56,7 +56,15 @@ Page {
                 onClicked: addFavoritesButton.isSelected = !addFavoritesButton.isSelected
                 iconSource: Images.unfavorites
                 text: translator.translate("Unfavorite") + translator.forceTranslate
-                property bool isSelected: false
+                property bool isSelected: (typeof(addressDetails) != "undefined")? settings.isFavoriteLocation(addressDetails.name) : false
+                onIsSelectedChanged: {
+                    if (isSelected) {
+                        settings.addFavoriteLocation(addressDetails);
+                    }
+                    else {
+                        settings.removeFavoriteLocation(addressDetails.name);
+                    }
+                }
 
                 states: [
                     State {
