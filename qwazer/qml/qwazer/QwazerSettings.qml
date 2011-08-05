@@ -31,18 +31,35 @@ Item {
        return model.get(0);
     }
 
+    function findItemIndex(model, item, field)
+    {
+        for (var index = 0; index < model.count; index++)
+        {
+            if ((field && model.get(index)[field] == item[field]) || model.get(index) == item  )
+            {
+                return index;
+            }
+        }
+
+       return 0;
+    }
+
     function isValidValue(value)
     {
         return Storage.isValidValue(value);
     }
 
-    function addFavoriteLocation(name, lon, lat)
+    function addFavoriteLocation(details)
     {
-        return Storage.addFavorite(name, lon, lat);
+        favoriteLocations.append(details);
+        return Storage.addFavorite(details);
     }
 
     function removeFavoriteLocation(name)
     {
+        var index = findItemIndex(favoriteLocations, {name: name}, "name");
+        console.log("removing from favorites list model at index " + index);
+        favoriteLocations.remove(index);
         return Storage.removeFavorite(name);
     }
 

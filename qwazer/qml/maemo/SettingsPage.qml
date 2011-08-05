@@ -15,19 +15,6 @@ Page {
     signal retranslateRequired(string langId)
     signal mapRefreshRequired
 
-    function findItem(model, item, field)
-    {
-        for (var index = 0; index < model.count; index++)
-        {
-            if ((field && model.get(index)[field] == item[field]) || model.get(index) == item  )
-            {
-                return index;
-            }
-        }
-
-       return 0;
-    }
-
     ListModel {
         id: countriesModel
 
@@ -137,7 +124,7 @@ Page {
                     anchors.fill: parent
                     model: languagesModel
 
-                    currentIndex: findItem(languagesModel, settings.language, "name")
+                    currentIndex: settings.findItemIndex(languagesModel, settings.language, "name")
                     highlightFollowsCurrentItem: true
                     highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
                     focus: true
@@ -168,7 +155,7 @@ Page {
                     anchors.fill: parent
                     model: countriesModel
 
-                    currentIndex: findItem(countriesModel, settings.country, "name")
+                    currentIndex: settings.findItemIndex(countriesModel, settings.country, "name")
                     highlightFollowsCurrentItem: true
                     highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
                     focus: true

@@ -55,12 +55,14 @@ Page {
                     anchors.bottom: parent.bottom
 
                     ListView {
+                        id: locationsList
                         anchors.fill: parent
                         clip: true
                         model: settings.favoriteLocations
                         delegate: Component {
                             ListItem {
                                 text:name
+                                width: locationsList.width
                                 onClicked: {
                                     if (typeof(addressDetailsPage.addressDetails) == "undefined" ||
                                         addressDetailsPage.addressDetails.name != name)
@@ -123,33 +125,33 @@ Page {
                     }
                 }
             }
-
-            states: [
-                State {
-                    name: "Search"
-                    when: pageState.selectedIndex == 0
-                    PropertyChanges {
-                        target: searchPageContent
-                        visible: true
-                    }
-                    PropertyChanges {
-                        target: favoritesPageContent
-                        visible: false
-                    }
-                },
-                State {
-                    name: "Favorites"
-                    when: pageState.selectedIndex == 1
-                    PropertyChanges {
-                        target: searchPageContent
-                        visible: false
-                    }
-                    PropertyChanges {
-                        target: favoritesPageContent
-                        visible: true
-                    }
-                }
-            ]
         }
     }
+
+    states: [
+        State {
+            name: "Search"
+            when: pageState.selectedIndex == 0
+            PropertyChanges {
+                target: searchPageContent
+                visible: true
+            }
+            PropertyChanges {
+                target: favoritesPageContent
+                visible: false
+            }
+        },
+        State {
+            name: "Favorites"
+            when: pageState.selectedIndex == 1
+            PropertyChanges {
+                target: searchPageContent
+                visible: false
+            }
+            PropertyChanges {
+                target: favoritesPageContent
+                visible: true
+            }
+        }
+    ]
 }

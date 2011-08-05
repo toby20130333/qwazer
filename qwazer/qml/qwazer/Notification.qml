@@ -40,6 +40,7 @@ Rectangle {
             x: -39
             y: 58
             text: ""
+            horizontalAlignment: "AlignHCenter"
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.left: parent.left
