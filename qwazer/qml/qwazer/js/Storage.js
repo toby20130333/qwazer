@@ -21,8 +21,9 @@ function initialize() {
     db.transaction(function(tx) {
             var rs = tx.executeSql('SELECT * FROM favoriteLocations;');
             for(var i = 0; i < rs.rows.length; i++) {
-                var location = rs.rows.item(i).details;
-                favoriteLocations.append(JSON.parse(location));
+                console.log("loading favorite: " + rs.rows.item(i).details);
+                var location = JSON.parse(rs.rows.item(i).details);
+                favoriteLocations.append(location);
             }
          });
 }

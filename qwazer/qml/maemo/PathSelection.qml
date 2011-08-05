@@ -45,11 +45,9 @@ Page {
                 anchors.left: parent.left
                 anchors.top: pathSelectionLabel.bottom
                 anchors.bottom: parent.bottom
+                radius: 10
 
-                anchors.rightMargin: 10
-                anchors.leftMargin: 10
-                anchors.topMargin: 10
-                anchors.bottomMargin: 10
+                anchors.margins: 10
 
                 ListView {
                     id: pathList

@@ -105,7 +105,7 @@ Rectangle {
         id: addressDetailsPage
 
         onAddressDetailsChanged: activePage = addressDetailsPage
-        onBackButtonClicked: activePage = addressResultsPage
+        onBackButtonClicked: activePage = (searchPage.state == "Search") ? addressResultsPage : searchPage
     }
 
     BusyPage {

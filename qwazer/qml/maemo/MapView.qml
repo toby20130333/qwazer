@@ -12,6 +12,8 @@ Page {
     signal settingsButtonClicked
     signal searchButtonClicked
 
+    property alias isGPSDataValid :  mainPageLogic.isGPSDataValid
+
     function initialize()
     {
         map.initialize();
@@ -41,6 +43,12 @@ Page {
                 anchors.fill: parent
                 isFollowMe: followMeButton.isSelected
                 onMapLoaded: mainPage.mapLoaded()
+
+                Notification {
+                    text: translator.translate("Bad GPS Reception") + translator.forceTranslate
+
+                    active: !isGPSDataValid
+                }
 
                 Column {
                     id: zoomButtons
