@@ -17,7 +17,7 @@ Page {
                if (settings.isFirstRun)
                {
                    settings.isFirstRun = !settings.isFirstRun;
-                   appWindow.pageStack.replace(mainPage, null, true);
+                   mainPage.initialize();
                }
                else
                {
