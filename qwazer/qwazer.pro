@@ -1,11 +1,21 @@
+# MeeGo
+exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"){
+   DEFINES += Q_WS_MAEMO_6
+}
+
 # Add more folders to ship with the application, here
 folder_01.source = qml/qwazer
 folder_01.target = qml
-folder_02.source = qml/maemo
-folder_02.target = qml
-folder_03.source = qml/meego
-folder_03.target = qml
-DEPLOYMENTFOLDERS = folder_01 folder_02 folder_03
+
+contains(DEFINES, Q_WS_MAEMO_6) {
+    folder_02.source = qml/meego
+    folder_02.target = qml
+} else:contains(DEFINES, Q_WS_MAEMO_5) {
+    folder_02.source = qml/maemo
+    folder_02.target = qml
+}
+
+DEPLOYMENTFOLDERS = folder_01 folder_02
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
