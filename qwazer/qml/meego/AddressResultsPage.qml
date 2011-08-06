@@ -1,21 +1,33 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "../qwazer"
 
 Page {
     id: addressResults
 
     tools: commonBackButtonToolbar
 
-    SelectedAddressDetailsPage {
-        id: addressDetailsPage
+    Label {
+        id: addressResultsLabel
+        text: translator.translate("Address Search Results") + translator.forceTranslate
+        font.pointSize: 24
+        horizontalAlignment: Text.AlignHCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 10
     }
 
     Rectangle {
         id: resultsRect
-        color: "#00000000"
-        radius: 10
-        anchors.fill: parent
+        color: "#ffffff"
         border.color: "#000000"
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.top: addressResultsLabel.bottom
+        anchors.bottom: parent.bottom
+        radius: 10
+
+        anchors.margins: 10
 
 
         ListView {
@@ -23,28 +35,13 @@ Page {
             model: findAddressModel.dataModel
             anchors.fill: resultsRect
             clip: true
-            delegate: Rectangle {
-                id: row
-                border.color: "black"
-                radius: 10
-                width: mainText.width
-                height: mainText.height
-                Label {
-                    id: mainText
+            delegate: Component {
+                ListItem {
                     text: name
                     width: resultsListView.width
-                    height: font.pointSize * 3
-                }
-                MouseArea {
-                    anchors.fill: row
                     onClicked: {
                         var o = findAddressModel.dataModel.get(index);
-                        appWindow.pageStack.push(addressDetailsPage,
-                                                 {name: o.name,
-                                                 location: o.location,
-                                                 phone: o.phone? o.phone:"",
-                                                 url: o.url? o.url:"",
-                                                 businessName: o.businessName? o.businessName:""});
+                        appWindow.pageStack.push(addressDetailsPage, {addressDetails: o});
                     }
                 }
             }

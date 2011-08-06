@@ -5,16 +5,32 @@ Page {
     id: pathSelectionPage
     tools: commonBackButtonToolbar
 
+    Label {
+        id: pathSelectionLabel
+        text: translator.translate("Choose course") + translator.forceTranslate
+        font.pointSize: 24
+        horizontalAlignment: Text.AlignHCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 10
+    }
+
     Rectangle {
         id: resultsRect
-        color: "#00000000"
-        radius: 10
-        anchors.fill: parent
+        color: "#ffffff"
         border.color: "#000000"
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.top: pathSelectionLabel.bottom
+        anchors.bottom: parent.bottom
+        radius: 10
+
+        anchors.margins: 10
 
         ListView {
             id: pathList
             anchors.fill: parent
+            clip: true
             delegate: Rectangle {
                 id: row
                 border.color: "black"

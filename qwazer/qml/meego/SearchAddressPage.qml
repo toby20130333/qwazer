@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import "../qwazer"
 import "../qwazer/search_qml"
 import "../qwazer/js/Images.js" as Images
 
@@ -14,11 +15,13 @@ Page {
             anchors.right: parent.right
             anchors.rightMargin: 10
             Button {
+                id: searchStateButton
                 iconSource: Images.find
                 text: translator.translate("Search") + translator.forceTranslate
             }
 
             Button {
+                id: favoritesStateButton
                 iconSource: Images.favorites
                 text: translator.translate("Favorites") + translator.forceTranslate
             }
@@ -56,31 +59,105 @@ Page {
         id: addressResultsPage
     }
 
-    Column {
-        Label {
-            text: translator.translate("Enter address to find") + translator.forceTranslate
-        }
+    SelectedAddressDetailsPage {
+        id: addressDetailsPage
+    }
 
-        TextField {
-            id: address
-            width: searchAddressPage.width
-            height: 50
-        }
+    Rectangle {
+        anchors.fill: parent
+        Column {
+            id: searchPageContent
+            Label {
+                text: translator.translate("Enter address to find") + translator.forceTranslate
+            }
+
+            TextField {
+                id: address
+                width: searchAddressPage.width
+                height: 50
+            }
 
 
-        Button {
-            id: searchButton
-            text: translator.translate("Search Address") + translator.forceTranslate
-            onClicked: {
-                if (findAddressModel.address != address.text)
-                {
-                    findAddressModel.address = address.text;
+            Button {
+                id: searchButton
+                text: translator.translate("Search Address") + translator.forceTranslate
+                onClicked: {
+                    if (findAddressModel.address != address.text)
+                    {
+                        findAddressModel.address = address.text;
+                    }
+                    else
+                    {
+                        appWindow.pageStack.push(addressResultsPage);
+                    }
                 }
-                else
-                {
-                    appWindow.pageStack.push(addressResultsPage);
+            }
+        }
+
+        Rectangle {
+            id: favoritesPageContent
+            anchors.fill: parent
+
+            Label {
+                id: favoriteDescText
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: translator.translate("Select a favorite location") + translator.forceTranslate
+            }
+
+            Rectangle {
+                border.color: "black"
+                radius: 10
+                anchors.margins: 10
+                anchors.top: favoriteDescText.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+
+                ListView {
+                    id: locationsList
+                    anchors.fill: parent
+                    clip: true
+                    model: settings.favoriteLocations
+                    delegate: Component {
+                        ListItem {
+                            text:name
+                            width: locationsList.width
+                            onClicked: {
+                                var o = settings.favoriteLocations.get(index);
+                                appWindow.pageStack.push(addressDetailsPage, {addressDetails: o});
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
+    states: [
+        State {
+            name: "Search"
+            when: searchStateButton.checked
+            PropertyChanges {
+                target: searchPageContent
+                visible: true
+            }
+            PropertyChanges {
+                target: favoritesPageContent
+                visible: false
+            }
+        },
+        State {
+            name: "Favorites"
+            when: favoritesStateButton.checked
+            PropertyChanges {
+                target: searchPageContent
+                visible: false
+            }
+            PropertyChanges {
+                target: favoritesPageContent
+                visible: true
+            }
+        }
+    ]
 }

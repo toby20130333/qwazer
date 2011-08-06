@@ -6,11 +6,7 @@ import "../qwazer/js/Images.js" as Images
 Page {
     id: selectedAddress
 
-    property string name
-    property string businessName
-    property string url
-    property string phone
-    property variant location
+    property variant addressDetails
 
     CourseResultsListModel {
         id: courseResultsModel
@@ -52,7 +48,7 @@ Page {
             anchors.right: parent===undefined ? undefined : parent.right
             onClicked: {
                 appWindow.pageStack.pop(mainPage);
-                mainPage.showLocation(location.lon, location.lat);
+                mainPage.showLocation(addressDetails.location.lon, addressDetails.location.lat);
             }
         }
 
@@ -64,10 +60,10 @@ Page {
             anchors.right: showButton.left
             onClicked:
                 if (!courseResultsModel.fromToPoints ||
-                    courseResultsModel.fromToPoints.to.lon != location.lon ||
-                    courseResultsModel.fromToPoints.to.lat != location.lat)
+                    courseResultsModel.fromToPoints.to.lon != addressDetails.location.lon ||
+                    courseResultsModel.fromToPoints.to.lat != addressDetails.location.lat)
                 {
-                    courseResultsModel.fromToPoints = {to: location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
+                    courseResultsModel.fromToPoints = {to: addressDetails.location, from:{lon: gpsData.position.coordinate.longitude ,lat: gpsData.position.coordinate.latitude}};
                 }
                 else
                 {
@@ -83,7 +79,19 @@ Page {
             anchors.right: navigateButton.left
             onClicked: addToFavoritesButton.isSelected = !addToFavoritesButton.isSelected
 
-            property bool isSelected: false
+            property bool isSelected: (typeof(addressDetails) != "undefined")? settings.isFavoriteLocation(addressDetails.name) : false
+            onIsSelectedChanged: {
+                if (isSelected) {
+                    if (settings.isFavoriteLocation(addressDetails.name) === false)
+                    {
+                        // avoid multiple insertions - only add if not already in
+                        settings.addFavoriteLocation(addressDetails);
+                    }
+                }
+                else {
+                    settings.removeFavoriteLocation(addressDetails.name);
+                }
+            }
 
             states: [
                 State {
@@ -116,34 +124,34 @@ Page {
         }
 
         Label {
-            text: name
+            text: (typeof(addressDetails) != "undefined")? addressDetails.name : ""
         }
 
         Label {
             text: translator.translate("Business Name%1", ":") + translator.forceTranslate
-            visible: businessName != ""
+            visible: (typeof(addressDetails) != "undefined") && typeof(addressDetails.businessName) != "undefined"
         }
 
         Label {
-            text: businessName
+            text: (typeof(addressDetails) != "undefined" && typeof(addressDetails.businessName) != "undefined")? addressDetails.businessName : ""
         }
 
         Label {
             text: translator.translate("Homepage%1", ":") + translator.forceTranslate
-            visible: url != ""
+            visible: typeof(addressDetails) != "undefined" && typeof(addressDetails.url) != "undefined"
         }
 
         Label {
-            text: url
+            text: (typeof(addressDetails) != "undefined" && typeof(addressDetails.url) != "undefined")? addressDetails.url : ""
         }
 
         Label {
             text: translator.translate("Phone Number%1", ":") + translator.forceTranslate
-            visible: phone != ""
+            visible: typeof(addressDetails) != "undefined" && typeof(addressDetails.phone) != "undefined"
         }
 
         Label {
-            text: phone
+            text: (typeof(addressDetails) != "undefined" && typeof(addressDetails.phone) != "undefined")? addressDetails.phone : ""
         }
 
         Label {
@@ -151,7 +159,7 @@ Page {
         }
 
         Label {
-            text: location? location.lon + ", " + location.lat : ""
+            text: (typeof(addressDetails) != "undefined" && addressDetails.location)? addressDetails.location.lon + ", " + addressDetails.location.lat : ""
         }
     }
 }
