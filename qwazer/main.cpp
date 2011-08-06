@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     mainQML = QString("/qml/maemo/main.qml");
 #elif Q_WS_MAEMO_6
     qwazerDir.cdUp();
-    view.showMaximized();
+    view.showFullScreen();
     mainQML = QString("/qml/meego/main.qml");
 #else
     view.showNormal();
