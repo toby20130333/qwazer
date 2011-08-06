@@ -30,22 +30,11 @@ Page {
             id: browseTools
 
             ToolIcon {
-                id: homeButton;
-                y: 0;
-                width: 64;
-                anchors.right: parent.right;
-                anchors.rightMargin: 10;
-                anchors.verticalCenterOffset: 0;
-                iconId: "toolbar-home";
-                platformIconId: "toolbar-home"
-                onClicked: console.log("home clicked")
-            }
-            ToolIcon {
                 id: settingsButton;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
                 iconSource: Images.settings
-                anchors.right: homeButton.left
+                anchors.right: parent.right
             }
             ToolIcon {
                 id: searchButton;
@@ -150,14 +139,15 @@ Page {
         active: !isGPSDataValid
     }
 
-    SearchAddressPage {id: searchAddressPage}
-
-    NavSettingsPage {id: navSettingsPage }
+    SearchAddressPage {
+        id: searchAddressPage
+        anchors.fill: parent
+    }
 
     MainPageLogic {
         id: mainPageStates
         state: "Browse"
         onShowApplicationSettings: appWindow.pageStack.push(settingsPage)
-        onShowNavigationSettings: appWindow.pageStack.push(navSettingsPage)
+        onShowNavigationSettings: appWindow.pageStack.push(settingsPage)
     }
 }
