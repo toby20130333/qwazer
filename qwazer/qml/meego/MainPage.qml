@@ -33,14 +33,14 @@ Page {
                 id: settingsButton;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                iconSource: Images.settings
+                iconId: "toolbar-settings"
                 anchors.right: parent.right
             }
             ToolIcon {
                 id: searchButton;
                 anchors.verticalCenterOffset: 0;
                 anchors.rightMargin: 10;
-                iconSource: Images.find
+                iconId: "toolbar-search"
                 anchors.right: followMeButton.left
                 onClicked: mainPage.pageStack.push(searchAddressPage)
             }

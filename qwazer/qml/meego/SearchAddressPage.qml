@@ -31,7 +31,7 @@ Page {
             id: backButton;
             anchors.verticalCenterOffset: 0;
             anchors.leftMargin: 10;
-            iconSource: Images.back
+            iconId: "toolbar-back"
             anchors.left: parent===undefined ? undefined : parent.left
             onClicked: appWindow.pageStack.pop()
         }

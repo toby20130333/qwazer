@@ -53,8 +53,10 @@ symbian {
 } else:unix {
     maemo5 {
         desktopfile.path = /usr/share/applications/hildon
+        icon.files = $${TARGET}.png
     } else {
         desktopfile.path = /usr/share/applications
+        icon.files = $${TARGET}.svg
         copyCommand =
         for(deploymentfolder, DEPLOYMENTFOLDERS) {
             source = $$MAINPROFILEPWD/$$eval($${deploymentfolder}.source)
@@ -93,7 +95,6 @@ symbian {
         export($$itempath)
         INSTALLS += $$item
     }
-    icon.files = $${TARGET}.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
     desktopfile.files = $${TARGET}.desktop
     target.path = $${installPrefix}/bin

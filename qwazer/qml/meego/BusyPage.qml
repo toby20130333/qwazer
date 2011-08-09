@@ -40,7 +40,7 @@ Page {
             anchors.left: parent.left;
             anchors.leftMargin: 10;
             anchors.verticalCenterOffset: 0;
-            iconSource: Images.back
+            iconId: "toolbar-back"
             onClicked: backClicked();
         }
     }
