@@ -127,12 +127,19 @@ Page {
             id: currentInstruction
             visible: true
             opacity: 0.7
-            anchors.bottom: map.bottom
+            anchors.bottom: futureDirections.top
             anchors.left: map.left
             length: (typeof(map.currentSegment) != "undefined")? map.currentSegment.length : 0
             instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
             instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
             streetName: (typeof(map.currentSegment) != "undefined" && typeof(map.currentSegment.streetName) != "undefined")? map.currentSegment.streetName : ""
+        }
+
+        DirectionGuideList {
+            id: futureDirections
+            anchors.left: map.left
+            anchors.bottom: map.bottom
+            model: map.navigationSegments
         }
     }
 
