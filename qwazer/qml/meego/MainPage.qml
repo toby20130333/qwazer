@@ -132,7 +132,7 @@ Page {
             length: (typeof(map.currentSegment) != "undefined")? map.currentSegment.length : 0
             instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
             instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
-            streetName: (typeof(map.currentSegment) != "undefined")? map.currentSegment.streetName : ""
+            streetName: (typeof(map.currentSegment) != "undefined" && typeof(map.currentSegment.streetName) != "undefined")? map.currentSegment.streetName : ""
         }
     }
 

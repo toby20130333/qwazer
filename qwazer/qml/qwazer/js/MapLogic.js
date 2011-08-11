@@ -119,7 +119,7 @@ function syncLocation()
         {
             if (coordsIndex > 0)
             { 
-                for (var searchIndex = 0; searchIndex < coordsIndex; searchIndex++)
+                for (var searchIndex = 0; searchIndex < coordsIndex && 0 < segmentsInfo.count; searchIndex++)
                 {
                     if (coords.get(searchIndex).x == segmentsInfo.get(1).path.x &&
                         coords.get(searchIndex).y == segmentsInfo.get(1).path.y )
