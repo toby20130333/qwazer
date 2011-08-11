@@ -123,6 +123,20 @@ Page {
             }
         }
 
+        DirectionGuideControl {
+            id: fullScreenInstruction
+            border.color: "#00000000"
+            anchors.horizontalCenter: map.horizontalCenter
+            anchors.verticalCenter: map.verticalCenter
+            opacity: 0.3
+            color: "#00000000"
+
+            diameter: Math.min(map.width, map.height) - 100
+
+            instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
+            instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
+        }
+
         InstructionsControl {
             id: currentInstruction
             visible: true

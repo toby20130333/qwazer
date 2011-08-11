@@ -41,6 +41,10 @@ Item {
                 target: futureDirections
                 visible: false
             }
+            PropertyChanges {
+                target: fullScreenInstruction
+                visible: false
+            }
         },
         State {
             name: "Navigation"
@@ -66,6 +70,10 @@ Item {
             }
             PropertyChanges {
                 target: futureDirections
+                visible: true
+            }
+            PropertyChanges {
+                target: fullScreenInstruction
                 visible: true
             }
             PropertyChanges {

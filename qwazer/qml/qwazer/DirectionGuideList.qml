@@ -3,6 +3,8 @@ import QtQuick 1.0
 Rectangle {
     height: directionGuideListView.currentItem.height
     width: directionGuideListView.currentItem.width*5
+    color: "#00000000"
+
     property alias model: directionGuideListView.model
 
     ListView {

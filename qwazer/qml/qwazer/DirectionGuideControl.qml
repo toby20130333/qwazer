@@ -2,28 +2,38 @@ import QtQuick 1.0
 
 Rectangle {
     id: instructionImage
-    width: circle.width
-    height: circle.height
+    width: diameter
+    height: diameter
+    smooth: true
+
     color: "#00b7ff"
     border.color: "#000000"
 
     property string text
     property int instructionArg
     property string instructionOpcode
+    property int diameter: 56
 
     state: instructionOpcode
 
     Image {
         id: circle
         anchors.centerIn: parent
+        width: diameter
+        height: diameter
+        fillMode: Image.PreserveAspectFit
+        smooth: true
         source: "images/circle.png"
     }
 
     Image {
         id: arrow
         anchors.centerIn: parent
+        width: diameter
+        height: diameter
+        fillMode: Image.PreserveAspectFit
+        smooth: true
         visible: true
-        smooth: false
         source: "images/arrow.png"
     }
 
