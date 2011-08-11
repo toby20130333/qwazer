@@ -2,36 +2,25 @@ import QtQuick 1.0
 
 Rectangle {
     id: instructionsControl
-    width: 150
-    height: 150
 
-    property variant sectionData
+    property int length
+    property int instructionArg
+    property string instructionOpcode
+    property string streetName
+    state: instructionOpcode
 
-    onSectionDataChanged: {
-        console.log("updating segment: " + JSON.stringify(sectionData));
-        if (sectionData.length < 1000)
-        {
-            sectionLengthText.text = translator.translate("In %1m", sectionData.length) + translator.forceTranslate;
-        }
-        else
-        {
-            sectionLengthText.text = translator.translate("In %1km", sectionData.length) + translator.forceTranslate;
-        }
-        instructionText.text = sectionData.instruction.opcode + " " + sectionData.instruction.arg;
-        instructionsControl.state = sectionData.instruction.opcode;
-        instructionArg.text = sectionData.instruction.arg;
-        instructionArg.visible = sectionData.instruction.arg !== 0;
-        var streetName = sectionData.streetName;
-        streetNameText.text = (typeof(streetName) != "undefined")? streetName : "";
-    }
+    border.color: "black"
+
+    width: Math.max(instructionImage.width, sectionLengthText.width, instructionText.width, streetNameText.width)
+    height: instructionImage.height + sectionLengthText.height + instructionText.height + streetNameText.height
 
     Rectangle {
         id: instructionImage
+        width: circle.width
+        height: circle.height
         color: "#00b7ff"
-        anchors.right: parent.right
-        anchors.left: parent.left
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: sectionLengthText.top
-        anchors.top: parent.top
         border.color: "#000000"
 
 
@@ -50,22 +39,23 @@ Rectangle {
         }
 
         Text {
-            id: instructionArg
-            text: ""
+            id: instructionArgText
+            text: instructionArg
+            visible: instructionArg !== 0;
             font.bold: true
+            font.pointSize: 21
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.centerIn: parent
-            font.pixelSize: 21
         }
 
     }
 
     Text {
         id: sectionLengthText
-        text: ""
-        anchors.left: parent.left
-        anchors.right: parent.right
+        text: ((length < 1000)? translator.translate("In %1m", length) :
+                               translator.translate("In %1km", length)) + translator.forceTranslate
+        anchors.horizontalCenter: parent.horizontalCenter
         wrapMode: Text.WordWrap
         anchors.bottom: instructionText.top
         font.pointSize: 18
@@ -76,8 +66,7 @@ Rectangle {
     Text {
         id: instructionText
         text: ""
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
         wrapMode: Text.WordWrap
         anchors.bottom: streetNameText.top
         font.pointSize: 18
@@ -87,9 +76,7 @@ Rectangle {
 
     Text {
         id: streetNameText
-        text: ""
-        anchors.left: parent.left
-        anchors.right: parent.right
+        text: streetName
         anchors.bottom: parent.bottom
         wrapMode: Text.WordWrap
         font.pointSize: 18
@@ -293,7 +280,7 @@ Rectangle {
         State {
             name: "APPROACHING_DESTINATION"
             PropertyChanges {
-                target: instructionArg
+                target: instructionArgText
                 text: "TODO"
             }
 

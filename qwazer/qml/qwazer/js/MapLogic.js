@@ -77,71 +77,62 @@ function showMe(shouldCenter, shouldZoom)
 }
 
 var errorCount = 0;
-function navigate()
+function navigate(coords)
 {
     if (gpsData.isFakeData)
     {
         // auto driver for testing
-        gpsData.reset();
-        for (var coordKey in mapView.navigationInfo.coords)
-            gpsData.model.append({longitude: mapView.navigationInfo.coords[coordKey].x,
-                                latitude: mapView.navigationInfo.coords[coordKey].y});
+        gpsData.model = mapView.navigationCoords;
     }
 
     errorCount = 0;
     clearMarkersAndRoute();
 
-    mapView.currentCoordIndex = 0;
-    mapView.currentSegmentsInfoIndex = 0;
-
-    setCenter(mapView.navigationInfo.coords[0].x, mapView.navigationInfo.coords[0].y);
+    setCenter(mapView.navigationCoords.get(0).x, mapView.navigationCoords.get(0).y);
     zoomInToMax();
 
-    var coordsJSON = JSON.stringify(mapView.navigationInfo.coords);
+    var coordsJSON = JSON.stringify(coords);
 
     console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
-
-    currentInstruction.sectionData = mapView.navigationInfo.results[0];
 }
 
 function syncLocation()
 {
-    var currentCoordIndex = mapView.currentCoordIndex;
-    var currentSegmentsInfoIndex = mapView.currentSegmentsInfoIndex;
-
     var onTrack = false;
     var trimOccured = false;
 
-    var coords = mapView.navigationInfo.coords;
-    var segmentsInfo = mapView.navigationInfo.results;
-
-    if (segmentsInfo.length-1 == currentSegmentsInfoIndex)
+    var coords = mapView.navigationCoords;
+    var segmentsInfo = mapView.navigationSegments;
+    
+    if (segmentsInfo.count === 0)
     {
         return;
     }
 
-    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex+currentCoordIndex < coords.length; coordsIndex++)
+    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex < coords.count; coordsIndex++)
     {
-        if (coordsIndex + 1 + currentCoordIndex < coords.length &&
+        if (coordsIndex + 1 < coords.count &&
             isOnTrack({x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat},
-                       coords[coordsIndex+currentCoordIndex],
-                       coords[coordsIndex + 1 +currentCoordIndex]))
+                       coords.get(coordsIndex),
+                       coords.get(coordsIndex + 1)))
         {
             if (coordsIndex > 0)
             { 
                 for (var searchIndex = 0; searchIndex < coordsIndex; searchIndex++)
                 {
-                    if (coords[currentCoordIndex+searchIndex].x == segmentsInfo[currentSegmentsInfoIndex+1].path.x &&
-                        coords[currentCoordIndex+searchIndex].y == segmentsInfo[currentSegmentsInfoIndex+1].path.y )
+                    if (coords.get(searchIndex).x == segmentsInfo.get(1).path.x &&
+                        coords.get(searchIndex).y == segmentsInfo.get(1).path.y )
                     {
-                        currentSegmentsInfoIndex++;
-                        mapView.currentSegmentsInfoIndex = currentSegmentsInfoIndex;
+                        mapView.navigationSegments.remove(0);
                         trimOccured = true;
                     }
                 }
-                currentCoordIndex += coordsIndex;
-                mapView.currentCoordIndex = currentCoordIndex;
+
+                for (var index=0; index < coordsIndex; index++)
+                {
+                    map.navigationCoords.remove(0);
+                }
            }
 
             errorCount = 0;
@@ -151,7 +142,7 @@ function syncLocation()
 
     if (onTrack && trimOccured)
     {
-        currentInstruction.sectionData = segmentsInfo[currentSegmentsInfoIndex];
+        mapView.currentSegment = mapView.navigationSegments.get(0);
     }
     else if (!onTrack)
     {
