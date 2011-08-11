@@ -49,7 +49,7 @@ Page {
             text: translator.translate("Searching for address%1", "...") + translator.forceTranslate
 
             onBackClicked: {
-                cancelled = true;
+                loadingResultsPage.cancelled = true;
                 appWindow.pageStack.pop(undefined, true);
             }
         }

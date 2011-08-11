@@ -10,10 +10,9 @@ Rectangle {
 
     signal mapLoaded
 
-    property variant navigationInfo
-
-    property int currentCoordIndex : 0
-    property int currentSegmentsInfoIndex : 0
+    property ListModel navigationCoords: ListModel {}
+    property ListModel navigationSegments: ListModel {}
+    property variant currentSegment
 
     property variant previousGpsLocation
     property variant currentGpsLocation
@@ -23,8 +22,34 @@ Rectangle {
 
     property bool isFollowMe: false
 
-    onNavigationInfoChanged: {
-        Logic.navigate();
+    function navigate(course) {
+        for (var coordKey in course.coords)
+        {
+            // {"x":34.916002980775986,"y":32.505133295789356,"z":NaN}
+            var coord = course.coords[coordKey];
+            navigationCoords.append({x: coord.x, y: coord.y, z: coord.z});
+        }
+
+        for (var segKey in course.results)
+        {
+            // {"path":{"segmentId":149540,"nodeId":116390,"x":34.920114,"y":32.504936},"street":0,"distance":0,"length":34,"crossTime":0,"crossTimeWithoutRealTime":0,"tiles":null,"clientIds":null,"instruction":{"name":null,"opcode":"ROUNDABOUT_RIGHT","arg":0},"knownDirection":true,"penalty":0,"roadType":2}
+            var segment = course.results[segKey];
+            navigationSegments.append({path: segment.path,
+                                    street: segment.street,
+                                    distance: segment.distance,
+                                    length: segment.length,
+                                    crossTime: segment.crossTime,
+                                    crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
+                                    tiles: segment.tiles,
+                                    clientIds: segment.clientIds,
+                                    instruction: segment.instruction,
+                                    knownDirection: segment.knownDirection,
+                                    penalty: segment.penalty,
+                                    roadType: segment.roadType,
+                                    streetName: segment.streetName});
+        }
+        currentSegment = navigationSegments.get(0);
+        Logic.navigate(course.coords);
     }
 
     ListModel {
@@ -117,7 +142,6 @@ Rectangle {
         else if (dy < 0) azimuth = Math.PI;
 
         var mapAngle = azimuth*180/Math.PI;
-        console.log(mapAngle + ": " + gpsData.updateInterval);
         return (mapAngle>-180)? -mapAngle : mapAngle;
     }
 

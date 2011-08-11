@@ -19,7 +19,7 @@ Page {
             text: translator.translate("Calculating Course%1", "...") + translator.forceTranslate
 
             onBackClicked: {
-                cancelled = true;
+                loadingResultsPage.cancelled = true;
                 appWindow.pageStack.pop(undefined, true);
             }
         }

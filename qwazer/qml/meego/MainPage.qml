@@ -17,7 +17,7 @@ Page {
     }
 
     function navigate(course) {
-        map.navigationInfo = course;
+        map.navigate(course);
         mainPageStates.state = "Navigation";
     }
 
@@ -122,15 +122,18 @@ Page {
                 onClicked: map.zoomOut()
             }
         }
-    }
 
-    InstructionsControl {
-        id: currentInstruction
-        visible: false
-        anchors.bottom: mainPage.bottom
-        anchors.bottomMargin: 10
-        anchors.left: mainPage.left
-        opacity: 0.7
+        InstructionsControl {
+            id: currentInstruction
+            visible: true
+            opacity: 0.7
+            anchors.bottom: map.bottom
+            anchors.left: map.left
+            length: (typeof(map.currentSegment) != "undefined")? map.currentSegment.length : 0
+            instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
+            instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
+            streetName: (typeof(map.currentSegment) != "undefined")? map.currentSegment.streetName : ""
+        }
     }
 
     Notification {
