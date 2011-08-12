@@ -92,9 +92,6 @@ Page {
                 anchors.right: settingsButton.left
                 onClicked: map.showMe(true, true)
             }
-            ToolIcon { id: quitButton; anchors.verticalCenterOffset: 0; anchors.leftMargin: 10; platformIconId: "toolbar-close"; iconId: "toolbar-close";            anchors.left: parent===undefined ? undefined : parent.left
-                onClicked: Qt.quit()
-            }
         }
 
     QwazerMap {
