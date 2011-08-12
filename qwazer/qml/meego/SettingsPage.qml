@@ -57,6 +57,42 @@ Page {
             checked: settings.nightMode
             onCheckedChanged: settings.nightMode = checked
         }
+
+        Label {
+            text: translator.translate("Fullscreen instructions%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+            checked: settings.navigationFullscreenInstruction
+            onCheckedChanged: settings.navigationFullscreenInstruction = checked
+        }
+
+        Label {
+            text: translator.translate("North Locked%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+            checked: settings.navigationNorthLocked
+            onCheckedChanged: settings.navigationNorthLocked = checked
+        }
+
+        Label {
+            text: translator.translate("Show Next Turns%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+            checked: settings.navigationShowNextTurns
+            onCheckedChanged: settings.navigationShowNextTurns = checked
+        }
+
+        Label {
+            text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
+        }
+
+        Switch {
+            checked: settings.navigationScreenStaysLit
+            onCheckedChanged: settings.navigationScreenStaysLit = checked
+        }
     }
 
     Menu {

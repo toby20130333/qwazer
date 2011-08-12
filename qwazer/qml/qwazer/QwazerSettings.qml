@@ -95,6 +95,18 @@ Item {
     // int
     property int zoom : 8
 
+    // bool
+    property bool navigationFullscreenInstruction : true
+
+    // bool
+    property bool navigationNorthLocked : false
+
+    // bool
+    property bool navigationScreenStaysLit : true
+
+    // bool
+    property bool navigationShowNextTurns : true
+
     property ListModel favoriteLocations: ListModel {}
 
     ListModel {
@@ -168,6 +180,18 @@ Item {
 
                 nightMode: isValidValue(Storage.getBooleanSetting("NightMode"))? Storage.getBooleanSetting("NightMode") : nightMode
                 onNightModeChanged : Storage.setBooleanSetting("NightMode", nightMode)
+
+                navigationFullscreenInstruction: isValidValue(Storage.getBooleanSetting("NavigationFullscreenInstruction"))? Storage.getBooleanSetting("NavigationFullscreenInstruction") : navigationFullscreenInstruction
+                onNavigationFullscreenInstructionChanged : Storage.setBooleanSetting("NavigationFullscreenInstruction", navigationFullscreenInstruction)
+
+                navigationNorthLocked: isValidValue(Storage.getBooleanSetting("NavigationNorthLocked"))? Storage.getBooleanSetting("NavigationNorthLocked") : navigationNorthLocked
+                onNavigationNorthLockedChanged : Storage.setBooleanSetting("NavigationNorthLocked", navigationNorthLocked)
+
+                navigationScreenStaysLit: isValidValue(Storage.getBooleanSetting("NavigationScreenStaysLit"))? Storage.getBooleanSetting("NavigationScreenStaysLit") : navigationScreenStaysLit
+                onNavigationScreenStaysLitChanged : Storage.setBooleanSetting("NavigationScreenStaysLit", navigationScreenStaysLit)
+
+                navigationShowNextTurns: isValidValue(Storage.getBooleanSetting("NavigationShowNextTurns"))? Storage.getBooleanSetting("NavigationShowNextTurns") : navigationShowNextTurns
+                onNavigationShowNextTurnsChanged : Storage.setBooleanSetting("NavigationShowNextTurns", navigationShowNextTurns)
             }
         }
     ]
