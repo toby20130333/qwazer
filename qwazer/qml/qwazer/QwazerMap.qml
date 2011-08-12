@@ -23,6 +23,7 @@ Rectangle {
     property bool isFollowMe: false
 
     function navigate(course) {
+        navigationCoords.clear();
         for (var coordKey in course.coords)
         {
             // {"x":34.916002980775986,"y":32.505133295789356,"z":NaN}
@@ -30,6 +31,7 @@ Rectangle {
             navigationCoords.append({x: coord.x, y: coord.y, z: coord.z});
         }
 
+        navigationSegments.clear();
         for (var segKey in course.results)
         {
             // {"path":{"segmentId":149540,"nodeId":116390,"x":34.920114,"y":32.504936},"street":0,"distance":0,"length":34,"crossTime":0,"crossTimeWithoutRealTime":0,"tiles":null,"clientIds":null,"instruction":{"name":null,"opcode":"ROUNDABOUT_RIGHT","arg":0},"knownDirection":true,"penalty":0,"roadType":2}
