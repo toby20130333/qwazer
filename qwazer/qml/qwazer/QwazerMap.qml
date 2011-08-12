@@ -18,7 +18,6 @@ Rectangle {
     property variant currentGpsLocation
 
     property bool mapRotates: false
-    onMapRotatesChanged: console.log(mapRotates? "rotatble": "fixed")
 
     property bool isFollowMe: false
 
@@ -226,4 +225,97 @@ Rectangle {
             }
         ]
     }
+
+    Column {
+        id: zoomButtons
+        anchors.right: mapView.right
+        anchors.rightMargin: 50
+        anchors.verticalCenter: mapView.verticalCenter
+        spacing: 75
+        width: 50
+
+        ListItem {
+            text: "+"
+            onClicked: mapView.zoomIn()
+            radius: height
+            width: height
+            smooth: true
+        }
+
+
+        ListItem {
+            text: "-"
+            onClicked: mapView.zoomOut()
+            radius: height
+            width: height
+            smooth: true
+        }
+    }
+
+    DirectionGuideControl {
+        id: fullScreenInstruction
+        border.color: "#00000000"
+        anchors.horizontalCenter: mapView.horizontalCenter
+        anchors.verticalCenter: mapView.verticalCenter
+        opacity: 0.3
+        color: "#00000000"
+
+        diameter: Math.min(mapView.width, mapView.height) - 100
+
+        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+    }
+
+    InstructionsControl {
+        id: currentInstruction
+        visible: true
+        opacity: 0.7
+        anchors.bottom: futureDirections.visible? futureDirections.top : mapView.bottom
+        anchors.left: mapView.left
+        length: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.length : 0
+        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+        streetName: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.streetName) != "undefined")? mapView.currentSegment.streetName : ""
+    }
+
+    DirectionGuideList {
+        id: futureDirections
+        anchors.left: mapView.left
+        anchors.bottom: mapView.bottom
+        model: mapView.navigationSegments
+    }
+
+    states: [
+        State {
+            name: "Browse"
+            PropertyChanges {
+                target: currentInstruction
+                visible: false
+            }
+            PropertyChanges {
+                target: futureDirections
+                visible: false
+            }
+            PropertyChanges {
+                target: fullScreenInstruction
+                visible: false
+            }
+        },
+        State {
+            name: "Navigation"
+
+            PropertyChanges {
+                target: currentInstruction
+                visible: true
+            }
+            PropertyChanges {
+                target: futureDirections
+                visible: settings.navigationShowNextTurns
+            }
+            PropertyChanges {
+                target: fullScreenInstruction
+                visible: settings.navigationFullscreenInstruction
+            }
+        }
+    ]
 }
