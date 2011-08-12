@@ -104,6 +104,7 @@ function syncLocation()
 
     var coords = mapView.navigationCoords;
     var segmentsInfo = mapView.navigationSegments;
+    var currentLocation = {x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat};
     
     if (segmentsInfo.count === 0)
     {
@@ -113,7 +114,7 @@ function syncLocation()
     for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex < coords.count; coordsIndex++)
     {
         if (coordsIndex + 1 < coords.count &&
-            isOnTrack({x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat},
+            isOnTrack( currentLocation,
                        coords.get(coordsIndex),
                        coords.get(coordsIndex + 1)))
         {
@@ -157,6 +158,15 @@ function syncLocation()
             //stopNavigation();
         }
     }
+
+    if (coords.count > 0)
+    {
+        var nextCoord = coords.get(1);
+        var distance = computeDistance(currentLocation, nextCoord);
+        mapView.currentSegment.length = nextCoord.length + distance;
+        console.log("updating distance for next segment to " + mapView.currentSegment.length);
+        mapView.currentSegmentChanged();
+    }
 }
 
 function clearMarkersAndRoute()
@@ -174,6 +184,20 @@ function isOnTrack(loc, startPoint, endPoint)
     return rc &&
            Math.min(startPoint.x, endPoint.x) <= loc.x && loc.x <= Math.max(startPoint.x, endPoint.x) &&
            Math.min(startPoint.y, endPoint.y) <= loc.y && loc.y <= Math.max(startPoint.y, endPoint.y);
+}
+
+function computeDistance(coord1, coord2)
+{
+    var lon1 = coord1.x * Math.PI / 180;
+    var lat1 = coord1.y * Math.PI / 180;
+    var lon2 = coord2.x * Math.PI / 180;
+    var lat2 = coord2.y * Math.PI / 180;
+
+    var r = 6371; // km
+    var d = Math.acos(Math.sin(lat1)*Math.sin(lat2) +
+                      Math.cos(lat1)*Math.cos(lat2) *
+                      Math.cos(lon2-lon1)) * r;
+    return d*1000;
 }
 
 function stopNavigation()
