@@ -29,6 +29,7 @@ Rectangle {
         screenSaver.setScreenSaverInhibit(settings.navigationScreenStaysLit);
 
         navigationCoords.clear();
+        navigationCoords.append({x: course.results[0].path.x, y: course.results[0].path.y, length: 0}); //append starting point as it is not received
         for (var coordKey in course.coords)
         {
             // {"x":34.916002980775986,"y":32.505133295789356,"z":NaN}
@@ -36,25 +37,47 @@ Rectangle {
             navigationCoords.append({x: coord.x, y: coord.y, z: coord.z});
         }
 
+        var coordIndex = 0;
         navigationSegments.clear();
         for (var segKey in course.results)
         {
             // {"path":{"segmentId":149540,"nodeId":116390,"x":34.920114,"y":32.504936},"street":0,"distance":0,"length":34,"crossTime":0,"crossTimeWithoutRealTime":0,"tiles":null,"clientIds":null,"instruction":{"name":null,"opcode":"ROUNDABOUT_RIGHT","arg":0},"knownDirection":true,"penalty":0,"roadType":2}
             var segment = course.results[segKey];
-            navigationSegments.append({path: segment.path,
-                                    street: segment.street,
-                                    distance: segment.distance,
-                                    length: segment.length,
-                                    crossTime: segment.crossTime,
-                                    crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
-                                    tiles: segment.tiles,
-                                    clientIds: segment.clientIds,
-                                    instruction: segment.instruction,
-                                    knownDirection: segment.knownDirection,
-                                    penalty: segment.penalty,
-                                    roadType: segment.roadType,
-                                    streetName: segment.streetName});
+
+//            if (segment.instruction.opcode !== "CONTINUE") // no need to harrase to continue ahead (unless in roundabout)
+//            {
+                for (var coordPath = navigationCoords.get(coordIndex); coordIndex < navigationCoords.count && segment.path.x != coordPath.x || segment.path.y != coordPath.y; coordPath = navigationCoords.get(++coordIndex));
+                console.log("found matching coord index " + coordIndex);
+                navigationCoords.setProperty(coordIndex, "length", 0);
+
+                if (coordIndex < navigationCoords.count)
+                {
+                    for (var backtrackCoordIndex = coordIndex; backtrackCoordIndex > 0 && navigationCoords.get(backtrackCoordIndex-1).length !== 0; backtrackCoordIndex--)
+                    {
+                        var currentCoordPath = navigationCoords.get(backtrackCoordIndex);
+                        var prevCoordPath = navigationCoords.get(backtrackCoordIndex-1);
+                        var distance = Logic.computeDistance(currentCoordPath, prevCoordPath);
+                        navigationCoords.setProperty(backtrackCoordIndex-1, "length", distance + currentCoordPath.length);
+                        console.log("coord index " + (backtrackCoordIndex-1) + " set with length " + (distance + currentCoordPath.length));
+                    }
+                }
+
+                navigationSegments.append({path: segment.path,
+                                        street: segment.street,
+                                        distance: segment.distance,
+                                        length: segment.length,
+                                        crossTime: segment.crossTime,
+                                        crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
+                                        tiles: segment.tiles,
+                                        clientIds: segment.clientIds,
+                                        instruction: segment.instruction,
+                                        knownDirection: segment.knownDirection,
+                                        penalty: segment.penalty,
+                                        roadType: segment.roadType,
+                                        streetName: segment.streetName});
+//            }
         }
+
         currentSegment = navigationSegments.get(0);
         Logic.navigate(course.coords);
     }
