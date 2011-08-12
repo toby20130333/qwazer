@@ -33,18 +33,6 @@ Item {
                 target: gpsData
                 onPositionChanged: map.showMe()
             }
-            PropertyChanges {
-                target: currentInstruction
-                visible: false
-            }
-            PropertyChanges {
-                target: futureDirections
-                visible: false
-            }
-            PropertyChanges {
-                target: fullScreenInstruction
-                visible: false
-            }
         },
         State {
             name: "Navigation"
@@ -54,7 +42,7 @@ Item {
             }
             PropertyChanges {
                 target: map
-                mapRotates: true
+                mapRotates: !settings.navigationNorthLocked
             }
             PropertyChanges {
                 target: stopNavigationButton
@@ -63,18 +51,6 @@ Item {
             PropertyChanges {
                 target: searchButton
                 visible: false
-            }
-            PropertyChanges {
-                target: currentInstruction
-                visible: true
-            }
-            PropertyChanges {
-                target: futureDirections
-                visible: true
-            }
-            PropertyChanges {
-                target: fullScreenInstruction
-                visible: true
             }
             PropertyChanges {
                 target: followMeButton

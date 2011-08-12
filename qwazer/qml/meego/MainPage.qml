@@ -96,62 +96,11 @@ Page {
 
     QwazerMap {
         id: map
-
+        state: mainPageStates.state
         anchors.fill: mainPage
 
         isFollowMe: followMeButton.isSelected
         onMapLoaded: appWindow.pageStack.replace(mainPage)
-
-        ButtonColumn {
-            anchors.right: map.right
-            anchors.rightMargin: 10
-            anchors.verticalCenter: map.verticalCenter
-            exclusive: false
-            width: 50
-
-            Button {
-                text: "+"
-                onClicked: map.zoomIn()
-            }
-
-            Button {
-                text: "-"
-                onClicked: map.zoomOut()
-            }
-        }
-
-        DirectionGuideControl {
-            id: fullScreenInstruction
-            border.color: "#00000000"
-            anchors.horizontalCenter: map.horizontalCenter
-            anchors.verticalCenter: map.verticalCenter
-            opacity: 0.3
-            color: "#00000000"
-
-            diameter: Math.min(map.width, map.height) - 100
-
-            instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
-            instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
-        }
-
-        InstructionsControl {
-            id: currentInstruction
-            visible: true
-            opacity: 0.7
-            anchors.bottom: futureDirections.top
-            anchors.left: map.left
-            length: (typeof(map.currentSegment) != "undefined")? map.currentSegment.length : 0
-            instructionArg: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.arg : 0
-            instructionOpcode: (typeof(map.currentSegment) != "undefined")? map.currentSegment.instruction.opcode : ""
-            streetName: (typeof(map.currentSegment) != "undefined" && typeof(map.currentSegment.streetName) != "undefined")? map.currentSegment.streetName : ""
-        }
-
-        DirectionGuideList {
-            id: futureDirections
-            anchors.left: map.left
-            anchors.bottom: map.bottom
-            model: map.navigationSegments
-        }
     }
 
     Notification {
