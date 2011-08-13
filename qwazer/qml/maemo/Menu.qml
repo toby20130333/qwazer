@@ -2,6 +2,7 @@ import QtQuick 1.0
 
 Rectangle {
     id: menu
+    visible: false
     color: "#00000000"
     anchors.fill: parent
     anchors.topMargin: -14 // ugly n900 specific hack

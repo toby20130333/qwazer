@@ -26,7 +26,7 @@ Rectangle {
 
     function navigate(course) {
         //refresh the stay lit settings
-        screenSaver.setScreenSaverInhibit(settings.navigationScreenStaysLit);
+//        screenSaver.setScreenSaverInhibit(settings.navigationScreenStaysLit);
 
         navigationCoords.clear();
         navigationCoords.append({x: course.results[0].path.x, y: course.results[0].path.y, length: 0}); //append starting point as it is not received

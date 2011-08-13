@@ -24,7 +24,7 @@ Page {
     }
 
     function navigate(course) {
-        map.navigationInfo = course;
+        map.navigate(course);
         mainPageLogic.state = "Navigation";
     }
 
@@ -41,6 +41,7 @@ Page {
             QwazerMap {
                 id: map
                 anchors.fill: parent
+                state: mainPageLogic.state
                 isFollowMe: followMeButton.isSelected
                 onMapLoaded: mainPage.mapLoaded()
 
