@@ -49,38 +49,6 @@ Page {
 
                     active: !isGPSDataValid
                 }
-
-                Column {
-                    id: zoomButtons
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 50
-                    width: 50
-
-                    Button {
-                        text: "+"
-                        width: height
-                        radius: height
-                        onClicked: map.zoomIn()
-                    }
-
-                    Button {
-                        text: "-"
-                        width: height
-                        radius: height
-                        onClicked: map.zoomOut()
-                    }
-                }
-            }
-
-            InstructionsControl {
-                id: currentInstruction
-                visible: false
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
-                anchors.left: parent.left
-                opacity: 0.7
             }
         }
     }

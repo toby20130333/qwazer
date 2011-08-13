@@ -1,6 +1,6 @@
 import QtQuick 1.0
 import QtWebKit 1.0
-import QtMobility.systeminfo 1.1
+//import QtMobility.systeminfo 1.1
 import "js/MapLogic.js" as Logic
 
 Rectangle {
@@ -22,7 +22,7 @@ Rectangle {
 
     property bool isFollowMe: false
 
-    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
+//    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
 
     function navigate(course) {
         //refresh the stay lit settings
@@ -316,9 +316,9 @@ Rectangle {
     }
 
 
-    ScreenSaver {
-        id: screenSaver
-    }
+//    ScreenSaver {
+//        id: screenSaver
+//    }
 
     states: [
         State {
@@ -351,10 +351,10 @@ Rectangle {
                 target: fullScreenInstruction
                 visible: settings.navigationFullscreenInstruction
             }
-            PropertyChanges {
-                target: mapView
-                onNavigationScreenStaysLitChanged: screenSaver.setScreenSaverInhibit(navigationScreenStaysLit)
-            }
+//            PropertyChanges {
+//                target: mapView
+//                onNavigationScreenStaysLitChanged: screenSaver.setScreenSaverInhibit(navigationScreenStaysLit)
+//            }
         }
     ]
 }

@@ -1,11 +1,10 @@
 import QtQuick 1.0
+import "../qwazer"
 import "../qwazer/js/Images.js" as Images
 
 Page {
     id: settingsPage
     anchors.fill: parent
-
-    state: "Loaded"
 
     width: 700
     height: 400
@@ -52,56 +51,106 @@ Page {
     }
 
     content: VisualItemModel {
-         Grid {
-            id: grid1
-            anchors.margins: 10
+        Column {
+            id: settingsColumn
+            spacing: 30
             anchors.fill: parent
-
-            columns: 2
-            spacing: 10
+            anchors.margins: 30
 
             Text {
-                id: languageLabel
-                text: translator.translate("Language%1", ":") + translator.forceTranslate
-                font.pointSize: 20
+                id: generalSettingsLabel
+                text: translator.translate("General application settings%1", ":") + translator.forceTranslate
+                font.underline: true
             }
 
-            Button {
-                id: selectedLanguage
-                text: settings.language.name
+            Grid {
+                id: generalSettingsGrid
+                columns: 2
+                spacing: 20
 
-                onClicked: settingsPage.state = "SelectLanguageState"
+                Text {
+                    text: translator.translate("Language%1", ":") + translator.forceTranslate
+                }
+
+                Button {
+                    text: settings.language.name
+                    onClicked: languagesMenu.open()
+                    width: 200
+                }
+
+                Text {
+                    text: translator.translate("Default Country%1", ":") + translator.forceTranslate
+                }
+
+                Button {
+                    text: settings.country.name
+                    onClicked: countriesMenu.open()
+                    width: 200
+                }
+
+                Text {
+                    text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
+                }
+
+                Switch {
+                    checked: settings.nightMode
+                    onCheckedChanged: settings.nightMode = checked
+                }
             }
 
             Text {
-                id: countryLabel
-                text: translator.translate("Default Country%1", ":") + translator.forceTranslate
-                font.pointSize: 20
+                id: navigationSettingsLabel
+                text: translator.translate("Navigation settings%1", ":") + translator.forceTranslate
+                font.underline: true
             }
 
-            Button {
-                id: selectedCountry
-                text: settings.country.name
+            Grid {
+                id: navigationSettingsGrid
+                columns: 2
+                spacing: 20
 
-                onClicked: settingsPage.state = "SelectCountryState"
-            }
+                Text {
+                    text: translator.translate("Fullscreen instructions%1", ":") + translator.forceTranslate
+                }
 
-            Text {
-                id: nightModeLabel
-                text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
-                font.pointSize: 20
-            }
+                Switch {
+                    checked: settings.navigationFullscreenInstruction
+                    onCheckedChanged: settings.navigationFullscreenInstruction = checked
+                }
 
-            ToggleButton {
-                id: nightModeSelector
-                text: isSelected? "+" : "-"
-                isSelected: settings.nightMode
+                Text {
+                    text: translator.translate("North Locked%1", ":") + translator.forceTranslate
+                }
+
+                Switch {
+                    checked: settings.navigationNorthLocked
+                    onCheckedChanged: settings.navigationNorthLocked = checked
+                }
+
+                Text {
+                    text: translator.translate("Show Next Turns%1", ":") + translator.forceTranslate
+                }
+
+                Switch {
+                    checked: settings.navigationShowNextTurns
+                    onCheckedChanged: settings.navigationShowNextTurns = checked
+                }
+
+                Text {
+                    text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
+                }
+
+                Switch {
+                    checked: settings.navigationScreenStaysLit
+                    onCheckedChanged: settings.navigationScreenStaysLit = checked
+                }
             }
         }
     }
 
     tools: VisualItemModel {
         Flow {
+            id: settingsToolBar
             anchors.margins: 20
             IconButton {
                 id: okButton
@@ -110,13 +159,20 @@ Page {
 
                 onClicked: settingsPage.okClicked()
             }
+
+            DualStateButton {
+                id: settingsState
+                anchors.verticalCenter: settingsToolBar.verticalCenter
+                leftText: translator.translate("General") + translator.forceTranslate
+                rightText: translator.translate("Navigation") + translator.forceTranslate
+            }
         }
     }
 
     Menu {
         id: languagesList
 
-        onBackButtonClicked: settingsPage.state = "Loaded"
+        onBackButtonClicked: languagesList.visible = false
 
         menuItems: VisualItemModel {
                 ListView {
@@ -136,7 +192,7 @@ Page {
                             width: langButtonList.width
                             onClicked: {
                                 settings.language = {name: name, langId: langId, rtl: rtl};
-                                settingsPage.state = "Loaded";
+                                languagesList.visible = false;
                             }
                         }
                     }
@@ -147,7 +203,7 @@ Page {
     Menu {
         id: countryList
 
-        onBackButtonClicked: settingsPage.state = "Loaded"
+        onBackButtonClicked: countryList.visible = false
 
         menuItems: VisualItemModel {
                 ListView {
@@ -167,7 +223,7 @@ Page {
                             text: name
                             onClicked: {
                                 settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
-                                settingsPage.state = "Loaded";
+                                countryList.visible = false;
                             }
                         }
                     }
@@ -175,34 +231,44 @@ Page {
             }
     }
 
-
     states: [
         State {
-            name: "Loaded"
-
+            name: "General"
+            when: settingsState.selectedIndex == 0
             PropertyChanges {
-                target: languagesList
-                visible: false
-            }
-
-            PropertyChanges {
-                target: countryList
-                visible: false
-            }
-        },
-        State {
-            name: "SelectLanguageState"
-
-            PropertyChanges {
-                target: languagesList
+                target: generalSettingsLabel
                 visible: true
             }
+            PropertyChanges {
+                target: generalSettingsGrid
+                visible: true
+            }
+            PropertyChanges {
+                target: navigationSettingsLabel
+                visible: false
+            }
+            PropertyChanges {
+                target: navigationSettingsGrid
+                visible: false
+            }
         },
         State {
-            name: "SelectCountryState"
-
+            name: "Navigation"
+            when: settingsState.selectedIndex == 1
             PropertyChanges {
-                target: countryList
+                target: generalSettingsLabel
+                visible: false
+            }
+            PropertyChanges {
+                target: generalSettingsGrid
+                visible: false
+            }
+            PropertyChanges {
+                target: navigationSettingsLabel
+                visible: true
+            }
+            PropertyChanges {
+                target: navigationSettingsGrid
                 visible: true
             }
         }
