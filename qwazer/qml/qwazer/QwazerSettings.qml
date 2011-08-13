@@ -13,6 +13,7 @@ Item {
         Storage.initialize();
         qwazerSettings.state = "Loaded";
         settingsLoaded();
+        console.log("settings loaded successfully");
     }
 
     function findItem(model, item, field)

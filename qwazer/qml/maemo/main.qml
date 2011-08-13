@@ -90,11 +90,6 @@ Rectangle {
         }
     }
 
-    NavSettingsPage {
-        id: navSettings
-        onBackButtonClicked: activePage = qwazerMapView
-    }
-
     SearchAddressPage {
         id: searchPage
 

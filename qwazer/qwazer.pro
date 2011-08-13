@@ -1,6 +1,8 @@
 # MeeGo
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"){
    DEFINES += Q_WS_MAEMO_6
+} else:maemo5 {
+   DEFINES += Q_WS_MAEMO_5
 }
 
 # Add more folders to ship with the application, here
@@ -10,7 +12,7 @@ folder_01.target = qml
 contains(DEFINES, Q_WS_MAEMO_6) {
     folder_02.source = qml/meego
     folder_02.target = qml
-} else:contains(DEFINES, Q_WS_MAEMO_5) {
+} else:maemo5 {
     folder_02.source = qml/maemo
     folder_02.target = qml
 }
