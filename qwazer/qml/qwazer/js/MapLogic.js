@@ -164,7 +164,6 @@ function syncLocation()
         var nextCoord = coords.get(1);
         var distance = computeDistance(currentLocation, nextCoord);
         mapView.currentSegment.length = nextCoord.length + distance;
-        console.log("updating distance for next segment to " + mapView.currentSegment.length);
         mapView.currentSegmentChanged();
     }
 }
@@ -188,6 +187,7 @@ function isOnTrack(loc, startPoint, endPoint)
 
 function computeDistance(coord1, coord2)
 {
+    // thanks to http://www.movable-type.co.uk/scripts/latlong.html
     var lon1 = coord1.x * Math.PI / 180;
     var lat1 = coord1.y * Math.PI / 180;
     var lon2 = coord2.x * Math.PI / 180;
@@ -197,7 +197,8 @@ function computeDistance(coord1, coord2)
     var d = Math.acos(Math.sin(lat1)*Math.sin(lat2) +
                       Math.cos(lat1)*Math.cos(lat2) *
                       Math.cos(lon2-lon1)) * r;
-    return d*1000;
+
+    return (isNaN(d))? 0 : d*1000;
 }
 
 function stopNavigation()

@@ -94,7 +94,7 @@
       <value key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName" type="QString">qmake</value>
       <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
       <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
-      <value key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibrary" type="bool">false</value>
+      <value key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibrary" type="bool">true</value>
       <value key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QString"></value>
       <value key="QtProjectManager.QMakeBuildStep.QMakeForced" type="bool">false</value>
      </valuemap>
@@ -254,15 +254,19 @@
       <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">2</value>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles" type="QVariantList">
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts" type="QVariantList">
+       <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.18</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
        <value type="QString"></value>
+       <value type="QString"></value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes" type="QVariantList">
-       <value type="QDateTime">2011-08-12T20:53:16</value>
+       <value type="QDateTime">2011-08-13T20:51:52</value>
+       <value type="QDateTime">2011-08-13T17:53:11</value>
       </valuelist>
      </valuemap>
      <value key="ProjectExplorer.BuildStepList.StepsCount" type="int">2</value>

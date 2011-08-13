@@ -14,8 +14,10 @@ Rectangle {
         orientation: ListView.Horizontal
         delegate: DirectionGuideControl {
             id: directionItem
-            instructionArg: instruction.arg
-            instructionOpcode: instruction.opcode
+            width: (directionItem.visible)? directionItem.diameter : 0
+            visible: (typeof(instruction) == "undefined" || (instruction.opcode == "CONTINUE" && index > 0))? directionGuideListView.model.get(index-1).instruction.opcode !== "CONTINUE" : true
+            instructionArg: (typeof(instruction) != "undefined")? instruction.arg : 0
+            instructionOpcode: (typeof(instruction) != "undefined")? instruction.opcode : ""
             color: (directionItem.ListView.isCurrentItem)? "#00b7ff" : "#00000000"
         }
     }

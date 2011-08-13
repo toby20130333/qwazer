@@ -44,10 +44,11 @@ Rectangle {
             // {"path":{"segmentId":149540,"nodeId":116390,"x":34.920114,"y":32.504936},"street":0,"distance":0,"length":34,"crossTime":0,"crossTimeWithoutRealTime":0,"tiles":null,"clientIds":null,"instruction":{"name":null,"opcode":"ROUNDABOUT_RIGHT","arg":0},"knownDirection":true,"penalty":0,"roadType":2}
             var segment = course.results[segKey];
 
-//            if (segment.instruction.opcode !== "CONTINUE") // no need to harrase to continue ahead (unless in roundabout)
-//            {
-                for (var coordPath = navigationCoords.get(coordIndex); coordIndex < navigationCoords.count && segment.path.x != coordPath.x || segment.path.y != coordPath.y; coordPath = navigationCoords.get(++coordIndex));
-                console.log("found matching coord index " + coordIndex);
+            for (var coordPath = navigationCoords.get(coordIndex); coordIndex < navigationCoords.count && segment.path.x != coordPath.x || segment.path.y != coordPath.y; coordPath = navigationCoords.get(++coordIndex));
+//            console.log("found matching coord index " + coordIndex);
+            if (typeof(segment.instruction) != "undefined" && segment.instruction.opcode != "CONTINUE")
+            {
+                // continue should not invoke any info
                 navigationCoords.setProperty(coordIndex, "length", 0);
 
                 if (coordIndex < navigationCoords.count)
@@ -58,24 +59,24 @@ Rectangle {
                         var prevCoordPath = navigationCoords.get(backtrackCoordIndex-1);
                         var distance = Logic.computeDistance(currentCoordPath, prevCoordPath);
                         navigationCoords.setProperty(backtrackCoordIndex-1, "length", distance + currentCoordPath.length);
-                        console.log("coord index " + (backtrackCoordIndex-1) + " set with length " + (distance + currentCoordPath.length));
+//                        console.log("coord index " + (backtrackCoordIndex-1) + " set with total length " + (distance + currentCoordPath.length) + " distance " + distance + " length " + currentCoordPath.length);
                     }
                 }
+            }
 
-                navigationSegments.append({path: segment.path,
-                                        street: segment.street,
-                                        distance: segment.distance,
-                                        length: segment.length,
-                                        crossTime: segment.crossTime,
-                                        crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
-                                        tiles: segment.tiles,
-                                        clientIds: segment.clientIds,
-                                        instruction: segment.instruction,
-                                        knownDirection: segment.knownDirection,
-                                        penalty: segment.penalty,
-                                        roadType: segment.roadType,
-                                        streetName: segment.streetName});
-//            }
+            navigationSegments.append({path: segment.path,
+                                    street: segment.street,
+                                    distance: segment.distance,
+                                    length: segment.length,
+                                    crossTime: segment.crossTime,
+                                    crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
+                                    tiles: segment.tiles,
+                                    clientIds: segment.clientIds,
+                                    instruction: segment.instruction,
+                                    knownDirection: segment.knownDirection,
+                                    penalty: segment.penalty,
+                                    roadType: segment.roadType,
+                                    streetName: segment.streetName});
         }
 
         currentSegment = navigationSegments.get(0);
@@ -291,8 +292,8 @@ Rectangle {
 
         diameter: Math.min(mapView.width, mapView.height) - 100
 
-        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
-        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+        instructionArg: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.opcode : ""
     }
 
     InstructionsControl {
@@ -302,8 +303,8 @@ Rectangle {
         anchors.bottom: futureDirections.visible? futureDirections.top : mapView.bottom
         anchors.left: mapView.left
         length: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.length : 0
-        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
-        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+        instructionArg: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.opcode : ""
         streetName: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.streetName) != "undefined")? mapView.currentSegment.streetName : ""
     }
 
