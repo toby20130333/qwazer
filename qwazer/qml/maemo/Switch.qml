@@ -1,129 +1,76 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: dualStateButton
-    width: buttonRow.width
-    height: buttonRow.height
+    id: toggleButton
+    width: 130
+    height: 50
     radius: Math.floor(height/2)
-    border.color: "black"
     color: "#00000000"
 
-    property alias rightText: rightTextLabel.text
-    property alias leftText: leftTextLabel.text
-
     property bool checked: false
+
+    function toggle() {
+        if (toggleButton.state == "on")
+            toggleButton.state = "off";
+        else
+            toggleButton.state = "on";
+    }
+
+    function releaseSwitch() {
+        if (selector.x == 5) {
+            if (toggleButton.state == "off") return;
+        }
+        if (selector.x == 78) {
+            if (toggleButton.state == "on") return;
+        }
+        toggle();
+    }
+
     Rectangle {
         id: buttonRow
-        width: (Math.max(rightTextLabel.width, leftTextLabel.width)+height)*2
-        height: Math.max(rightTextLabel.height, leftTextLabel.height)
+        width: parent.width
+        height: parent.height
         color: "#00000000"
 
         Rectangle {
-            id: splitter
-            x: 0
-            width: 1
-            color: "#000000"
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-
-
-        Rectangle {
             id: rightEnder
-            width: dualStateButton.height
-            height: dualStateButton.height
-            color: "#ffffff"
-            radius: dualStateButton.radius
+            width: toggleButton.height
+            height: toggleButton.height
+            radius: toggleButton.radius
             border.color: "#000000"
             anchors.right: parent.right
-            opacity: 1
-        }
-
-        Rectangle {
-            id: rightSide
-            width: 200
-            color: "#ffffff"
-            anchors.rightMargin: dualStateButton.radius
-            opacity: 1
-            anchors.right: parent.right
-            anchors.left: splitter.right
-            anchors.leftMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-
-            MouseArea {
-                id: mousearea1
-                anchors.fill: parent
-                Text {
-                    id: rightTextLabel
-                    text: ""
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.bold: true
-                    font.pointSize: 22
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                onClicked: checked = false
-            }
         }
 
         Rectangle {
             id: leftEnder
-            width: dualStateButton.height
-            height: dualStateButton.height
-            color: "#ffffff"
-            radius: dualStateButton.radius
+            width: toggleButton.height
+            height: toggleButton.height
+            radius: toggleButton.radius
             border.color: "#000000"
             anchors.left: parent.left
-            anchors.leftMargin: 0
         }
-
-
-
         Rectangle {
-            id: leftSide
-            color: "#ffffff"
-            anchors.leftMargin: dualStateButton.radius
-            opacity: 1
-            anchors.right: splitter.left
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.rightMargin: 0
-
-            MouseArea {
-                id: mousearea2
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.rightMargin: 0
-                Text {
-                    id: leftTextLabel
-                    x: 0
-                    text: ""
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.bold: true
-                    font.pointSize: 22
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                onClicked: checked = true
-            }
+            id: midArea
+            anchors.rightMargin: rightEnder.radius
+            anchors.leftMargin: leftEnder.radius
+            anchors.fill: parent
         }
+    }
 
+    MouseArea {
+        id: mousearea1
+        drag.axis: Drag.XAxis
+        anchors.fill: parent
+        drag.target: selector;
+        drag.minimumX: 5;
+        drag.maximumX: 78
+        onClicked: toggle()
+        onReleased: releaseSwitch()
     }
 
     Rectangle {
         id: upperLine
-        width: parent.width - rightEnder.width + 2
+        width: parent.width - rightEnder.width - 2
         height: 1
         color: "transparent"
         border.color: "black"
@@ -133,61 +80,50 @@ Rectangle {
         anchors.topMargin: -1
     }
 
+    Rectangle {
+        id: underLine
+        width: parent.width - rightEnder.width - 2
+        height: 1
+        color: "transparent"
+        border.color: "black"
+        z: 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: -1
+    }
+
+    Rectangle {
+        id: selector
+        anchors.verticalCenter: toggleButton.verticalCenter
+        width: toggleButton.height-5
+        height: toggleButton.height-5
+        color: "#000000"
+        radius: toggleButton.height-5
+    }
+
     states: [
         State {
-            name: "NotChecked"
-            when: !checked
-
-            PropertyChanges {
-                target: rightSide
-                color: "#ffffff"
-            }
-
-            PropertyChanges {
-                target: rightEnder
-                color: "#ffffff"
-            }
-
-            PropertyChanges {
-                target: rightTextLabel
-                color: "#ffffff"
-            }
-
-            PropertyChanges {
-                target: leftEnder
-                color: "#000000"
-                z: 1
-            }
+            name: "on"
+            when: checked
+            PropertyChanges { target: selector; x: 78 }
+            PropertyChanges { target: toggleButton; checked: true }
+            PropertyChanges { target: midArea; color: "#2e7dea" }
+            PropertyChanges { target: leftEnder; color: "#2e7dea" }
+            PropertyChanges { target: rightEnder; color: "#2e7dea" }
         },
         State {
-            name: "Checked"
-            when: checked
-
-            PropertyChanges {
-                target: leftEnder
-                color: "#1280e6"
-            }
-
-            PropertyChanges {
-                target: leftSide
-                color: "#1280e6"
-            }
-
-            PropertyChanges {
-                target: leftTextLabel
-                color: "#ffffff"
-            }
-
-            PropertyChanges {
-                target: rightEnder
-                color: "#000000"
-                z: 2
-            }
-
-            PropertyChanges {
-                target: rightSide
-                color: "#1280e6"
-            }
+            name: "off"
+            when: !checked
+            PropertyChanges { target: selector; x: 5 }
+            PropertyChanges { target: toggleButton; checked: false }
+            PropertyChanges { target: midArea; color: "#ffffff" }
+            PropertyChanges { target: leftEnder; color: "#ffffff" }
+            PropertyChanges { target: rightEnder; color: "#ffffff" }
         }
     ]
+
+    transitions: Transition {
+        NumberAnimation { properties: "x"; easing.type: Easing.InOutQuad; duration: 200 }
+    }
+
 }

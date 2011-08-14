@@ -179,19 +179,19 @@ Item {
                 zoom: isValidValue(Storage.getSetting("Zoom"))? Storage.getSetting("Zoom") : zoom
                 onZoomChanged : Storage.setSetting("Zoom", zoom)
 
-                nightMode: isValidValue(Storage.getBooleanSetting("NightMode"))? Storage.getBooleanSetting("NightMode") : nightMode
+                nightMode: isValidValue(Storage.getBooleanSetting("NightMode"))? Storage.getBooleanSetting("NightMode") : false
                 onNightModeChanged : Storage.setBooleanSetting("NightMode", nightMode)
 
-                navigationFullscreenInstruction: isValidValue(Storage.getBooleanSetting("NavigationFullscreenInstruction"))? Storage.getBooleanSetting("NavigationFullscreenInstruction") : navigationFullscreenInstruction
+                navigationFullscreenInstruction: isValidValue(Storage.getBooleanSetting("NavigationFullscreenInstruction"))? Storage.getBooleanSetting("NavigationFullscreenInstruction") : true
                 onNavigationFullscreenInstructionChanged : Storage.setBooleanSetting("NavigationFullscreenInstruction", navigationFullscreenInstruction)
 
-                navigationNorthLocked: isValidValue(Storage.getBooleanSetting("NavigationNorthLocked"))? Storage.getBooleanSetting("NavigationNorthLocked") : navigationNorthLocked
+                navigationNorthLocked: isValidValue(Storage.getBooleanSetting("NavigationNorthLocked"))? Storage.getBooleanSetting("NavigationNorthLocked") : false
                 onNavigationNorthLockedChanged : Storage.setBooleanSetting("NavigationNorthLocked", navigationNorthLocked)
 
-                navigationScreenStaysLit: isValidValue(Storage.getBooleanSetting("NavigationScreenStaysLit"))? Storage.getBooleanSetting("NavigationScreenStaysLit") : navigationScreenStaysLit
+                navigationScreenStaysLit: isValidValue(Storage.getBooleanSetting("NavigationScreenStaysLit"))? Storage.getBooleanSetting("NavigationScreenStaysLit") : true
                 onNavigationScreenStaysLitChanged : Storage.setBooleanSetting("NavigationScreenStaysLit", navigationScreenStaysLit)
 
-                navigationShowNextTurns: isValidValue(Storage.getBooleanSetting("NavigationShowNextTurns"))? Storage.getBooleanSetting("NavigationShowNextTurns") : navigationShowNextTurns
+                navigationShowNextTurns: isValidValue(Storage.getBooleanSetting("NavigationShowNextTurns"))? Storage.getBooleanSetting("NavigationShowNextTurns") : true
                 onNavigationShowNextTurnsChanged : Storage.setBooleanSetting("NavigationShowNextTurns", navigationShowNextTurns)
             }
         }
