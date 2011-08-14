@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import QtMobility.systeminfo 1.1
 import "../qwazer/js/Images.js" as Images
 import "../qwazer"
 
@@ -7,6 +8,8 @@ Page {
     id: mainPage
 
     property alias isGPSDataValid :  mainPageStates.isGPSDataValid
+    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
+    onNavigationScreenStaysLitChanged: updateScreenSaverStatus()
 
     function initialize() {
         map.initialize();
@@ -24,6 +27,10 @@ Page {
     function stopNavigation() {
         map.stopNavigation();
         mainPageStates.state = "Browse";
+    }
+
+    function updateScreenSaverStatus() {
+        screenSaver.setScreenSaverInhibit((mainPageStates.state == "Navigation")? settings.navigationScreenStaysLit : false);
     }
 
    tools: ToolBarLayout {
@@ -114,9 +121,14 @@ Page {
         anchors.fill: parent
     }
 
+    ScreenSaver {
+        id: screenSaver
+    }
+
     MainPageLogic {
         id: mainPageStates
         state: "Browse"
+        onStateChanged: updateScreenSaverStatus()
         onShowApplicationSettings: appWindow.pageStack.push(settingsPage)
         onShowNavigationSettings: appWindow.pageStack.push(settingsPage)
     }
