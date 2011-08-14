@@ -1,6 +1,5 @@
 import QtQuick 1.0
 import QtWebKit 1.0
-//import QtMobility.systeminfo 1.1
 import "js/MapLogic.js" as Logic
 
 Rectangle {
@@ -22,12 +21,7 @@ Rectangle {
 
     property bool isFollowMe: false
 
-//    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
-
     function navigate(course) {
-        //refresh the stay lit settings
-//        screenSaver.setScreenSaverInhibit(settings.navigationScreenStaysLit);
-
         navigationCoords.clear();
         navigationCoords.append({x: course.results[0].path.x, y: course.results[0].path.y, length: 0}); //append starting point as it is not received
         for (var coordKey in course.coords)
@@ -315,11 +309,6 @@ Rectangle {
         model: mapView.navigationSegments
     }
 
-
-//    ScreenSaver {
-//        id: screenSaver
-//    }
-
     states: [
         State {
             name: "Browse"
@@ -351,10 +340,6 @@ Rectangle {
                 target: fullScreenInstruction
                 visible: settings.navigationFullscreenInstruction
             }
-//            PropertyChanges {
-//                target: mapView
-//                onNavigationScreenStaysLitChanged: screenSaver.setScreenSaverInhibit(navigationScreenStaysLit)
-//            }
         }
     ]
 }
