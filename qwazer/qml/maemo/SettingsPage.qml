@@ -92,10 +92,10 @@ Page {
                     text: translator.translate("Night Mode (TODO)%1", ":") + translator.forceTranslate
                 }
 
-//                Switch {
-//                    checked: settings.nightMode
-//                    onCheckedChanged: settings.nightMode = checked
-//                }
+                Switch {
+                    checked: settings.nightMode
+                    onCheckedChanged: settings.nightMode = checked
+                }
             }
 
             Text {
@@ -113,37 +113,37 @@ Page {
                     text: translator.translate("Fullscreen instructions%1", ":") + translator.forceTranslate
                 }
 
-//                Switch {
-//                    checked: settings.navigationFullscreenInstruction
-//                    onCheckedChanged: settings.navigationFullscreenInstruction = checked
-//                }
+                Switch {
+                    checked: settings.navigationFullscreenInstruction
+                    onCheckedChanged: settings.navigationFullscreenInstruction = checked
+                }
 
                 Text {
                     text: translator.translate("North Locked%1", ":") + translator.forceTranslate
                 }
 
-//                Switch {
-//                    checked: settings.navigationNorthLocked
-//                    onCheckedChanged: settings.navigationNorthLocked = checked
-//                }
+                Switch {
+                    checked: settings.navigationNorthLocked
+                    onCheckedChanged: settings.navigationNorthLocked = checked
+                }
 
                 Text {
                     text: translator.translate("Show Next Turns%1", ":") + translator.forceTranslate
                 }
 
-//                Switch {
-//                    checked: settings.navigationShowNextTurns
-//                    onCheckedChanged: settings.navigationShowNextTurns = checked
-//                }
+                Switch {
+                    checked: settings.navigationShowNextTurns
+                    onCheckedChanged: settings.navigationShowNextTurns = checked
+                }
 
                 Text {
                     text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
                 }
 
-//                Switch {
-//                    checked: settings.navigationScreenStaysLit
-//                    onCheckedChanged: settings.navigationScreenStaysLit = checked
-//                }
+                Switch {
+                    checked: settings.navigationScreenStaysLit
+                    onCheckedChanged: settings.navigationScreenStaysLit = checked
+                }
             }
         }
     }
