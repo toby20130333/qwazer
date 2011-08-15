@@ -26,10 +26,6 @@ Item {
                 visible: true
             }
             PropertyChanges {
-                target: map
-                mapRotates: false
-            }
-            PropertyChanges {
                 target: gpsData
                 onPositionChanged: map.showMe()
             }
@@ -39,10 +35,6 @@ Item {
             PropertyChanges {
                 target: settingsButton
                 onClicked: showNavigationSettings()
-            }
-            PropertyChanges {
-                target: map
-                mapRotates: !settings.navigationNorthLocked
             }
             PropertyChanges {
                 target: stopNavigationButton
