@@ -93,10 +93,11 @@ function navigate(coords)
 
     var coordsJSON = JSON.stringify(coords);
 
-    console.log(coordsJSON);
+//    console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
 }
 
+var coordCount = 0;
 function syncLocation()
 {
     var onTrack = false;
@@ -132,6 +133,7 @@ function syncLocation()
 
                 for (var index=0; index < coordsIndex; index++)
                 {
+                    console.log("coordCount:" + (++coordCount));
                     map.navigationCoords.remove(0);
                 }
            }
@@ -141,11 +143,7 @@ function syncLocation()
         }
     }
 
-    if (onTrack && trimOccured)
-    {
-        mapView.currentSegment = mapView.navigationSegments.get(0);
-    }
-    else if (!onTrack)
+    if (!onTrack)
     {
         if (errorCount < 5)
         {
@@ -157,14 +155,6 @@ function syncLocation()
             console.log("need reroute - stopping navigation!!!");
             //stopNavigation();
         }
-    }
-
-    if (coords.count > 0)
-    {
-        var nextCoord = coords.get(1);
-        var distance = computeDistance(currentLocation, nextCoord);
-        mapView.currentSegment.length = nextCoord.length + distance;
-        mapView.currentSegmentChanged();
     }
 }
 

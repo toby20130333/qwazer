@@ -17,8 +17,6 @@ Rectangle {
     property variant previousGpsLocation
     property variant currentGpsLocation
 
-    property bool mapRotates: false
-
     property bool isFollowMe: false
 
     function navigate(course) {
@@ -39,7 +37,7 @@ Rectangle {
             var segment = course.results[segKey];
 
             for (var coordPath = navigationCoords.get(coordIndex); coordIndex < navigationCoords.count && segment.path.x != coordPath.x || segment.path.y != coordPath.y; coordPath = navigationCoords.get(++coordIndex));
-//            console.log("found matching coord index " + coordIndex);
+            console.log("found matching coord index " + coordIndex);
             if (typeof(segment.instruction) != "undefined" && segment.instruction.opcode != "CONTINUE")
             {
                 // continue should not invoke any info
@@ -53,7 +51,7 @@ Rectangle {
                         var prevCoordPath = navigationCoords.get(backtrackCoordIndex-1);
                         var distance = Logic.computeDistance(currentCoordPath, prevCoordPath);
                         navigationCoords.setProperty(backtrackCoordIndex-1, "length", distance + currentCoordPath.length);
-//                        console.log("coord index " + (backtrackCoordIndex-1) + " set with total length " + (distance + currentCoordPath.length) + " distance " + distance + " length " + currentCoordPath.length);
+                        console.log("coord index " + (backtrackCoordIndex-1) + " set with total length " + (distance + currentCoordPath.length) + " distance " + distance + " length " + currentCoordPath.length);
                     }
                 }
             }
@@ -73,8 +71,9 @@ Rectangle {
                                     streetName: segment.streetName});
         }
 
-        currentSegment = navigationSegments.get(0);
         Logic.navigate(course.coords);
+
+        mapView.currentSegment = navigationSegments.get(0);
     }
 
     ListModel {
@@ -229,25 +228,6 @@ Rectangle {
         onAlert: console.log(message)
 
         onLoadFinished: mapView.mapLoaded()
-
-        states: [
-            State {
-                name: "Rotate"
-                when: mapView.mapRotates
-                PropertyChanges {
-                    target: mapView
-                    onCurrentGpsLocationChanged: webViewRotation.angle = computeMapAngle()
-                }
-            },
-            State {
-                name: "Fixed"
-                when: !mapView.mapRotates
-                PropertyChanges {
-                    target: webViewRotation
-                    angle: 0
-                }
-            }
-        ]
     }
 
     Column {
@@ -324,6 +304,10 @@ Rectangle {
                 target: fullScreenInstruction
                 visible: false
             }
+            PropertyChanges {
+                target: mapView
+                onCurrentGpsLocationChanged: webViewRotation.angle = 0;
+            }
         },
         State {
             name: "Navigation"
@@ -339,6 +323,30 @@ Rectangle {
             PropertyChanges {
                 target: fullScreenInstruction
                 visible: settings.navigationFullscreenInstruction
+            }
+            PropertyChanges {
+                target: navigationSegments
+                onCountChanged:  mapView.currentSegment = navigationSegments.get(0)
+            }
+            PropertyChanges {
+                target: mapView
+                onCurrentGpsLocationChanged: {
+                    if (navigationCoords.count > 0)
+                    {
+                        var nextCoord = navigationCoords.get(1);
+                        var lengthToNextSegment = nextCoord.length;
+                        if (nextCoord.length > 0)
+                        {
+                            console.log("calculating");
+                            var distance = Logic.computeDistance(currentGpsLocation, nextCoord);
+                            lengthToNextSegment = nextCoord.length + distance;
+                        }
+                        mapView.currentSegment.length = lengthToNextSegment;
+                        console.log("calculated new segment length " + mapView.currentSegment.length);
+                        mapView.currentSegmentChanged();
+                    }
+                    webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
+                }
             }
         }
     ]

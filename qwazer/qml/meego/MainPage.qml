@@ -128,7 +128,7 @@ Page {
     MainPageLogic {
         id: mainPageStates
         state: "Browse"
-        onStateChanged: updateScreenSaverStatus()
+        onStateChanged: mainPage.updateScreenSaverStatus()
         onShowApplicationSettings: appWindow.pageStack.push(settingsPage)
         onShowNavigationSettings: appWindow.pageStack.push(settingsPage)
     }
