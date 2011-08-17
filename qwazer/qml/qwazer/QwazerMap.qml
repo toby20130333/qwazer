@@ -10,7 +10,6 @@ Rectangle {
 
     signal mapLoaded
 
-    property ListModel navigationCoords: ListModel {}
     property ListModel navigationSegments: ListModel {}
     property variant currentSegment
 
@@ -20,59 +19,41 @@ Rectangle {
     property bool isFollowMe: false
 
     function navigate(course) {
-        navigationCoords.clear();
-        navigationCoords.append({x: course.results[0].path.x, y: course.results[0].path.y, length: 0}); //append starting point as it is not received
-        for (var coordKey in course.coords)
-        {
-            // {"x":34.916002980775986,"y":32.505133295789356,"z":NaN}
-            var coord = course.coords[coordKey];
-            navigationCoords.append({x: coord.x, y: coord.y, z: coord.z});
-        }
 
         var coordIndex = 0;
+        var segmentIndex = 0;
+
         navigationSegments.clear();
-        for (var segKey in course.results)
+        for (; segmentIndex < course.results.length; segmentIndex++)
         {
-            // {"path":{"segmentId":149540,"nodeId":116390,"x":34.920114,"y":32.504936},"street":0,"distance":0,"length":34,"crossTime":0,"crossTimeWithoutRealTime":0,"tiles":null,"clientIds":null,"instruction":{"name":null,"opcode":"ROUNDABOUT_RIGHT","arg":0},"knownDirection":true,"penalty":0,"roadType":2}
-            var segment = course.results[segKey];
-
-            for (var coordPath = navigationCoords.get(coordIndex); coordIndex < navigationCoords.count && segment.path.x != coordPath.x || segment.path.y != coordPath.y; coordPath = navigationCoords.get(++coordIndex));
-            console.log("found matching coord index " + coordIndex);
-            if (typeof(segment.instruction) != "undefined" && segment.instruction.opcode != "CONTINUE")
+            var segment = course.results[segmentIndex];
+            for (; coordIndex < course.coords.length; coordIndex++)
             {
-                // continue should not invoke any info
-                navigationCoords.setProperty(coordIndex, "length", 0);
-
-                if (coordIndex < navigationCoords.count)
+                var coord = course.coords[coordIndex];
+                if (segmentIndex + 1 < course.results.length &&
+                    course.results[segmentIndex+1].path.x == coord.x &&
+                    course.results[segmentIndex+1].path.y == coord.y)
                 {
-                    for (var backtrackCoordIndex = coordIndex; backtrackCoordIndex > 0 && navigationCoords.get(backtrackCoordIndex-1).length !== 0; backtrackCoordIndex--)
-                    {
-                        var currentCoordPath = navigationCoords.get(backtrackCoordIndex);
-                        var prevCoordPath = navigationCoords.get(backtrackCoordIndex-1);
-                        var distance = Logic.computeDistance(currentCoordPath, prevCoordPath);
-                        navigationCoords.setProperty(backtrackCoordIndex-1, "length", distance + currentCoordPath.length);
-                        console.log("coord index " + (backtrackCoordIndex-1) + " set with total length " + (distance + currentCoordPath.length) + " distance " + distance + " length " + currentCoordPath.length);
-                    }
+                    break;
                 }
-            }
 
-            navigationSegments.append({path: segment.path,
-                                    street: segment.street,
-                                    distance: segment.distance,
-                                    length: segment.length,
-                                    crossTime: segment.crossTime,
-                                    crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
-                                    tiles: segment.tiles,
-                                    clientIds: segment.clientIds,
-                                    instruction: segment.instruction,
-                                    knownDirection: segment.knownDirection,
-                                    penalty: segment.penalty,
-                                    roadType: segment.roadType,
-                                    streetName: segment.streetName});
+                navigationSegments.append({path: {x: coord.x, y: coord.y},
+                                        street: segment.street,
+                                        distance: segment.distance,
+                                        length: segment.length,
+                                        crossTime: segment.crossTime,
+                                        crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
+                                        tiles: segment.tiles,
+                                        clientIds: segment.clientIds,
+                                        instruction: segment.instruction,
+                                        knownDirection: segment.knownDirection,
+                                        penalty: segment.penalty,
+                                        roadType: segment.roadType,
+                                        streetName: segment.streetName});
+            }
         }
 
         Logic.navigate(course.coords);
-
         mapView.currentSegment = navigationSegments.get(0);
     }
 
@@ -331,20 +312,6 @@ Rectangle {
             PropertyChanges {
                 target: mapView
                 onCurrentGpsLocationChanged: {
-                    if (navigationCoords.count > 0)
-                    {
-                        var nextCoord = navigationCoords.get(1);
-                        var lengthToNextSegment = nextCoord.length;
-                        if (nextCoord.length > 0)
-                        {
-                            console.log("calculating");
-                            var distance = Logic.computeDistance(currentGpsLocation, nextCoord);
-                            lengthToNextSegment = nextCoord.length + distance;
-                        }
-                        mapView.currentSegment.length = lengthToNextSegment;
-                        console.log("calculated new segment length " + mapView.currentSegment.length);
-                        mapView.currentSegmentChanged();
-                    }
                     webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
                 }
             }
