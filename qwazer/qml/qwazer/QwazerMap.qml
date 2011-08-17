@@ -37,7 +37,8 @@ Rectangle {
                     break;
                 }
 
-                navigationSegments.append({path: {x: coord.x, y: coord.y},
+                navigationSegments.append({segmentId: segmentIndex,
+                                        path: {x: coord.x, y: coord.y},
                                         street: segment.street,
                                         distance: segment.distance,
                                         length: segment.length,
