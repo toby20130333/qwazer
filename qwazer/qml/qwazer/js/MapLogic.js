@@ -82,28 +82,29 @@ function navigate(coords)
     if (gpsData.isFakeData)
     {
         // auto driver for testing
-        gpsData.model = mapView.navigationCoords;
+        gpsData.model = mapView.navigationSegments;
     }
 
     errorCount = 0;
     clearMarkersAndRoute();
 
-    setCenter(mapView.navigationCoords.get(0).x, mapView.navigationCoords.get(0).y);
+    setCenter(mapView.navigationSegments.get(0).x, mapView.navigationSegments.get(0).y);
     zoomInToMax();
 
     var coordsJSON = JSON.stringify(coords);
 
 //    console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
+
+    for (var coordsIndex=0; coordsIndex < mapView.navigationSegments.count; coordsIndex++)
+    {
+        console.log((coordsIndex + 1) + ": " + mapView.navigationSegments.get(coordsIndex).length);
+    }
 }
 
 var coordCount = 0;
 function syncLocation()
 {
-    var onTrack = false;
-    var trimOccured = false;
-
-    var coords = mapView.navigationCoords;
     var segmentsInfo = mapView.navigationSegments;
     var currentLocation = {x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat};
     
@@ -112,50 +113,7 @@ function syncLocation()
         return;
     }
 
-    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex < coords.count; coordsIndex++)
-    {
-        if (coordsIndex + 1 < coords.count &&
-            isOnTrack( currentLocation,
-                       coords.get(coordsIndex),
-                       coords.get(coordsIndex + 1)))
-        {
-            if (coordsIndex > 0)
-            { 
-                for (var searchIndex = 0; searchIndex < coordsIndex && 1 < segmentsInfo.count; searchIndex++)
-                {
-                    if (coords.get(searchIndex).x == segmentsInfo.get(1).path.x &&
-                        coords.get(searchIndex).y == segmentsInfo.get(1).path.y )
-                    {
-                        mapView.navigationSegments.remove(0);
-                        trimOccured = true;
-                    }
-                }
-
-                for (var index=0; index < coordsIndex; index++)
-                {
-                    console.log("coordCount:" + (++coordCount));
-                    map.navigationCoords.remove(0);
-                }
-           }
-
-            errorCount = 0;
-            onTrack = true;
-        }
-    }
-
-    if (!onTrack)
-    {
-        if (errorCount < 5)
-        {
-            errorCount++;
-        }
-        else
-        {
-            // TODO reroute
-            console.log("need reroute - stopping navigation!!!");
-            //stopNavigation();
-        }
-    }
+    segmentsInfo.remove(0)
 }
 
 function clearMarkersAndRoute()

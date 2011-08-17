@@ -50,8 +50,8 @@ Item {
             var coord = model.get(index);
             if (typeof(coord) != "undefined")
             {
-                position.coordinate.longitude = model.get(index).x;
-                position.coordinate.latitude = model.get(index).y;
+                position.coordinate.longitude = model.get(index).path.x;
+                position.coordinate.latitude = model.get(index).path.y;
             }
         }
 
