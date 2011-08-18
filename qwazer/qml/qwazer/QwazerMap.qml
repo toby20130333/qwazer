@@ -46,12 +46,31 @@ Rectangle {
                                         crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
                                         tiles: segment.tiles,
                                         clientIds: segment.clientIds,
-                                        instruction: segment.instruction,
+                                        instruction: (typeof(segment.instruction) != "undefined")? segment.instruction : {opcode: "CONTINUE", arg: 0},
                                         knownDirection: segment.knownDirection,
                                         penalty: segment.penalty,
                                         roadType: segment.roadType,
                                         streetName: segment.streetName});
             }
+        }
+
+        // update lengths
+        navigationSegments.setProperty(navigationSegments.count-1, "length", 0);
+        for (segmentIndex = navigationSegments.count-2; segmentIndex >= 0; segmentIndex--)
+        {
+            var currentSegment = navigationSegments.get(segmentIndex);
+            var nextSegment = navigationSegments.get(segmentIndex+1);
+            var length = 0;
+
+            if (currentSegment.segmentId == nextSegment.segmentId ||
+                (currentSegment.instruction.opcode == "CONTINUE" && nextSegment.instruction.opcode == "CONTINUE"))
+            {
+                length = nextSegment.length + Logic.computeDistance(currentSegment.path, nextSegment.path);
+            } else {
+                length = 0;
+            }
+
+            navigationSegments.setProperty(segmentIndex, "length", length);
         }
 
         Logic.navigate(course.coords);

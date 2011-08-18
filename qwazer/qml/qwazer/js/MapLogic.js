@@ -95,11 +95,6 @@ function navigate(coords)
 
 //    console.log(coordsJSON);
     web_view1.evaluateJavaScript("plotCourse("+coordsJSON+");");
-
-    for (var coordsIndex=0; coordsIndex < mapView.navigationSegments.count; coordsIndex++)
-    {
-        console.log((coordsIndex + 1) + ": " + mapView.navigationSegments.get(coordsIndex).length);
-    }
 }
 
 var coordCount = 0;
@@ -107,13 +102,46 @@ function syncLocation()
 {
     var segmentsInfo = mapView.navigationSegments;
     var currentLocation = {x:mapView.currentGpsLocation.lon, y:mapView.currentGpsLocation.lat};
-    
+    var onTrack = false;
+
     if (segmentsInfo.count === 0)
     {
         return;
     }
 
-    segmentsInfo.remove(0)
+    for (var coordsIndex=0; onTrack == false && coordsIndex < 50 && coordsIndex < segmentsInfo.count; coordsIndex++)
+    {
+        if (coordsIndex + 1 < segmentsInfo.count &&
+            isOnTrack( currentLocation,
+                       segmentsInfo.get(coordsIndex).path,
+                       segmentsInfo.get(coordsIndex + 1).path))
+        {
+            if (coordsIndex > 0)
+            {
+                for (var index=0; index < coordsIndex; index++)
+                {
+                    segmentsInfo.remove(0);
+                }
+            }
+
+            errorCount = 0;
+            onTrack = true;
+        }
+    }
+
+    if (!onTrack)
+    {
+        if (errorCount < 5)
+        {
+            errorCount++;
+        }
+        else
+        {
+            // TODO reroute
+            console.log("need reroute - stopping navigation!!!");
+            //stopNavigation();
+        }
+    }
 }
 
 function clearMarkersAndRoute()
