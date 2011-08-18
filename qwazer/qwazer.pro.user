@@ -254,18 +254,22 @@
       <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">2</value>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles" type="QVariantList">
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts" type="QVariantList">
+       <value type="QString">10.0.0.9</value>
        <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.18</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
        <value type="QString"></value>
        <value type="QString"></value>
+       <value type="QString"></value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes" type="QVariantList">
-       <value type="QDateTime">2011-08-17T19:57:44</value>
+       <value type="QDateTime">2011-08-18T22:10:28</value>
+       <value type="QDateTime">2011-08-17T20:22:19</value>
        <value type="QDateTime">2011-08-13T17:53:11</value>
       </valuelist>
      </valuemap>
