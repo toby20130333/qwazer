@@ -267,8 +267,8 @@ Rectangle {
 
         diameter: Math.min(mapView.width, mapView.height) - 100
 
-        instructionArg: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.arg : 0
-        instructionOpcode: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
     }
 
     InstructionsControl {
@@ -278,8 +278,8 @@ Rectangle {
         anchors.bottom: futureDirections.visible? futureDirections.top : mapView.bottom
         anchors.left: mapView.left
         length: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.length : 0
-        instructionArg: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.arg : 0
-        instructionOpcode: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.instruction) != "undefined")? mapView.currentSegment.instruction.opcode : ""
+        instructionArg: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.arg : 0
+        instructionOpcode: (typeof(mapView.currentSegment) != "undefined")? mapView.currentSegment.instruction.opcode : ""
         streetName: (typeof(mapView.currentSegment) != "undefined" && typeof(mapView.currentSegment.streetName) != "undefined")? mapView.currentSegment.streetName : ""
     }
 
@@ -332,6 +332,12 @@ Rectangle {
             PropertyChanges {
                 target: mapView
                 onCurrentGpsLocationChanged: {
+                    if (navigationSegments.count > 0)
+                    {
+                        var nextSegment = navigationSegments.get(1);
+                        currentSegment.length = nextSegment.length + Logic.computeDistance(currentGpsLocation, nextSegment.path);
+                    }
+
                     webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
                 }
             }
