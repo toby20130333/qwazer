@@ -91,7 +91,7 @@ Page {
 
         Label {
             id: navigationSettingsLabel
-            text: translator.translate("Navigation settings%1", ":") + translator.forceTranslate
+            text: translator.translate("Navigation Settings%1", ":") + translator.forceTranslate
             font.underline: true
         }
 
