@@ -1,6 +1,7 @@
 // generate translation file:
 // langID=he && ( echo -e "var _translation_${langID}={};\n\nfunction get_translation_${langID}() {\n\treturn _translation_${langID};\n}\n";([ -e qwazer/qml/qwazer/js/translations/qwazer.${langID}.js ] && grep '_translation_he.*="' qwazer/qml/qwazer/js/translations/qwazer.${langID}.js;grep -R '\.translate[ ]*([ ]*"[^"]*"' qwazer/qml/ | sed 's/.*translate[ ]*([ ]*"\([^"]*\)".*/_translation_'${langID}'["\1"]="\1";/g') |sort -u ) >  qwazer/qml/qwazer/js/translations/qwazer.${langID}.js.new && mv qwazer/qml/qwazer/js/translations/qwazer.${langID}.js.new qwazer/qml/qwazer/js/translations/qwazer.${langID}.js
 
+var _langId;
 var _currentTranslation;
 var _translations = [];
 
@@ -23,12 +24,14 @@ function initializeTranslation() {
 
     Qt.include("translations/qwazer.he.js");
 
-    _currentTranslation = _translations["en"];
     _translations["he"] = get_translation_he();
+
+    setLanguage("en"); // set default to English
 }
 
 function setLanguage(languageId) {
     console.log("language set requested: " + languageId);
+    _langId = languageId;
     _currentTranslation = _translations[languageId];
     console.log("language was set");
 }
@@ -48,34 +51,50 @@ function getTranscriptFromScenario(distance, opcode, arg)
 {
     var transcript = [];
 
-    if (distance > 0)
+    if (typeof(_currentTranscriber) == "undefined")
     {
-        transcript.push("in" + distance + "m");
-    }
+        if (distance > 0)
+        {
+            transcript.push("in" + distance + "m");
+        }
 
-    if (opcode.indexOf("ROUNDABOUT") === 0)
-    {
-        if (opcode=="ROUNDABOUT_ENTER")
+        if (opcode.indexOf("ROUNDABOUT") === 0)
         {
-            transcript.push("ROUNDABOUT");
-            transcript.push("TAKE_THE");
-            transcript.push(arg);
-            transcript.push("EXIT");
+            if (opcode=="ROUNDABOUT_ENTER")
+            {
+                if (_langId == "en")
+                {
+                    transcript.push("ROUNDABOUT");
+                    transcript.push("TAKE_THE");
+                    transcript.push(arg);
+                    transcript.push("EXIT");
+                }
+                else if (_langId == "he")
+                {
+                    transcript.push("ROUNDABOUT");
+                    transcript.push("EXIT");
+                    transcript.push(arg);
+                }
+            }
+            else if (opcode=="ROUNDABOUT_RIGHT")
+            {
+                transcript.push("ROUNDABOUT");
+                transcript.push("TURN_RIGHT");
+            }
+            else if (opcode=="ROUNDABOUT_LEFT")
+            {
+                transcript.push("ROUNDABOUT");
+                transcript.push("TURN_LEFT");
+            }
         }
-        else if (opcode=="ROUNDABOUT_RIGHT")
+        else
         {
-            transcript.push("ROUNDABOUT");
-            transcript.push("TURN_RIGHT");
-        }
-        else if (opcode=="ROUNDABOUT_LEFT")
-        {
-            transcript.push("ROUNDABOUT");
-            transcript.push("TURN_LEFT");
+            transcript.push(opcode);
         }
     }
     else
     {
-        transcript.push(opcode);
+        transcript = _currentTranscriber(distance, opcode, arg);
     }
 
     return transcript;
