@@ -64,7 +64,7 @@ Rectangle {
             var length = 0;
 
             if (currentSegment.segmentId == nextSegment.segmentId ||
-                (currentSegment.instruction.opcode == "CONTINUE" && nextSegment.instruction.opcode == "CONTINUE"))
+                currentSegment.instruction.opcode == "CONTINUE")
             {
                 length = nextSegment.length + Logic.computeDistance(currentSegment.path, nextSegment.path);
             } else {
@@ -362,30 +362,30 @@ Rectangle {
 
                     webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
 
-                    var notifyLength = 0;
-                    if (currentSegment.length < 30 && !nextSegment.notify30)
+                    var notifyLength = -1;
+                    if (mapView.currentSegment.length < 30 && !mapView.nextSegment.notify30)
                     {
                         console.log("30");
-                        nextSegment.notify30 = true;
+                        mapView.nextSegment.notify30 = true;
                         notifyLength = 0;
                     }
-                    else if (currentSegment.length < 300 && !nextSegment.notify300)
+                    else if (200 < mapView.currentSegment.length && mapView.currentSegment.length < 400 && !mapView.nextSegment.notify300)
                     {
                         console.log("300");
-                        nextSegment.notify300 = true;
+                        mapView.nextSegment.notify300 = true;
                         notifyLength = 300;
                     }
-                    else if (currentSegment.length < 800 && !nextSegment.notify800)
+                    else if (600 < mapView.currentSegment.length && mapView.currentSegment.length < 1000 && !mapView.nextSegment.notify800)
                     {
                         console.log("800");
-                        nextSegment.notify800 = true;
+                        mapView.nextSegment.notify800 = true;
                         notifyLength = 800;
                     }
 
-                    if (notifyLength > 0)
+                    if (notifyLength > -1)
                     {
                         console.log("calling speak");
-                        voiceInstructor.speakScenario(notifyLength, currentSegment.instruction.opcode, currentSegment.instruction.arg);
+                        voiceInstructor.speakScenario(notifyLength, mapView.nextSegment.instruction.opcode, mapView.nextSegment.instruction.arg);
                     }
                 }
             }
