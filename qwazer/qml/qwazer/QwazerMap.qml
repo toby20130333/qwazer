@@ -12,6 +12,7 @@ Rectangle {
 
     property ListModel navigationSegments: ListModel {}
     property variant currentSegment
+    property variant nextSegment
 
     property variant previousGpsLocation
     property variant currentGpsLocation
@@ -75,6 +76,20 @@ Rectangle {
 
         Logic.navigate(course.coords);
         mapView.currentSegment = navigationSegments.get(0);
+        mapView.nextSegment = findNextSegment();
+    }
+
+    function findNextSegment() {
+        var segment = null;
+        for (var index = 1; index < mapView.navigationSegments.count; index++)
+        {
+            if (mapView.navigationSegments.get(index).length === 0)
+            {
+                segment = mapView.navigationSegments.get(index);
+                break;
+            }
+        }
+        return segment;
     }
 
     ListModel {
@@ -331,7 +346,10 @@ Rectangle {
             }
             PropertyChanges {
                 target: navigationSegments
-                onCountChanged:  mapView.currentSegment = navigationSegments.get(0)
+                onCountChanged:  {
+                    mapView.currentSegment = navigationSegments.get(0);
+                    mapView.nextSegment = findNextSegment();
+                }
             }
             PropertyChanges {
                 target: mapView
@@ -344,34 +362,30 @@ Rectangle {
 
                     webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
 
-                    if (currentSegment.instruction.opcode != "CONTINUE")
+                    var notifyLength = 0;
+                    if (currentSegment.length < 30 && !nextSegment.notify30)
                     {
-                        console.log("not continue");
-                        var notifyLength = 0;
-                        if (currentSegment.length < 30 && !currentSegment.notify30)
-                        {
-                            console.log("30");
-                            currentSegment.notify30 = true;
-                            notifyLength = 0;
-                        }
-                        else if (currentSegment.length < 300 && !currentSegment.notify300)
-                        {
-                            console.log("300");
-                            currentSegment.notify300 = true;
-                            notifyLength = 300;
-                        }
-                        else if (currentSegment.length < 800 && !currentSegment.notify800)
-                        {
-                            console.log("800");
-                            currentSegment.notify800 = true;
-                            notifyLength = 800;
-                        }
+                        console.log("30");
+                        nextSegment.notify30 = true;
+                        notifyLength = 0;
+                    }
+                    else if (currentSegment.length < 300 && !nextSegment.notify300)
+                    {
+                        console.log("300");
+                        nextSegment.notify300 = true;
+                        notifyLength = 300;
+                    }
+                    else if (currentSegment.length < 800 && !nextSegment.notify800)
+                    {
+                        console.log("800");
+                        nextSegment.notify800 = true;
+                        notifyLength = 800;
+                    }
 
-                        if (notifyLength > 0)
-                        {
-                            console.log("calling speak");
-                            voiceInstructor.speakScenario(notifyLength, currentSegment.instruction.opcode, currentSegment.instruction.arg);
-                        }
+                    if (notifyLength > 0)
+                    {
+                        console.log("calling speak");
+                        voiceInstructor.speakScenario(notifyLength, currentSegment.instruction.opcode, currentSegment.instruction.arg);
                     }
                 }
             }

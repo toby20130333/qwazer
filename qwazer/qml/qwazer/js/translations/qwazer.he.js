@@ -1,7 +1,7 @@
 var _translation_he={};
 
 function get_translation_he() {
-	return _translation_he;
+    return _translation_he;
 }
 
 _translation_he["Address%1"]="כתובת%1";
