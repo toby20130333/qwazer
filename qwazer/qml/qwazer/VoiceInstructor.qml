@@ -4,18 +4,17 @@ Item {
 
     function speakScenario(distance, opcode, arg)
     {
-        playWords.running = false;
+        playWords.stop();
         wordsListModel.clear();
 
         var transcript = translator.getTranscriptFromScenario(distance, opcode, arg);
         for (var index = 0; index < transcript.length; index++)
         {
             console.log("appending: " + "sounds/en/" + transcript[index] + ".ogg");
-            wordsListModel.append({sndFile: "sounds/en/" + transcript[index] + ".ogg"});
-//            wordsListModel.append({sndFile: "sounds/" + settings.language.id + "/" + transcript[index] + ".ogg"});
+            wordsListModel.append({sndFile: "sounds/" + settings.language.langId + "/" + transcript[index] + ".ogg"});
         }
 
-        playWords.running = true;
+        playWords.start();
     }
 
     ListModel {
@@ -30,10 +29,12 @@ Item {
         onTriggered: {
             if (wordsListModel.count > 0)
             {
+                playWords.stop();
                 console.log("playing " + wordsListModel.get(0).sndFile);
                 audioPlayback.source = wordsListModel.get(0).sndFile;
                 wordsListModel.remove(0);
                 audioPlayback.play();
+                playWords.start();
             }
             else
             {
