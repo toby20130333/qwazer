@@ -4,7 +4,6 @@ Item {
 
     function speakScenario(distance, opcode, arg)
     {
-        playWords.stop();
         wordsListModel.clear();
 
         var transcript = translator.getTranscriptFromScenario(distance, opcode, arg);
@@ -14,33 +13,23 @@ Item {
             wordsListModel.append({sndFile: "sounds/" + settings.language.langId + "/" + transcript[index] + ".ogg"});
         }
 
-        playWords.start();
+        audioPlayback.stopped();
     }
 
-    ListModel {
-        id: wordsListModel
-    }
-
-    Timer {
-        id: playWords
-        interval: 200
-        repeat: false
-        triggeredOnStart: true
-        onTriggered: {
+    Connections {
+        target: audioPlayback
+        onStopped: {
             if (wordsListModel.count > 0)
             {
-                playWords.stop();
                 console.log("playing " + wordsListModel.get(0).sndFile);
                 audioPlayback.source = wordsListModel.get(0).sndFile;
                 wordsListModel.remove(0);
                 audioPlayback.play();
-                playWords.start();
-            }
-            else
-            {
-                console.log("calling stop");
-                playWords.stop();
             }
         }
+    }
+
+    ListModel {
+        id: wordsListModel
     }
 }
