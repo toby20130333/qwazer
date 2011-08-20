@@ -43,3 +43,40 @@ function translate(key) {
 
     return value;
 }
+
+function getTranscriptFromScenario(distance, opcode, arg)
+{
+    var transcript = [];
+
+    if (distance > 0)
+    {
+        transcript.push("in" + distance + "m");
+    }
+
+    if (opcode.indexOf("ROUNDABOUT") === 0)
+    {
+        if (opcode=="ROUNDABOUT_ENTER")
+        {
+            transcript.push("ROUNDABOUT");
+            transcript.push("TAKE_THE");
+            transcript.push(arg);
+            transcript.push("EXIT");
+        }
+        else if (opcode=="ROUNDABOUT_RIGHT")
+        {
+            transcript.push("ROUNDABOUT");
+            transcript.push("TURN_RIGHT");
+        }
+        else if (opcode=="ROUNDABOUT_LEFT")
+        {
+            transcript.push("ROUNDABOUT");
+            transcript.push("TURN_LEFT");
+        }
+    }
+    else
+    {
+        transcript.push(opcode);
+    }
+
+    return transcript;
+}

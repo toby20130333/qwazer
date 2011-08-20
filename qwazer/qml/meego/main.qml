@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import com.meego 1.0
+import QtMultimediaKit 1.1
 import "../qwazer"
 import "../qwazer/js/Images.js" as Images
 
@@ -16,6 +17,11 @@ PageStackWindow {
 
     GPSProvider {
         id: gps
+    }
+
+    Audio {
+        id: audioPlayback
+        onError: console.log(errorString)
     }
 
     QwazerSettings {

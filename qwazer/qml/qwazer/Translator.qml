@@ -42,4 +42,7 @@ QtObject {
         return value;
     }
 
+    function getTranscriptFromScenario(distance, opcode, arg) {
+        return Translator.getTranscriptFromScenario(distance, opcode, arg);
+    }
 }
