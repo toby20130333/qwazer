@@ -354,12 +354,6 @@ Rectangle {
             PropertyChanges {
                 target: mapView
                 onCurrentGpsLocationChanged: {
-                    if (navigationSegments.count > 0)
-                    {
-                        var nextSegment = navigationSegments.get(1);
-                        currentSegment.length = nextSegment.length + Logic.computeDistance(currentGpsLocation, nextSegment.path);
-                    }
-
                     webViewRotation.angle = (!settings.navigationNorthLocked)? computeMapAngle() : 0;
 
                     var notifyLength = -1;
