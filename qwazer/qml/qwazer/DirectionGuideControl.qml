@@ -148,8 +148,13 @@ Rectangle {
             }
 
             PropertyChanges {
+                target: circle
+                visible: true
+            }
+
+            PropertyChanges {
                 target: instructionImage
-                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + translator.forceTranslate
+                text: translator.translate("Roundabout Exit At %1", instructionArg) + translator.forceTranslate
             }
         },
         State {
@@ -161,8 +166,13 @@ Rectangle {
             }
 
             PropertyChanges {
+                target: circle
+                visible: true
+            }
+
+            PropertyChanges {
                 target: instructionImage
-                text: translator.translate("Roundabout Exit At %1", instructionArg.text) + translator.forceTranslate
+                text: translator.translate("Roundabout Exit At %1", instructionArg) + translator.forceTranslate
             }
         },
         State {
@@ -170,6 +180,11 @@ Rectangle {
             PropertyChanges {
                 target: arrow
                 rotation: 90
+                visible: true
+            }
+
+            PropertyChanges {
+                target: circle
                 visible: true
             }
 
@@ -187,6 +202,11 @@ Rectangle {
             }
 
             PropertyChanges {
+                target: circle
+                visible: true
+            }
+
+            PropertyChanges {
                 target: instructionImage
                 text: translator.translate("Right At Roundabout") + translator.forceTranslate
             }
@@ -197,6 +217,11 @@ Rectangle {
                 target: arrow
                 visible: true
                 rotation: 270
+            }
+
+            PropertyChanges {
+                target: circle
+                visible: true
             }
 
             PropertyChanges {
@@ -213,6 +238,11 @@ Rectangle {
             }
 
             PropertyChanges {
+                target: circle
+                visible: true
+            }
+
+            PropertyChanges {
                 target: instructionImage
                 text: translator.translate("Left At Roundabout") + translator.forceTranslate
             }
@@ -225,6 +255,11 @@ Rectangle {
             }
 
             PropertyChanges {
+                target: circle
+                visible: true
+            }
+
+            PropertyChanges {
                 target: instructionImage
                 text: translator.translate("Stright At Roundabout") + translator.forceTranslate
             }
@@ -233,6 +268,11 @@ Rectangle {
             name: "ROUNDABOUT_EXIT_STRAIGHT"
             PropertyChanges {
                 target: arrow
+                visible: true
+            }
+
+            PropertyChanges {
+                target: circle
                 visible: true
             }
 

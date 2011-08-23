@@ -75,8 +75,7 @@ Rectangle {
         }
 
         Logic.navigate(course.coords);
-        mapView.currentSegment = navigationSegments.get(0);
-        mapView.nextSegment = findNextSegment();
+        mapView.navigationSegments.countChanged();
     }
 
     function findNextSegment() {

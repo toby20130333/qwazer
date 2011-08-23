@@ -4,8 +4,8 @@ Rectangle {
     id: instructionsControl
 
     property int length
-    property alias instructionArg: directionGuideControl.instructionArg
-    property alias instructionOpcode: directionGuideControl.instructionOpcode
+    property int instructionArg
+    property string instructionOpcode
     property string streetName
 
     border.color: "black"
@@ -17,6 +17,8 @@ Rectangle {
         id: directionGuideControl
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: sectionLengthText.top
+        instructionOpcode: instructionsControl.instructionOpcode
+        instructionArg: instructionsControl.instructionArg
     }
 
     Text {
