@@ -1,5 +1,10 @@
-qwazer (0.0.7) unstable; urgency=low
+qwazer (0.0.8) unstable; urgency=low
 
-  * Initial Release - aligned with Maemo version v0.0.7.
+  * Several fixes to UI
+  * Voice instructions
+  * Full screen instructions
+  * Next turns
+  * Screen can stay lit when navigating
+  * North can be locked when navigating
 
- -- Assaf Paz <damagedspline@gmail.com>  Mon, 11 Jul 2011 20:47:50 +0300
+ -- Assaf Paz <damagedspline@gmail.com>  Tue, 23 Aug 2011 22:20:00 +0300

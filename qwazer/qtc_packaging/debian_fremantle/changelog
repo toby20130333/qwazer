@@ -1,8 +1,9 @@
-qwazer (0.0.7) unstable; urgency=low
+qwazer (0.0.8) unstable; urgency=low
 
-  * New UI (toolbar, notifications, busy screens...)
-  * New icons
-  * Favorite locations
-  * Redesigned for future Meego code reuse
+  * Several fixes to UI
+  * Voice instructions
+  * Full screen instructions
+  * Next turns
+  * North can be locked when navigating
 
- -- Assaf Paz <damagedspline@gmail.com>  Fri, 5 Aug 2011 6:53:00 +0300
+ -- Assaf Paz <damagedspline@gmail.com>  Tue, 23 Aug 2011 22:20:00 +0300
