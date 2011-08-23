@@ -57,9 +57,22 @@ Page {
                     delegate: Rectangle {
                         id: row
                         border.color: "black"
+                        border.width: 2
                         radius: 10
                         width: col.width
                         height: col.height
+
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0.0
+                                color: "gray"
+                            }
+                            GradientStop {
+                                position: 1.0
+                                color: "lightGray"
+                            }
+                        }
+
                         Column {
                             id: col
                             anchors.margins: 10
