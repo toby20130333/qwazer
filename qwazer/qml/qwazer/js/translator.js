@@ -87,6 +87,10 @@ function getTranscriptFromScenario(distance, opcode, arg)
                 transcript.push("TURN_LEFT");
             }
         }
+        else if (opcode == "APPROACHING_DESTINATION")
+        {
+            transcript = transcript.concat(["DESTINATION"], transcript);
+        }
         else
         {
             transcript.push(opcode);
