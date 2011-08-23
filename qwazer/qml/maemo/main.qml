@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import "../qwazer"
 import "../qwazer/search_qml"
+import QtMultimediaKit 1.1
 
 Rectangle {
     id: mainView
@@ -24,6 +25,11 @@ Rectangle {
     Component.onCompleted: {
         settingsLoadPage.visible = true;
         settings.initialize();
+    }
+
+    Audio {
+        id: audioPlayback
+        onError: console.log(errorString)
     }
 
     GPSProvider {
