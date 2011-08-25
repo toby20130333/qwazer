@@ -5,6 +5,8 @@ import "../qwazer/js/Images.js" as Images
 Page {
     id: settingsPage
 
+    orientationLock: PageOrientation.LockLandscape
+
     tools: ToolBarLayout {
         ButtonRow {
             anchors.right: parent.right

@@ -6,6 +6,9 @@ import "../qwazer/js/Images.js" as Images
 
 Page {
     id:searchAddressPage
+
+    orientationLock: PageOrientation.LockLandscape
+
     width: 800
     height: 400
 

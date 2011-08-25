@@ -4,6 +4,9 @@ import "../qwazer/js/Images.js" as Images
 
 Page {
     id: settingsLoadPage
+
+    orientationLock: PageOrientation.LockLandscape
+
     anchors.fill: parent
 
     property alias text: loadStatus.text

@@ -3,6 +3,9 @@ import com.meego 1.0
 
 Page {
     id: pathSelectionPage
+
+    orientationLock: PageOrientation.LockLandscape
+
     tools: commonBackButtonToolbar
 
     Label {

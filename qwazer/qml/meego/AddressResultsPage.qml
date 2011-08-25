@@ -5,6 +5,8 @@ import "../qwazer"
 Page {
     id: addressResults
 
+    orientationLock: PageOrientation.LockLandscape
+
     tools: commonBackButtonToolbar
 
     Label {
