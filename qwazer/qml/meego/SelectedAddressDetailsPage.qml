@@ -6,6 +6,8 @@ import "../qwazer/js/Images.js" as Images
 Page {
     id: selectedAddress
 
+    orientationLock: PageOrientation.LockLandscape
+
     property variant addressDetails
 
     CourseResultsListModel {
