@@ -2,7 +2,7 @@
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">1</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -256,13 +256,16 @@
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_8_armel.deb</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts" type="QVariantList">
        <value type="QString">10.0.0.9</value>
        <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.18</value>
+       <value type="QString">10.0.0.9</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
+       <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
@@ -271,6 +274,7 @@
        <value type="QDateTime">2011-08-23T21:59:41</value>
        <value type="QDateTime">2011-08-17T20:22:19</value>
        <value type="QDateTime">2011-08-13T17:53:11</value>
+       <value type="QDateTime">2011-08-23T23:02:50</value>
       </valuelist>
      </valuemap>
      <value key="ProjectExplorer.BuildStepList.StepsCount" type="int">2</value>
@@ -451,6 +455,7 @@
       <value key="Qt4ProjectManager.MaemoRunConfiguration.DeviceId" type="qulonglong">1</value>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles" type="QVariantList">
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_7_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_8_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-maemo/qwazer_0_0_6_armel.deb</value>
       </valuelist>
@@ -458,14 +463,17 @@
        <value type="QString">10.0.0.1</value>
        <value type="QString">10.0.0.8</value>
        <value type="QString">10.0.0.8</value>
+       <value type="QString">10.0.0.8</value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths" type="QVariantList">
+       <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
       </valuelist>
       <valuelist key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes" type="QVariantList">
        <value type="QDateTime">2011-07-21T20:54:25</value>
+       <value type="QDateTime">2011-08-23T23:00:36</value>
        <value type="QDateTime">2011-08-23T22:08:34</value>
        <value type="QDateTime">2011-08-05T18:55:28</value>
       </valuelist>
