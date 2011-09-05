@@ -356,23 +356,29 @@ Rectangle {
                     webViewRotation.angle = (!settings.navigationNorthLocked && isFollowMe)? computeMapAngle() : 0;
 
                     var notifyLength = -1;
-                    if (mapView.currentSegment.length < 30 && !mapView.nextSegment.notify30)
+                    if (mapView.currentSegment.length < 20 && !mapView.nextSegment.notify20)
                     {
-                        console.log("30");
-                        mapView.nextSegment.notify30 = true;
+                        console.log("20");
+                        mapView.nextSegment.notify20 = true;
                         notifyLength = 0;
                     }
-                    else if (200 < mapView.currentSegment.length && mapView.currentSegment.length < 400 && !mapView.nextSegment.notify300)
+                    else if (250 < mapView.currentSegment.length && mapView.currentSegment.length < 350 && !mapView.nextSegment.notify300)
                     {
                         console.log("300");
                         mapView.nextSegment.notify300 = true;
                         notifyLength = 300;
                     }
-                    else if (600 < mapView.currentSegment.length && mapView.currentSegment.length < 1000 && !mapView.nextSegment.notify800)
+                    else if (700 < mapView.currentSegment.length && mapView.currentSegment.length < 900 && !mapView.nextSegment.notify800)
                     {
                         console.log("800");
                         mapView.nextSegment.notify800 = true;
                         notifyLength = 800;
+                    }
+                    else if (1900 < mapView.currentSegment.length && mapView.currentSegment.length < 2100 && !mapView.nextSegment.notify2000)
+                    {
+                        console.log("2000");
+                        mapView.nextSegment.notify2000 = true;
+                        notifyLength = 2000;
                     }
 
                     if (notifyLength > -1)
