@@ -23,6 +23,7 @@ Rectangle {
         height: diameter
         fillMode: Image.PreserveAspectFit
         smooth: true
+        visible: false
         source: "images/circle.png"
     }
 
@@ -33,32 +34,42 @@ Rectangle {
         height: diameter
         fillMode: Image.PreserveAspectFit
         smooth: true
-        visible: true
+        visible: false
         source: "images/arrow.png"
+    }
+
+    Image {
+        id: finish
+        anchors.centerIn: parent
+        width: diameter
+        height: diameter
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+        visible: false
+        source: "images/finish.png"
     }
 
     Text {
         id: instructionArgText
         text: instructionArg
-        visible: instructionArg !== 0;
+        visible: instructionArg !== 0
         font.bold: true
         font.pointSize: 21
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.centerIn: parent
+        scale: diameter/(3*font.pointSize)
+        z:1
     }
 
     states: [
         State {
             name: "TURN_LEFT"
-
-            PropertyChanges {
-                target: circle
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: arrow
+                visible: true
                 rotation: 270
             }
 
@@ -69,15 +80,12 @@ Rectangle {
         },
         State {
             name: "TURN_RIGHT"
-
-            PropertyChanges {
-                target: circle
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: arrow
                 rotation: 90
+                visible: true
             }
 
             PropertyChanges {
@@ -87,15 +95,11 @@ Rectangle {
         },
         State {
             name: "CONTINUE"
+            extend: ""
 
             PropertyChanges {
                 target: arrow
                 visible: true
-            }
-
-            PropertyChanges {
-                target: circle
-                visible: false
             }
 
             PropertyChanges {
@@ -105,14 +109,11 @@ Rectangle {
         },
         State {
             name: "KEEP_RIGHT"
-
-            PropertyChanges {
-                target: circle
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: arrow
+                visible: true
                 rotation: 135
             }
 
@@ -123,14 +124,11 @@ Rectangle {
         },
         State {
             name: "KEEP_LEFT"
-
-            PropertyChanges {
-                target: circle
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: arrow
+                visible: true
                 rotation: 225
             }
 
@@ -141,11 +139,7 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_ENTER"
-
-            PropertyChanges {
-                target: arrow
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: circle
@@ -159,11 +153,7 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_EXIT"
-
-            PropertyChanges {
-                target: arrow
-                visible: false
-            }
+            extend: ""
 
             PropertyChanges {
                 target: circle
@@ -177,6 +167,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_RIGHT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 rotation: 90
@@ -195,6 +187,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_EXIT_RIGHT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 rotation: 90
@@ -213,6 +207,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_LEFT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 visible: true
@@ -231,6 +227,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_EXIT_LEFT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 visible: true
@@ -249,6 +247,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_STRAIGHT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 visible: true
@@ -266,6 +266,8 @@ Rectangle {
         },
         State {
             name: "ROUNDABOUT_EXIT_STRAIGHT"
+            extend: ""
+
             PropertyChanges {
                 target: arrow
                 visible: true
@@ -283,9 +285,11 @@ Rectangle {
         },
         State {
             name: "APPROACHING_DESTINATION"
+            extend: ""
+
             PropertyChanges {
-                target: instructionArgText
-                text: "TODO"
+                target: finish
+                visible: true
             }
 
             PropertyChanges {

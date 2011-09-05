@@ -111,11 +111,11 @@
                     alert("done");
 
                     alert("adding icons");
-                    var from_icon=new OpenLayers.Icon(url=window.savedMapData.ws_url+"/images/from.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var from_icon=new OpenLayers.Icon(url="../images/start.png",size=new OpenLayers.Size(32,32),offset=new OpenLayers.Pixel(-30,-30));
                     var from_lon_lat=getNormalizedLonLat(lon=route.components[0].x,lat=route.components[0].y);
                     var from_marker=new OpenLayers.Marker(from_lon_lat,from_icon);
                     map.markersLayer.addMarker(from_marker);
-                    var to_icon=new OpenLayers.Icon(url=window.savedMapData.ws_url+"/images/to.png",size=new OpenLayers.Size(21,19),offset=new OpenLayers.Pixel(-2,-17));
+                    var to_icon=new OpenLayers.Icon(url="../images/finish.png",size=new OpenLayers.Size(32,32),offset=new OpenLayers.Pixel(-30,-30));
                     var to_lon_lat=getNormalizedLonLat(lon=route.components[route.components.length-1].x,lat=route.components[route.components.length-1].y);
                     var to_marker=new OpenLayers.Marker(to_lon_lat,to_icon);
                     map.markersLayer.addMarker(to_marker);
