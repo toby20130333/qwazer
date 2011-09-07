@@ -237,6 +237,9 @@ Rectangle {
                 property string ws_url
 
                 property int zoom
+
+                property int minZoom: 1
+                property int maxZoom: 0
             }
         ]
 
@@ -253,21 +256,17 @@ Rectangle {
         spacing: 75
         width: 50
 
-        ListItem {
+        ZoomButton {
             text: "+"
-            onClicked: mapView.zoomIn()
-            radius: height
-            width: height
-            smooth: true
+            onZoom: mapView.zoomIn()
+            clickable: settings.zoom < savedMapData.maxZoom
         }
 
 
-        ListItem {
+        ZoomButton {
             text: "-"
-            onClicked: mapView.zoomOut()
-            radius: height
-            width: height
-            smooth: true
+            onZoom: mapView.zoomOut()
+            clickable: settings.zoom > savedMapData.minZoom
         }
     }
 

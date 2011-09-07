@@ -7,8 +7,7 @@ function zoomIn() {
 }
 
 function zoomInToMax() {
-    var maxZoom = web_view1.evaluateJavaScript("g_waze_map.map.getNumZoomLevels();");
-    web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+maxZoom+");");
+    web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+savedMapData.maxZoom+");");
     settings.zoom = maxZoom;
 }
 

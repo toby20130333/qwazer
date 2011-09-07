@@ -46,6 +46,8 @@
                    map.addLayer(map.markersLayer);
                    var myLocLayer = new OpenLayers.Layer.Markers("MyLocation");
                    map.addLayer(myLocLayer);
+
+                   window.savedMapData.maxZoom = g_waze_map.map.getNumZoomLevels();
                 }
 
                 g_waze_config = {
