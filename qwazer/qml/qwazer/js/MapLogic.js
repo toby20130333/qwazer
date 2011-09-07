@@ -8,7 +8,7 @@ function zoomIn() {
 
 function zoomInToMax() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+savedMapData.maxZoom+");");
-    settings.zoom = maxZoom;
+    settings.zoom = savedMapData.maxZoom;
 }
 
 function zoomOut() {
