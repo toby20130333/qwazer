@@ -164,6 +164,10 @@ Page {
                 onClicked: settings.countryName = text
             }
             MenuItem {
+                text: "US & Canada"
+                onClicked: settings.countryName = text
+            }
+            MenuItem {
                 text: "Israel"
                 onClicked: settings.countryName = text
             }
