@@ -115,7 +115,15 @@ Item {
 
         ListElement {
             name: "World"
-            locale: ""
+            locale: "world"
+            lon: 2.29449
+            lat: 48.85825
+            map_url: "http://world.waze.com/wms-c"
+            ws_url: "http://world.waze.com"
+        }
+        ListElement {
+            name: "US & Canada"
+            locale: "us"
             lon: -73.96731
             lat: 40.78196
             map_url: "http://www.waze.com/wms-c"
