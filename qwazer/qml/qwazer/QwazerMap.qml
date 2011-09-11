@@ -73,9 +73,14 @@ Rectangle {
 
             navigationSegments.setProperty(segmentIndex, "length", length);
         }
-
+        console.log("navigate");
         Logic.navigate(course.coords);
-        mapView.navigationSegments.countChanged();
+        segmentCountChanged();
+    }
+
+    function segmentCountChanged() {
+        mapView.currentSegment = navigationSegments.get(0);
+        mapView.nextSegment = findNextSegment();
     }
 
     function findNextSegment() {
@@ -344,10 +349,7 @@ Rectangle {
             }
             PropertyChanges {
                 target: navigationSegments
-                onCountChanged:  {
-                    mapView.currentSegment = navigationSegments.get(0);
-                    mapView.nextSegment = findNextSegment();
-                }
+                onCountChanged:  segmentCountChanged()
             }
             PropertyChanges {
                 target: mapView
