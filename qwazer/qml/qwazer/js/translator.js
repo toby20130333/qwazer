@@ -86,6 +86,11 @@ function getTranscriptFromScenario(distance, opcode, arg)
                 transcript.push("ROUNDABOUT");
                 transcript.push("TURN_LEFT");
             }
+            else if (opcode=="ROUNDABOUT_EXIT_STRAIGHT")
+            {
+                transcript.push("ROUNDABOUT");
+                transcript.push("KEEP_AHEAD");
+            }
         }
         else if (opcode == "APPROACHING_DESTINATION")
         {
