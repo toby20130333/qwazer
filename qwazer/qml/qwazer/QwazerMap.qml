@@ -64,7 +64,8 @@ Rectangle {
             var length = 0;
 
             if (currentSegment.segmentId == nextSegment.segmentId ||
-                currentSegment.instruction.opcode == "CONTINUE")
+                currentSegment.instruction.opcode == "CONTINUE" ||
+                (currentSegment.instruction.opcode.indexOf("ROUNDABOUT_") === 0 && currentSegment.instruction.opcode.indexOf("_EXIT") === -1))
             {
                 length = nextSegment.length + Logic.computeDistance(currentSegment.path, nextSegment.path);
             } else {
@@ -357,25 +358,32 @@ Rectangle {
                     webViewRotation.angle = (!settings.navigationNorthLocked && isFollowMe)? computeMapAngle() : 0;
 
                     var notifyLength = -1;
-                    if (mapView.currentSegment.length < 20 && !mapView.nextSegment.notify20)
+                    var remainingSegmentLength = mapView.currentSegment.length;
+
+                    if (mapView.currentSegment.segmentId != mapView.nextSegment.segmentId)
+                    {
+                        return;
+                    }
+
+                    if (!mapView.nextSegment.notify20 && remainingSegmentLength < 20)
                     {
                         console.log("20");
                         mapView.nextSegment.notify20 = true;
                         notifyLength = 0;
                     }
-                    else if (250 < mapView.currentSegment.length && mapView.currentSegment.length < 350 && !mapView.nextSegment.notify300)
+                    else if (250 < remainingSegmentLength && remainingSegmentLength < 350 && !mapView.nextSegment.notify300)
                     {
                         console.log("300");
                         mapView.nextSegment.notify300 = true;
                         notifyLength = 300;
                     }
-                    else if (700 < mapView.currentSegment.length && mapView.currentSegment.length < 900 && !mapView.nextSegment.notify800)
+                    else if (700 < remainingSegmentLength && remainingSegmentLength < 900 && !mapView.nextSegment.notify800)
                     {
                         console.log("800");
                         mapView.nextSegment.notify800 = true;
                         notifyLength = 800;
                     }
-                    else if (1900 < mapView.currentSegment.length && mapView.currentSegment.length < 2100 && !mapView.nextSegment.notify2000)
+                    else if (1900 < remainingSegmentLength && remainingSegmentLength < 2100 && !mapView.nextSegment.notify2000)
                     {
                         console.log("2000");
                         mapView.nextSegment.notify2000 = true;
@@ -384,7 +392,7 @@ Rectangle {
 
                     if (notifyLength > -1)
                     {
-                        console.log("calling speak");
+                        console.log("calling speak : " + mapView.nextSegment.instruction.opcode + "#" + mapView.nextSegment.instruction.arg);
                         voiceInstructor.speakScenario(notifyLength, mapView.nextSegment.instruction.opcode, mapView.nextSegment.instruction.arg);
                     }
                 }
