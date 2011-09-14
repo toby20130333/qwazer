@@ -60,7 +60,7 @@ function getTranscriptFromScenario(distance, opcode, arg)
 
         if (opcode.indexOf("ROUNDABOUT") === 0)
         {
-            if (opcode=="ROUNDABOUT_ENTER")
+            if (opcode=="ROUNDABOUT_EXIT")
             {
                 if (_langId == "en")
                 {
@@ -76,12 +76,12 @@ function getTranscriptFromScenario(distance, opcode, arg)
                     transcript.push(arg);
                 }
             }
-            else if (opcode=="ROUNDABOUT_RIGHT")
+            else if (opcode=="ROUNDABOUT_EXIT_RIGHT")
             {
                 transcript.push("ROUNDABOUT");
                 transcript.push("TURN_RIGHT");
             }
-            else if (opcode=="ROUNDABOUT_LEFT")
+            else if (opcode=="ROUNDABOUT_EXIT_LEFT")
             {
                 transcript.push("ROUNDABOUT");
                 transcript.push("TURN_LEFT");
