@@ -7,6 +7,27 @@ Rectangle {
 
     property alias model: directionGuideListView.model
 
+    function shouldBeVisible(index, segmentId, instruction)
+    {
+        var isVisible = true;
+
+        if (instruction.opcode == "CONTINUE" && index > 0)
+        {
+            isVisible = directionGuideListView.model.get(index-1).instruction.opcode !== "CONTINUE" &&
+                    ( index == directionGuideListView.model.count - 1 || directionGuideListView.model.get(index+1).length > 300 );
+        }
+        else if (instruction.opcode.search(/ROUNDABOUT_EXIT/) === 0 && index === 1)
+        {
+            isVisible = false;
+        }
+        else
+        {
+            isVisible = index < 1 || directionGuideListView.model.get(index-1).segmentId !== segmentId;
+        }
+
+        return isVisible;
+    }
+
     ListView {
         id: directionGuideListView
         anchors.fill: parent
@@ -15,9 +36,7 @@ Rectangle {
         delegate: DirectionGuideControl {
             id: directionItem
             width: (directionItem.visible)? directionItem.diameter : 0
-            visible: (instruction.opcode == "CONTINUE" && index > 0)?
-                        directionGuideListView.model.get(index-1).instruction.opcode !== "CONTINUE" :
-                        index < 1 || directionGuideListView.model.get(index-1).segmentId !== directionGuideListView.model.get(index).segmentId
+            visible: shouldBeVisible(index, segmentId, instruction)
             instructionArg: instruction.arg
             instructionOpcode: instruction.opcode
             color: (directionItem.ListView.isCurrentItem)? "#00b7ff" : "#00000000"
