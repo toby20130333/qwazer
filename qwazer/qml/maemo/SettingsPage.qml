@@ -100,7 +100,7 @@ Page {
 
             Text {
                 id: navigationSettingsLabel
-                text: translator.translate("Navigation settings%1", ":") + translator.forceTranslate
+                text: translator.translate("Navigation Settings%1", ":") + translator.forceTranslate
                 font.underline: true
             }
 
@@ -136,14 +136,14 @@ Page {
                     onCheckedChanged: settings.navigationShowNextTurns = checked
                 }
 
-//                Text {
-//                    text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
-//                }
+                Text {
+                    text: translator.translate("Screen stays lit%1", ":") + translator.forceTranslate
+                }
 
-//                Switch {
-//                    checked: settings.navigationScreenStaysLit
-//                    onCheckedChanged: settings.navigationScreenStaysLit = checked
-//                }
+                Switch {
+                    checked: settings.navigationScreenStaysLit
+                    onCheckedChanged: settings.navigationScreenStaysLit = checked
+                }
             }
         }
     }
