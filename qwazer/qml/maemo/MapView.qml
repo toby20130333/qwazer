@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import QtMobility.systeminfo 1.1
 import "../qwazer"
 import "../qwazer/js/Images.js" as Images
 
@@ -13,6 +14,8 @@ Page {
     signal searchButtonClicked
 
     property alias isGPSDataValid :  mainPageLogic.isGPSDataValid
+    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
+    onNavigationScreenStaysLitChanged: updateScreenSaverStatus()
 
     function initialize()
     {
@@ -31,6 +34,10 @@ Page {
     function stopNavigation() {
         map.stopNavigation();
         mainPageLogic.state = "Browse";
+    }
+
+    function updateScreenSaverStatus() {
+        screenSaver.setScreenSaverInhibit((mainPageLogic.state == "Navigation")? settings.navigationScreenStaysLit : false);
     }
 
     content: VisualItemModel {
@@ -117,6 +124,10 @@ Page {
                 onClicked: map.showMe(true, true)
             }
         }
+    }
+
+    ScreenSaver {
+        id: screenSaver
     }
 
     MainPageLogic {

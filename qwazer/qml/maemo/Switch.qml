@@ -3,11 +3,12 @@ import QtQuick 1.0
 Rectangle {
     id: toggleButton
     width: 130
-    height: 50
+    height: 40
     radius: Math.floor(height/2)
     color: "#00000000"
 
     property bool checked: false
+    property int endLocation: width - height - 2
 
     function toggle() {
         if (toggleButton.state == "on")
@@ -20,7 +21,7 @@ Rectangle {
         if (selector.x == 5) {
             if (toggleButton.state == "off") return;
         }
-        if (selector.x == 78) {
+        if (selector.x == endLocation) {
             if (toggleButton.state == "on") return;
         }
         toggle();
@@ -63,7 +64,7 @@ Rectangle {
         anchors.fill: parent
         drag.target: selector;
         drag.minimumX: 5;
-        drag.maximumX: 78
+        drag.maximumX: endLocation
         onClicked: toggle()
         onReleased: releaseSwitch()
     }
@@ -105,7 +106,7 @@ Rectangle {
         State {
             name: "on"
             when: checked
-            PropertyChanges { target: selector; x: 78 }
+            PropertyChanges { target: selector; x: endLocation }
             PropertyChanges { target: toggleButton; checked: true }
             PropertyChanges { target: midArea; color: "#2e7dea" }
             PropertyChanges { target: leftEnder; color: "#2e7dea" }
