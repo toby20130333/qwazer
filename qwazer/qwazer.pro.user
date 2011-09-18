@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.3.0, 2011-09-17T18:44:23. -->
+<!-- Written by Qt Creator 2.3.0, 2011-09-18T22:47:35. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">1</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -305,6 +305,7 @@
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
@@ -314,6 +315,7 @@
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
        <value type="QString">10.0.0.9</value>
+       <value type="QString">10.0.0.4</value>
        <value type="QString">10.0.0.5</value>
        <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.18</value>
@@ -331,9 +333,11 @@
        <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
+       <value type="QString"></value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
        <value type="QDateTime">2011-08-23T21:59:41</value>
+       <value type="QDateTime">2011-09-18T22:46:15</value>
        <value type="QDateTime">2011-09-14T22:57:15</value>
        <value type="QDateTime">2011-08-17T20:22:19</value>
        <value type="QDateTime">2011-08-13T17:53:11</value>

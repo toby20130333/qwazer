@@ -11,6 +11,8 @@ Page {
 
     property alias isGPSDataValid :  mainPageStates.isGPSDataValid
     property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
+
+    property bool firstLoad: true
     onNavigationScreenStaysLitChanged: updateScreenSaverStatus()
 
     function initialize() {
@@ -109,7 +111,13 @@ Page {
         anchors.fill: mainPage
 
         isFollowMe: followMeButton.isSelected
-        onMapLoaded: appWindow.pageStack.replace(mainPage)
+        onMapLoaded: {
+            if (firstLoad)
+            {
+                appWindow.pageStack.replace(mainPage);
+                firstLoad = false;
+            }
+        }
     }
 
     Notification {

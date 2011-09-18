@@ -3,7 +3,7 @@ var ERROR_MARGIN = 0.0005;
 
 function zoomIn() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomIn();");
-    settings.zoom = settings.zoom + 1;
+    settings.zoom = (savedMapData.maxZoom > settings.zoom)? settings.zoom + 1 : savedMapData.maxZoom;
 }
 
 function zoomInToMax() {
@@ -13,7 +13,7 @@ function zoomInToMax() {
 
 function zoomOut() {
     web_view1.evaluateJavaScript("g_waze_map.map.zoomOut();");
-    settings.zoom = settings.zoom - 1;
+    settings.zoom = (savedMapData.minZoom < settings.zoom)? settings.zoom - 1 : savedMapData.minZoom;
 }
 
 function getCurrentExtent() {

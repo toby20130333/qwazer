@@ -19,6 +19,11 @@ Rectangle {
 
     property bool isFollowMe: false
 
+    Connections {
+        target: settings
+        onMapRefreshRequired: reload()
+    }
+
     function navigate(course) {
 
         var coordIndex = 0;
@@ -118,6 +123,7 @@ Rectangle {
         savedMapData.locale = settings.country.locale;
         savedMapData.map_url = settings.country.map_url;
         savedMapData.ws_url = settings.country.ws_url;
+        //savedMapData.maxZoom = settings.country.maxZoom;
         savedMapData.zoom = settings.zoom;
 
         web_view1.url = 'html/waze.html';
@@ -193,10 +199,10 @@ Rectangle {
     WebView {
         id: web_view1
 
-        width: Math.max(parent.width, parent.height) + Math.abs(parent.width - parent.height)/2
-        height: Math.max(parent.width, parent.height) + Math.abs(parent.width - parent.height)/2
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
+        width: Math.max(mapView.width, mapView.height) + Math.abs(mapView.width - mapView.height)/2
+        height: Math.max(mapView.width, mapView.height) + Math.abs(mapView.width - mapView.height)/2
+        anchors.verticalCenter: mapView.verticalCenter
+        anchors.horizontalCenter: mapView.horizontalCenter
 
         pressGrabTime: 0
         settings.offlineWebApplicationCacheEnabled: true
