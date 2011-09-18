@@ -120,6 +120,7 @@ Item {
             lat: 48.85825
             map_url: "http://world.waze.com/wms-c"
             ws_url: "http://world.waze.com"
+            maxZoom: 9
         }
         ListElement {
             name: "US & Canada"
@@ -128,6 +129,7 @@ Item {
             lat: 40.78196
             map_url: "http://www.waze.com/wms-c"
             ws_url: "http://www.waze.com"
+            maxZoom: 15
         }
         ListElement {
             name: "Israel"
@@ -136,6 +138,7 @@ Item {
             lat: 32.08662
             map_url: "http://ymap1.waze.co.il/wms-c"
             ws_url: "http://www.waze.co.il"
+            maxZoom: 9
         }
     }
 
