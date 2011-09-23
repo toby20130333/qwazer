@@ -10,9 +10,9 @@ Page {
     orientationLock: PageOrientation.LockLandscape
 
     property alias isGPSDataValid :  mainPageStates.isGPSDataValid
-    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
-
     property bool firstLoad: true
+
+    property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
     onNavigationScreenStaysLitChanged: updateScreenSaverStatus()
 
     function initialize() {

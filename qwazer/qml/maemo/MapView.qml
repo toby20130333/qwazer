@@ -14,6 +14,8 @@ Page {
     signal searchButtonClicked
 
     property alias isGPSDataValid :  mainPageLogic.isGPSDataValid
+    property bool firstLoad: true
+
     property bool navigationScreenStaysLit: settings.navigationScreenStaysLit
     onNavigationScreenStaysLitChanged: updateScreenSaverStatus()
 
@@ -50,7 +52,13 @@ Page {
                 anchors.fill: parent
                 state: mainPageLogic.state
                 isFollowMe: followMeButton.isSelected
-                onMapLoaded: mainPage.mapLoaded()
+                onMapLoaded: {
+                    if (mainPage.firstLoad)
+                    {
+                        mainPage.firstLoad = false;
+                        mainPage.mapLoaded();
+                    }
+                }
 
                 Notification {
                     text: translator.translate("Bad GPS Reception") + translator.forceTranslate

@@ -75,19 +75,10 @@ Item {
     // {lon: ..., lat:...}
     property variant lastKnownPosition
 
-
-    property string languageName
-    onLanguageNameChanged: {
-        if (language === undefined || language.name != languageName) language = findItem(languagesModel, {name: languageName}, "name")
-    }
-    // {name:..., langId:..., rtl:...}
+    property string languageName : languagesModel.get(0).name
     property variant language : languagesModel.get(0)
 
-    property string countryName
-    onCountryNameChanged: {
-        if (country === undefined || country.name != countryName) country = findItem(countriesModel, {name: countryName}, "name")
-    }
-    // {name:..., locale:..., lon: ... , lat:..., map_url:..., ws_url:...}
+    property string countryName : countriesModel.get(0).name
     property variant country : countriesModel.get(0)
 
     // bool
@@ -108,11 +99,9 @@ Item {
     // bool
     property bool navigationShowNextTurns : true
 
-    property ListModel favoriteLocations: ListModel {}
+    property ListModel favoriteLocations : ListModel {}
 
-    ListModel {
-        id: countriesModel
-
+    property ListModel countriesModel : ListModel {
         ListElement {
             name: "World"
             locale: "world"
@@ -138,11 +127,11 @@ Item {
             lat: 32.08662
             map_url: "http://ymap1.waze.co.il/wms-c"
             ws_url: "http://www.waze.co.il"
-            maxZoom: 9
+            maxZoom: 10
         }
     }
 
-    ListModel {
+    property ListModel languagesModel : ListModel {
         id: languagesModel
 
         ListElement {
@@ -166,19 +155,20 @@ Item {
                 isFirstRun: isValidValue(Storage.getBooleanSetting("IsFirstRun"))? Storage.getBooleanSetting("IsFirstRun") : isFirstRun
                 onIsFirstRunChanged : Storage.setBooleanSetting("IsFirstRun", isFirstRun)
 
-                language: isValidValue(Storage.getSetting("Language"))? Storage.getObjectSetting("Language") : language
-                onLanguageChanged : {
-                    Storage.setObjectSetting("Language", language);
+                languageName: isValidValue(Storage.getSetting("LanguageName"))? Storage.getSetting("LanguageName") : languageName
+                onLanguageNameChanged: {
+                    Storage.setSetting("LanguageName", languageName);
+                    language = findItem(languagesModel, {name: languageName}, "name");
                     translator.setLanguage(language.langId);
                 }
 
-                country: isValidValue(Storage.getSetting("Country"))? Storage.getObjectSetting("Country") : country
-                onCountryChanged : {
-                    var previousCountry = Storage.getObjectSetting("Country");
-
-                    if (!isValidValue(previousCountry) ||  previousCountry.name != country.name)
+                countryName: isValidValue(Storage.getSetting("CountryName"))? Storage.getSetting("CountryName") : countryName
+                onCountryNameChanged : {
+                    var previousCountryName = Storage.getSetting("CountryName");
+                    country = findItem(countriesModel, {name: countryName}, "name");
+                    Storage.setSetting("CountryName", countryName);
+                    if (!isValidValue(previousCountryName) ||  previousCountryName != countryName)
                     {
-                        Storage.setObjectSetting("Country", country);
                         lastKnownPosition = {lon: country.lon, lat: country.lat};
                         mapRefreshRequired();
                     }
