@@ -12,9 +12,11 @@ folder_01.target = qml
 contains(DEFINES, Q_WS_MAEMO_6) {
     folder_02.source = qml/meego
     folder_02.target = qml
+    desktop_file = qwazer_harmattan.desktop
 } else:maemo5 {
     folder_02.source = qml/maemo
     folder_02.target = qml
+    desktop_file = qwazer_fremantle.desktop
 }
 
 DEPLOYMENTFOLDERS = folder_01 folder_02
@@ -45,7 +47,7 @@ SOURCES += main.cpp
 
 
 OTHER_FILES += \
-    qwazer.desktop \
+    ${desktop_file} \
     qwazer.svg \
     qwazer.png \
     qtc_packaging/debian_harmattan/rules \
@@ -72,5 +74,6 @@ qtcAddDeployment()
 CONFIG += qdeclarative-boostable
 QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
 QMAKE_LFLAGS += -pie -rdynamic
+
 
 

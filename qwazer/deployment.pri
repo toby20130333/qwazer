@@ -54,8 +54,10 @@ symbian {
     maemo5 {
         desktopfile.path = /usr/share/applications/hildon
         icon.files = $${TARGET}.png
+        desktopfile.files = $${TARGET}_fremantle.desktop
     } else {
         desktopfile.path = /usr/share/applications
+        desktopfile.files = $${TARGET}_harmattan.desktop
         icon.files = $${TARGET}.svg
         copyCommand =
         for(deploymentfolder, DEPLOYMENTFOLDERS) {
@@ -96,7 +98,6 @@ symbian {
         INSTALLS += $$item
     }
     icon.path = /usr/share/icons/hicolor/64x64/apps
-    desktopfile.files = $${TARGET}.desktop
     target.path = $${installPrefix}/bin
     export(icon.files)
     export(icon.path)
@@ -114,3 +115,5 @@ export (TARGET.CAPABILITY)
 export (LIBS)
 export (QMAKE_EXTRA_TARGETS)
 }
+
+
