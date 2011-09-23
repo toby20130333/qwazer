@@ -66,7 +66,7 @@ Page {
             }
 
             Button {
-                text: settings.language.name
+                text: settings.languageName
                 onClicked: languagesMenu.open()
                 width: 200
             }
@@ -76,7 +76,7 @@ Page {
             }
 
             Button {
-                text: settings.country.name
+                text: settings.countryName
                 onClicked: countriesMenu.open()
                 width: 200
             }

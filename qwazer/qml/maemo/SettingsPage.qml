@@ -14,42 +14,6 @@ Page {
     signal retranslateRequired(string langId)
     signal mapRefreshRequired
 
-    ListModel {
-        id: countriesModel
-
-        ListElement {
-            name: "World"
-            locale: ""
-            lon: -73.96731
-            lat: 40.78196
-            map_url: "http://www.waze.com/wms-c"
-            ws_url: "http://www.waze.com"
-        }
-        ListElement {
-            name: "Israel"
-            locale: "israel"
-            lon: 34.78975
-            lat: 32.08662
-            map_url: "http://ymap1.waze.co.il/wms-c"
-            ws_url: "http://www.waze.co.il"
-        }
-    }
-
-    ListModel {
-        id: languagesModel
-
-        ListElement {
-            name: "English"
-            langId: "en"
-            rtl: false
-        }
-        ListElement {
-            name: "עברית"
-            langId: "he"
-            rtl: true
-        }
-    }
-
     content: VisualItemModel {
         Column {
             id: settingsColumn
@@ -73,9 +37,9 @@ Page {
                 }
 
                 Button {
-                    text: settings.language.name
+                    text: settings.languageName
                     onClicked: languagesList.visible = true
-                    width: 200
+                    width: 250
                 }
 
                 Text {
@@ -83,9 +47,9 @@ Page {
                 }
 
                 Button {
-                    text: settings.country.name
+                    text: settings.countryName
                     onClicked: countryList.visible = true
-                    width: 200
+                    width: 250
                 }
 
                 Text {
@@ -178,9 +142,9 @@ Page {
                 ListView {
                     id: langButtonList
                     anchors.fill: parent
-                    model: languagesModel
+                    model: settings.languagesModel
 
-                    currentIndex: settings.findItemIndex(languagesModel, settings.language, "name")
+                    currentIndex: settings.findItemIndex(settings.languagesModel, settings.language, "name")
                     highlightFollowsCurrentItem: true
                     highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
                     focus: true
@@ -191,7 +155,7 @@ Page {
                             text: name
                             width: langButtonList.width
                             onClicked: {
-                                settings.language = {name: name, langId: langId, rtl: rtl};
+                                settings.languageName = name;
                                 languagesList.visible = false;
                             }
                         }
@@ -209,9 +173,9 @@ Page {
                 ListView {
                     id: countryButtonList
                     anchors.fill: parent
-                    model: countriesModel
+                    model: settings.countriesModel
 
-                    currentIndex: settings.findItemIndex(countriesModel, settings.country, "name")
+                    currentIndex: settings.findItemIndex(settings.countriesModel, settings.country, "name")
                     highlightFollowsCurrentItem: true
                     highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
                     focus: true
@@ -222,7 +186,7 @@ Page {
                             width: countryButtonList.width
                             text: name
                             onClicked: {
-                                settings.country = {name: name, locale: locale, lon: lon, lat: lat, map_url: map_url, ws_url: ws_url};
+                                settings.countryName = name;
                                 countryList.visible = false;
                             }
                         }
