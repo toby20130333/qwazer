@@ -123,9 +123,16 @@ Rectangle {
         savedMapData.locale = settings.country.locale;
         savedMapData.map_url = settings.country.map_url;
         savedMapData.ws_url = settings.country.ws_url;
-        //savedMapData.maxZoom = settings.country.maxZoom;
+        savedMapData.maxZoom = settings.country.maxZoom;
+        if (settings.zoom > settings.country.maxZoom)
+        {
+            settings.zoom = settings.country.maxZoom;
+        }
+        else if (settings.zoom < savedMapData.minZoom)
+        {
+            settings.zoom = savedMapData.minZoom;
+        }
         savedMapData.zoom = settings.zoom;
-
         web_view1.url = 'html/waze.html';
     }
 
@@ -137,10 +144,6 @@ Rectangle {
 
     function setCenter(lon, lat) {
        Logic.setCenter(lon, lat);
-    }
-
-    function setZoom(zoom) {
-       Logic.setZoom(zoom);
     }
 
     function zoomIn() {

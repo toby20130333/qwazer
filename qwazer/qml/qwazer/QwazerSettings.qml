@@ -120,7 +120,7 @@ Item {
             lat: 48.85825
             map_url: "http://world.waze.com/wms-c"
             ws_url: "http://world.waze.com"
-            maxZoom: 9
+            maxZoom: 15
         }
         ListElement {
             name: "US & Canada"
