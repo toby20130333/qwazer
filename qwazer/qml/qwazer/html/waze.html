@@ -46,14 +46,13 @@
                    map.addLayer(map.markersLayer);
                    var myLocLayer = new OpenLayers.Layer.Markers("MyLocation");
                    map.addLayer(myLocLayer);
-
-                   window.savedMapData.maxZoom = g_waze_map.map.getNumZoomLevels();
+                   map.zoomTo(window.savedMapData.zoom); //workaround for map not shown when loaded - part 2. part 1 is in g_waze_config
                 }
 
                 g_waze_config = {
                     div_id:"map",
                     locale : window.savedMapData.locale,
-                    zoom:window.savedMapData.zoom,
+                    zoom:window.savedMapData.zoom-1, //workaround for map not shown when loaded - part 1. part 2 is in mapInit
                     token:"6bee7e95-438a-4788-9c2b-4570884d75d3",
                     alt_base_layer:"israel_colors",
                     alt_map_servers:window.savedMapData.map_url,

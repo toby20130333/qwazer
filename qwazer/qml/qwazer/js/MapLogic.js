@@ -2,8 +2,15 @@ var ERROR_MARGIN = 0.0005;
 
 
 function zoomIn() {
-    web_view1.evaluateJavaScript("g_waze_map.map.zoomIn();");
-    settings.zoom = (savedMapData.maxZoom > settings.zoom)? settings.zoom + 1 : savedMapData.maxZoom;
+    if (savedMapData.maxZoom > settings.zoom)
+    {
+        settings.zoom = settings.zoom + 1;
+    }
+    else
+    {
+        settings.zoom = savedMapData.maxZoom;
+    }
+    setZoom(settings.zoom);
 }
 
 function zoomInToMax() {
@@ -12,8 +19,20 @@ function zoomInToMax() {
 }
 
 function zoomOut() {
-    web_view1.evaluateJavaScript("g_waze_map.map.zoomOut();");
-    settings.zoom = (savedMapData.minZoom < settings.zoom)? settings.zoom - 1 : savedMapData.minZoom;
+    if (savedMapData.minZoom < settings.zoom)
+    {
+        settings.zoom = settings.zoom - 1;
+    }
+    else
+    {
+        settings.zoom = savedMapData.minZoom;
+    }
+    setZoom(settings.zoom);
+}
+
+function setZoom(zoom) {
+    web_view1.evaluateJavaScript("g_waze_map.map.zoomTo("+zoom+");");
+    settings.zoom = zoom;
 }
 
 function getCurrentExtent() {
@@ -23,12 +42,6 @@ function getCurrentExtent() {
 function setCenter(lon, lat)
 {
     web_view1.evaluateJavaScript("setCenter(" + lon + "," + lat + ");");
-}
-
-function setZoom(zoom)
-{
-    web_view1.evaluateJavaScript("g_waze_map.map.setZoom('" + zoom + "'));");
-    settings.zoom = zoom;
 }
 
 function markDestination(lon, lat)
