@@ -1,27 +1,26 @@
 #include <QtGui/QApplication>
 #include <QtDeclarative>
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define MAIN_QML_STR TOSTRING(MAIN_QML)
+
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QDeclarativeView view;
     QObject::connect(view.engine(), SIGNAL(quit()),
                         &app, SLOT(quit()));
-    QDir qwazerDir = QDir("/opt/qwazer");
 
-    QString mainQML;
-#ifdef Q_WS_MAEMO_5
+    QUrl mainQML(MAIN_QML_STR);
+#if defined(Q_WS_MAEMO_5)
     view.engine()->addImportPath(QString("/opt/qtm12/imports"));
     view.showMaximized();
-    mainQML = QString("/qml/maemo/main.qml");
-#elif Q_WS_MAEMO_6
+#elif defined(Q_WS_MAEMO_6) || defined(QT_SIMULATOR)
     view.showFullScreen();
-    mainQML = QString("/qml/meego/main.qml");
-#else
-    view.showNormal();
 #endif
 
-    view.setSource(QUrl(QString(qwazerDir.absolutePath()).append(mainQML)));
+    view.setSource(mainQML);
 
     return app.exec();
 }

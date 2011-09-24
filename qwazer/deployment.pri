@@ -65,6 +65,8 @@ symbian {
             source = $$replace(source, \\\\, /)
             macx {
                 target = $$OUT_PWD/$${TARGET}.app/Contents/Resources/$$eval($${deploymentfolder}.target)
+            } else:contains(DEFINES, QT_SIMULATOR) {
+                target = $$OUT_PWD/simulator/$$eval($${deploymentfolder}.target)
             } else {
                 target = $$OUT_PWD/$$eval($${deploymentfolder}.target)
             }

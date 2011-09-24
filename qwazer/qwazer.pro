@@ -1,8 +1,8 @@
 # MeeGo
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"){
-   DEFINES += Q_WS_MAEMO_6
+    DEFINES += Q_WS_MAEMO_6
 } else:maemo5 {
-   DEFINES += Q_WS_MAEMO_5
+    DEFINES += Q_WS_MAEMO_5
 }
 
 # Add more folders to ship with the application, here
@@ -13,11 +13,21 @@ contains(DEFINES, Q_WS_MAEMO_6) {
     folder_02.source = qml/meego
     folder_02.target = qml
     desktop_file = qwazer_harmattan.desktop
+    DEFINES += "MAIN_QML=/opt/qwazer/qml/meego/main.qml"
 } else:maemo5 {
     folder_02.source = qml/maemo
     folder_02.target = qml
     desktop_file = qwazer_fremantle.desktop
+    DEFINES += "MAIN_QML=/opt/qwazer/qml/maemo/main.qml"
+} else {
+    folder_02.source = qml/maemo
+    folder_02.target = qml
+    desktop_file = qwazer_fremantle.desktop
+    DEFINES += "MAIN_QML=qml/maemo/main.qml"
+    CONFIG += mobility
+    MOBILITY += location multimedia
 }
+
 
 DEPLOYMENTFOLDERS = folder_01 folder_02
 
@@ -39,8 +49,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 # If your application uses the Qt Mobility libraries, uncomment the following
 # lines and add the respective components to the MOBILITY variable.
-# CONFIG += mobility
-# MOBILITY +=
+#CONFIG += mobility
+#MOBILITY += location multimedia
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
