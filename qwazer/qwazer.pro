@@ -1,6 +1,6 @@
 # MeeGo
 exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"){
-    DEFINES += Q_WS_MAEMO_6
+    DEFINES += Q_WS_MAEMO_6 MEEGO_EDITION_HARMATTAN
 } else:maemo5 {
     DEFINES += Q_WS_MAEMO_5
 }
@@ -55,6 +55,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
 
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
 
 OTHER_FILES += \
     ${desktop_file} \

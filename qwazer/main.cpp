@@ -1,5 +1,6 @@
 #include <QtGui/QApplication>
 #include <QtDeclarative>
+#include "qmlapplicationviewer.h"
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
@@ -8,19 +9,17 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QDeclarativeView view;
-    QObject::connect(view.engine(), SIGNAL(quit()),
+    QmlApplicationViewer viewer;
+
+    QObject::connect(viewer.engine(), SIGNAL(quit()),
                         &app, SLOT(quit()));
 
-    QUrl mainQML(MAIN_QML_STR);
 #if defined(Q_WS_MAEMO_5)
-    view.engine()->addImportPath(QString("/opt/qtm12/imports"));
-    view.showMaximized();
-#elif defined(Q_WS_MAEMO_6) || defined(QT_SIMULATOR)
-    view.showFullScreen();
+    viewer.engine()->addImportPath(QString("/opt/qtm12/imports"));
 #endif
-
-    view.setSource(mainQML);
+    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockLandscape);
+    viewer.setMainQmlFile(QLatin1String(MAIN_QML_STR));
+    viewer.showExpanded();
 
     return app.exec();
 }
