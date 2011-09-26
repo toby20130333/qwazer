@@ -60,7 +60,7 @@ function getTranscriptFromScenario(distance, opcode, arg)
 
         if (opcode.indexOf("ROUNDABOUT") === 0)
         {
-            if (opcode=="ROUNDABOUT_EXIT")
+            if (opcode=="ROUNDABOUT_ENTER")
             {
                 if (_langId == "en")
                 {
@@ -76,17 +76,17 @@ function getTranscriptFromScenario(distance, opcode, arg)
                     transcript.push(arg);
                 }
             }
-            else if (opcode=="ROUNDABOUT_EXIT_RIGHT")
+            else if (opcode=="ROUNDABOUT_RIGHT")
             {
                 transcript.push("ROUNDABOUT");
                 transcript.push("TURN_RIGHT");
             }
-            else if (opcode=="ROUNDABOUT_EXIT_LEFT")
+            else if (opcode=="ROUNDABOUT_LEFT")
             {
                 transcript.push("ROUNDABOUT");
                 transcript.push("TURN_LEFT");
             }
-            else if (opcode=="ROUNDABOUT_EXIT_STRAIGHT")
+            else if (opcode=="ROUNDABOUT_STRAIGHT")
             {
                 transcript.push("ROUNDABOUT");
                 transcript.push("KEEP_AHEAD");
