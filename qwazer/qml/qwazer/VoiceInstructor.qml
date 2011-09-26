@@ -9,7 +9,7 @@ Item {
         var transcript = translator.getTranscriptFromScenario(distance, opcode, arg);
         for (var index = 0; index < transcript.length; index++)
         {
-            console.log("appending: " + "sounds/en/" + transcript[index] + ".ogg");
+            console.log("appending: sounds/" + settings.language.langId + "/" + transcript[index] + ".ogg");
             wordsListModel.append({sndFile: "sounds/" + settings.language.langId + "/" + transcript[index] + ".ogg"});
         }
 

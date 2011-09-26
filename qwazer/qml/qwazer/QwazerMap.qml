@@ -26,13 +26,20 @@ Rectangle {
 
     function navigate(course) {
 
+        var blankInstruction = {opcode: "CONTINUE", arg: 0};
+
         var coordIndex = 0;
         var segmentIndex = 0;
+
+        var inRoundabout = false;
+        var roundaboutSegmentId = 0;
+        var roundaboutInstruction = blankInstruction;
 
         navigationSegments.clear();
         for (; segmentIndex < course.results.length; segmentIndex++)
         {
             var segment = course.results[segmentIndex];
+            if (typeof(segment.instruction) == "undefined") console.log("Missing instruction");
             for (; coordIndex < course.coords.length; coordIndex++)
             {
                 var coord = course.coords[coordIndex];
@@ -43,7 +50,7 @@ Rectangle {
                     break;
                 }
 
-                navigationSegments.append({segmentId: segmentIndex,
+                navigationSegments.append({segmentId: (inRoundabout)? roundaboutSegmentId : segmentIndex,
                                         path: {x: coord.x, y: coord.y},
                                         street: segment.street,
                                         distance: segment.distance,
@@ -52,11 +59,34 @@ Rectangle {
                                         crossTimeWithoutRealTime: segment.crossTimeWithoutRealTime,
                                         tiles: segment.tiles,
                                         clientIds: segment.clientIds,
-                                        instruction: (typeof(segment.instruction) != "undefined")? segment.instruction : {opcode: "CONTINUE", arg: 0},
+                                        instruction: ((inRoundabout)? roundaboutInstruction : (typeof(segment.instruction) != "undefined")? segment.instruction : blankInstruction),
                                         knownDirection: segment.knownDirection,
                                         penalty: segment.penalty,
                                         roadType: segment.roadType,
                                         streetName: segment.streetName});
+            }
+
+            if (segment.instruction)
+            {
+                console.log("added instruction: " + segment.instruction.opcode + " : " + segment.instruction.arg);
+            }
+
+            if (typeof(segment.instruction) != "undefined" && segment.instruction.opcode.indexOf("ROUNDABOUT_") === 0)
+            {
+                if (segment.instruction.opcode.indexOf("EXIT") > -1)
+                {
+                    // end of roundabout section
+                    inRoundabout = false;
+                    roundaboutSegmentId = 0;
+                    roundaboutInstruction = blankInstruction;
+                }
+                else
+                {
+                    // starting/still in roundabout
+                    inRoundabout = true;
+                    roundaboutSegmentId = segment.segmentId;
+                    roundaboutInstruction = {opcode: segment.instruction.opcode, arg: segment.instruction.arg};
+                }
             }
         }
 
@@ -69,8 +99,7 @@ Rectangle {
             var length = 0;
 
             if (currentSegment.segmentId == nextSegment.segmentId ||
-                currentSegment.instruction.opcode == "CONTINUE" ||
-                (currentSegment.instruction.opcode.indexOf("ROUNDABOUT_") === 0 && currentSegment.instruction.opcode.indexOf("_EXIT") === -1))
+                currentSegment.instruction.opcode == "CONTINUE")
             {
                 length = nextSegment.length + Logic.computeDistance(currentSegment.path, nextSegment.path);
             } else {
