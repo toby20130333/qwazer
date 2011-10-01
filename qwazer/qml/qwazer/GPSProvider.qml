@@ -22,6 +22,7 @@ Item {
 
 //        property int updateInterval : gps.updateInterval
 //        property bool isFakeData: true
+//        property bool active: true
 //        property int index: 0
 //        property int count: 0
 //        property variant position : QtObject {
@@ -34,8 +35,10 @@ Item {
 //            property variant coordinate : QtObject {
 ////                property double latitude: 40.78196 // US
 ////                property double longitude: -73.96731 // US
-//                property double latitude: 33.21373 // Israel
-//                property double longitude: 35.57280 // Israel
+////                property double latitude: 33.21373 // Israel
+////                property double longitude: 35.57280 // Israel
+//                property double latitude:33.212863827520735
+//                property double longitude:35.567915068663496
 //            }
 //        }
 
@@ -65,11 +68,14 @@ Item {
 //    Timer {
 //        id: locationUpdater
 //        interval: gps.updateInterval
-//        running: true
+//        running: fakeGpsData.active
 //        repeat: true
 //        onTriggered: {
-//            fakeGpsData.next();
-//            fakeGpsData.positionChanged();
+//            if (running)
+//            {
+//                fakeGpsData.next();
+//                fakeGpsData.positionChanged();
+//            }
 //        }
 //    }
 }
