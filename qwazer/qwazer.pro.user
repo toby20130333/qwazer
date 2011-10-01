@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.3.0, 2011-10-01T22:36:48. -->
+<!-- Written by Qt Creator 2.3.0, 2011-10-01T22:39:59. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">0</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -210,6 +210,7 @@
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0_0_7_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
+       <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0.0.8.5_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0_0_8_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
        <value type="QString">/home/asaf/workspace/qwazer2/qwazer-build-harmattan/qwazer_0.0.8_armel.deb</value>
@@ -222,11 +223,13 @@
        <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.18</value>
        <value type="QString">10.0.0.9</value>
+       <value type="QString">10.0.0.4</value>
        <value type="QString">10.0.0.9</value>
        <value type="QString">10.0.0.1</value>
        <value type="QString">10.0.0.1</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths">
+       <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
@@ -246,6 +249,7 @@
        <value type="QDateTime">2011-08-17T20:22:19</value>
        <value type="QDateTime">2011-08-13T17:53:11</value>
        <value type="QDateTime">2011-09-07T20:46:50</value>
+       <value type="QDateTime">2011-10-01T22:38:07</value>
        <value type="QDateTime">2011-08-23T23:02:50</value>
        <value type="QDateTime">2011-09-10T23:17:03</value>
        <value type="QDateTime">2011-09-12T00:15:52</value>
