@@ -1,4 +1,4 @@
-qwazer (0.0.8) unstable; urgency=low
+qwazer (0.0.8.5) unstable; urgency=low
 
   * Fixes to World/US maps
   * Don't rotate the map if in unlocked mode
