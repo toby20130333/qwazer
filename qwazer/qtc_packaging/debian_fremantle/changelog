@@ -1,9 +1,13 @@
 qwazer (0.0.8) unstable; urgency=low
 
-  * Several fixes to UI
-  * Voice instructions
-  * Full screen instructions
-  * Next turns
-  * North can be locked when navigating
+  * Fixes to World/US maps
+  * Don't rotate the map if in unlocked mode
+  * Screen can stay lit
+  * Several fixes relating to roundabouts
+  * Bolder track marker
+  * Roundabout straight vocal & icon added
+  * Min/max zoom indicators
+  * Add 2km notification
+  * Track start/stop icons
 
- -- Assaf Paz <damagedspline@gmail.com>  Tue, 23 Aug 2011 22:20:00 +0300
+ -- Assaf Paz <damagedspline@gmail.com>  Sat, 1 Oct 2011 22:20:00 +0300
