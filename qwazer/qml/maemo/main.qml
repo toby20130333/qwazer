@@ -30,6 +30,7 @@ Rectangle {
     Audio {
         id: audioPlayback
         onError: console.log(errorString)
+        volume: 1
     }
 
     GPSProvider {
