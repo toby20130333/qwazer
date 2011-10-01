@@ -8,7 +8,7 @@ Homepage: http://code.google.com/p/qwazer/
 
 Package: qwazer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqtm-12-declarative, qtquickcompat, libqtm-12, ogg-support
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqtm-12-declarative, qtquickcompat, libqtm-12, ogg-support, mp-fremantle-community-pr
 Description: Waze web client
  Waze is a community based mapping system.
  Navigation and routing takes traffic into consideration when proposing tracks.
