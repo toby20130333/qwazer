@@ -13,7 +13,15 @@ Item {
             wordsListModel.append({sndFile: "sounds/" + settings.language.langId + "/" + transcript[index] + ".ogg"});
         }
 
-        audioPlayback.stopped();
+        playFirstSound();
+    }
+
+    function playFirstSound()
+    {
+        console.log("playing " + wordsListModel.get(0).sndFile);
+        audioPlayback.source = wordsListModel.get(0).sndFile;
+        wordsListModel.remove(0);
+        audioPlayback.play();
     }
 
     Connections {
@@ -21,10 +29,7 @@ Item {
         onStopped: {
             if (wordsListModel.count > 0)
             {
-                console.log("playing " + wordsListModel.get(0).sndFile);
-                audioPlayback.source = wordsListModel.get(0).sndFile;
-                wordsListModel.remove(0);
-                audioPlayback.play();
+                playFirstSound();
             }
         }
     }

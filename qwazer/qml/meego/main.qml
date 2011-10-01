@@ -22,6 +22,7 @@ PageStackWindow {
     Audio {
         id: audioPlayback
         onError: console.log(errorString)
+        volume: 1
     }
 
     QwazerSettings {

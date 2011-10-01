@@ -84,7 +84,7 @@ Rectangle {
                 {
                     // starting/still in roundabout
                     inRoundabout = true;
-                    roundaboutSegmentId = segment.segmentId;
+                    roundaboutSegmentId = segmentIndex;
                     roundaboutInstruction = {opcode: segment.instruction.opcode, arg: segment.instruction.arg};
                 }
             }
@@ -397,6 +397,7 @@ Rectangle {
 
                     var notifyLength = -1;
                     var remainingSegmentLength = mapView.currentSegment.length;
+                    var nextInstruction = mapView.nextSegment.instruction;
 
                     if (mapView.currentSegment.segmentId != mapView.nextSegment.segmentId)
                     {
@@ -430,8 +431,8 @@ Rectangle {
 
                     if (notifyLength > -1)
                     {
-                        console.log("calling speak : " + mapView.nextSegment.instruction.opcode + "#" + mapView.nextSegment.instruction.arg);
-                        voiceInstructor.speakScenario(notifyLength, mapView.nextSegment.instruction.opcode, mapView.nextSegment.instruction.arg);
+                        console.log("calling speak : " + nextInstruction.opcode + "#" + nextInstruction.arg);
+                        voiceInstructor.speakScenario(notifyLength, nextInstruction.opcode, nextInstruction.arg);
                     }
                 }
             }
